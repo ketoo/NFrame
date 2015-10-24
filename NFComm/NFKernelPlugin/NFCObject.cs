@@ -27,7 +27,7 @@ namespace NFrame
 			mRecordManager = new NFCRecordManager(mSelf);
 			mPropertyManager = new NFCPropertyManager(mSelf);
 			mHeartManager = new NFCHeartBeatManager(mSelf);
-			mEventManager = new NFCEventManager(mSelf);
+			mEventManager = new NFCEventModule(mSelf);
 
             return true;
         }
@@ -384,7 +384,7 @@ namespace NFrame
 			return mPropertyManager;
         }
 
-		public override NFIEventManager GetEventManager()
+		public override NFIEventModule GetEventManager()
 		{
 			return mEventManager;
 		}
@@ -399,6 +399,6 @@ namespace NFrame
 		NFIRecordManager mRecordManager;
 		NFIPropertyManager mPropertyManager;
 		NFIHeartBeatManager mHeartManager;
-		NFIEventManager mEventManager;
+		NFIEventModule mEventManager;
 	}
 }

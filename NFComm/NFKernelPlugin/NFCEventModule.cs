@@ -6,9 +6,9 @@ using System.Collections.Generic;
 
 namespace NFrame
 {
-	public class NFCEventManager : NFIEventManager
+	public class NFCEventModule : NFIEventModule
     {
-		public NFCEventManager(NFIDENTID self)
+		public NFCEventModule(NFIDENTID self)
 		{
 			mSelf = self;
             mhtEvent = new Dictionary<int, NFIEvent>();

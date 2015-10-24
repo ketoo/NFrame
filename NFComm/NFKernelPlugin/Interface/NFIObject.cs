@@ -73,6 +73,6 @@ namespace NFrame
         public abstract NFIRecordManager GetRecordManager();
         public abstract NFIHeartBeatManager GetHeartBeatManager();
         public abstract NFIPropertyManager GetPropertyManager();
-		public abstract NFIEventManager GetEventManager();
+		public abstract NFIEventModule GetEventManager();
     }
 }

@@ -64,12 +64,12 @@
     <Compile Include="NFCElement.cs" />
     <Compile Include="NFCElementModule.cs" />
     <Compile Include="NFCEvent.cs" />
-    <Compile Include="NFCEventManager.cs" />
+    <Compile Include="NFCEventModule.cs" />
     <Compile Include="NFCHeartBeat.cs" />
     <Compile Include="NFCHeartBeatManager.cs" />
     <Compile Include="NFCKernelModule.cs" />
     <Compile Include="NFCLogicClass.cs" />
-    <Compile Include="NFCLogicClassManager.cs" />
+    <Compile Include="NFCLogicClassModule.cs" />
     <Compile Include="NFCObject.cs" />
     <Compile Include="NFCProperty.cs" />
     <Compile Include="NFCPropertyManager.cs" />
