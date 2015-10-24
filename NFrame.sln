@@ -1,0 +1,70 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFActor", "Dependencies\NFActor\NFActor.csproj", "{FC246931-D865-4BD4-9E5C-534FE796756D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NFDep", "NFDep", "{46101454-CE9A-4EBB-B2CC-FD675F91935A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NFServer", "NFServer", "{B2D97BF3-2DD8-487A-82FD-D5599078230E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NFSDK", "NFSDK", "{92B6A36A-E0B5-4D2E-83CC-96F4AF1C9BCB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tutorial", "Tutorial", "{C0C4DAA0-3755-4A56-B2F4-77C3608E304B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFPluginLoader", "NFComm\NFPluginLoader\NFPluginLoader.csproj", "{F0355E7C-5F74-4A9E-A25D-471051BB83FA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FC246931-D865-4BD4-9E5C-534FE796756D} = {FC246931-D865-4BD4-9E5C-534FE796756D}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFKernelPlugin", "NFComm\NFKernelPlugin\NFKernelPlugin.csproj", "{3C73F6BE-F1AE-412A-AC32-FCCD86498812}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC246931-D865-4BD4-9E5C-534FE796756D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC246931-D865-4BD4-9E5C-534FE796756D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC246931-D865-4BD4-9E5C-534FE796756D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FC246931-D865-4BD4-9E5C-534FE796756D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FC246931-D865-4BD4-9E5C-534FE796756D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FC246931-D865-4BD4-9E5C-534FE796756D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC246931-D865-4BD4-9E5C-534FE796756D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC246931-D865-4BD4-9E5C-534FE796756D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FC246931-D865-4BD4-9E5C-534FE796756D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FC246931-D865-4BD4-9E5C-534FE796756D}.Release|x86.ActiveCfg = Release|Any CPU
+		{F0355E7C-5F74-4A9E-A25D-471051BB83FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0355E7C-5F74-4A9E-A25D-471051BB83FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0355E7C-5F74-4A9E-A25D-471051BB83FA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F0355E7C-5F74-4A9E-A25D-471051BB83FA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F0355E7C-5F74-4A9E-A25D-471051BB83FA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F0355E7C-5F74-4A9E-A25D-471051BB83FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0355E7C-5F74-4A9E-A25D-471051BB83FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0355E7C-5F74-4A9E-A25D-471051BB83FA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F0355E7C-5F74-4A9E-A25D-471051BB83FA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F0355E7C-5F74-4A9E-A25D-471051BB83FA}.Release|x86.ActiveCfg = Release|Any CPU
+		{3C73F6BE-F1AE-412A-AC32-FCCD86498812}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{3C73F6BE-F1AE-412A-AC32-FCCD86498812}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{3C73F6BE-F1AE-412A-AC32-FCCD86498812}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{3C73F6BE-F1AE-412A-AC32-FCCD86498812}.Debug|x86.ActiveCfg = Debug|x86
+		{3C73F6BE-F1AE-412A-AC32-FCCD86498812}.Debug|x86.Build.0 = Debug|x86
+		{3C73F6BE-F1AE-412A-AC32-FCCD86498812}.Release|Any CPU.ActiveCfg = Release|x86
+		{3C73F6BE-F1AE-412A-AC32-FCCD86498812}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{3C73F6BE-F1AE-412A-AC32-FCCD86498812}.Release|Mixed Platforms.Build.0 = Release|x86
+		{3C73F6BE-F1AE-412A-AC32-FCCD86498812}.Release|x86.ActiveCfg = Release|x86
+		{3C73F6BE-F1AE-412A-AC32-FCCD86498812}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FC246931-D865-4BD4-9E5C-534FE796756D} = {46101454-CE9A-4EBB-B2CC-FD675F91935A}
+		{F0355E7C-5F74-4A9E-A25D-471051BB83FA} = {92B6A36A-E0B5-4D2E-83CC-96F4AF1C9BCB}
+		{3C73F6BE-F1AE-412A-AC32-FCCD86498812} = {92B6A36A-E0B5-4D2E-83CC-96F4AF1C9BCB}
+	EndGlobalSection
+EndGlobal
