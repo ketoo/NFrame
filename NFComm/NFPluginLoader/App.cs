@@ -1,8 +1,14 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------
+// <copyright file="App.cs">
+//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFActor>
+// </copyright>
+//-----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace NFrame
 {
@@ -17,6 +23,8 @@ namespace NFrame
 
             while (bAppRuning)
             {
+                Thread.Sleep(1);
+
                 NFCPluginManager.Intance().Execute();
             }
 

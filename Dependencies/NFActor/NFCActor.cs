@@ -40,24 +40,24 @@ namespace NFrame
             }
         }
 
-        public override bool Execute()
+        public override void Execute()
         {
             NFIActorMessage xMsg;
             while (mxMessageQueue.TryDequeue(out xMsg) && null != xMsg)
             {
                 if (xMsg.nMasterActor != GetAddress())
                 {
-                    return false;
+                    return;
                 }
 
                 if (null == xMsg.xMasterHandler)
                 {
-                    return false;
+                    return;
                 }
 
                 if (!xMsg.bAsync)
                 {
-                    return false;
+                    return;
                 }
 
                 if (null != xMsg.xMasterHandler)
@@ -68,8 +68,6 @@ namespace NFrame
                     }
                 }
             }
-
-            return true;
         }
 
         public override bool RegisterHandler(Handler handler)

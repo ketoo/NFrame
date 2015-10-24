@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------
+// <copyright file="NFCObject.cs">
+//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFActor>
+// </copyright>
+//-----------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +27,7 @@ namespace NFrame
 			Shut();
 		}
 
-        public override bool Init()
+        public override void Init()
         {
 			mRecordManager = new NFCRecordManager(mSelf);
 			mPropertyManager = new NFCPropertyManager(mSelf);
@@ -32,7 +37,7 @@ namespace NFrame
             return true;
         }
 
-        public override bool Shut()
+        public override void Shut()
         {
             NFIDataList xRecordList = mRecordManager.GetRecordList();
             if (null != xRecordList)

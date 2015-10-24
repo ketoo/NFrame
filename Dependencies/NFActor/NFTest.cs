@@ -62,29 +62,24 @@ namespace NFrame
                 }
             }
 
-            public override bool Init() 
+            public override void Init() 
             { 
-                return false;
             }
 
-            public override bool AfterInit()
+            public override void AfterInit()
             {
-                return false; 
             }
 
-            public override bool BeforeShut()
+            public override void BeforeShut()
             {
-                return false;
             }
 
-            public override bool Shut() 
+            public override void Shut() 
             { 
-                return false; 
             }
 
-            public override bool Execute() 
+            public override void Execute() 
             { 
-                return false; 
             }
 
             public override NFIDENTID Self() 
@@ -132,29 +127,24 @@ namespace NFrame
                 }
             }
 
-            public override bool Init() 
+            public override void Init() 
             {
-                return false; 
             }
 
-            public override bool AfterInit() 
+            public override void AfterInit() 
             {
-                return false;
             }
 
-            public override bool BeforeShut() 
+            public override void BeforeShut() 
             { 
-                return false;
             }
 
-            public override bool Shut() 
+            public override void Shut() 
             { 
-                return false; 
             }
 
-            public override bool Execute() 
+            public override void Execute() 
             { 
-                return false;
             }
 
             public override NFIDENTID Self()

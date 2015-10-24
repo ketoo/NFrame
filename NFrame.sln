@@ -17,6 +17,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFPluginLoader", "NFComm\NF
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFKernelPlugin", "NFComm\NFKernelPlugin\NFKernelPlugin.csproj", "{3C73F6BE-F1AE-412A-AC32-FCCD86498812}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FC246931-D865-4BD4-9E5C-534FE796756D} = {FC246931-D865-4BD4-9E5C-534FE796756D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

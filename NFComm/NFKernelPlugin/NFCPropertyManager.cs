@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------
+// <copyright file="NFCPropertyManager.cs">
+//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFActor>
+// </copyright>
+//-----------------------------------------------------------------------
 using System.Collections;
 
 namespace NFrame

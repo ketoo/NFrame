@@ -19,15 +19,15 @@ namespace NFrame
         {
         }
 
-        public virtual bool Init(){return false;}
+        public virtual void Init(){}
 
-        public virtual bool AfterInit() { return false; }
+        public virtual void AfterInit() {}
 
-        public virtual bool BeforeShut() { return false; }
+        public virtual void BeforeShut() {}
 
-        public virtual bool Shut() { return false; }
+        public virtual void Shut() {}
 
-        public virtual bool Execute() { return false; }
+        public virtual void Execute() {}
 
         public virtual NFIDENTID Self() { return new NFIDENTID(); }
 

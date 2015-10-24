@@ -17,8 +17,8 @@ namespace NFrame
 
         public delegate void ClassEventHandler(NFIDENTID self, int nContainerID, int nGroupID, CLASS_EVENT_TYPE eType, string strClassName, string strConfigIndex);
 
-        public abstract bool Init();
-        public abstract bool Shut();
+        public abstract void Init();
+        public abstract void Shut();
 
         public abstract bool UpData(float fLastTime, float fAllTime);
 

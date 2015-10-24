@@ -137,10 +137,9 @@ namespace NFrame
             return false;
         }
 
-        public override bool Execute()
+        public override void Execute()
         {
             //调度，send的时候记录哪些有(异步)消息，然后这里统一调度过去
-            return false; 
         }
 
         public override NFIActor GetActor(NFIDENTID xID)

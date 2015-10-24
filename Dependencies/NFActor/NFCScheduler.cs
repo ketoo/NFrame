@@ -40,7 +40,7 @@ namespace NFrame
             mxWaitScheduler.Enqueue(xID);
         }
 
-        public override bool Execute() 
+        public override void Execute() 
         {
             NFIDENTID xID = null;
             while (mxWaitScheduler.TryDequeue(out xID))
@@ -52,8 +52,6 @@ namespace NFrame
                     Task.Factory.StartNew(NFCActor.ExecuteAsync, xActor);
                 }
             }
-
-            return false; 
         }
 
         /////////////////////////////////////////////////////////////

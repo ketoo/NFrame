@@ -1,9 +1,15 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------
+// <copyright file="NFCPluginManager.cs">
+//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFActor>
+// </copyright>
+//-----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NFrame;
+using System.Collections.Concurrent;
 
 namespace NFrame
 {
@@ -27,31 +33,54 @@ namespace NFrame
             return _instance;
         }
 
-        public override bool Init() 
+        public override void Init() 
         {
-            return false; 
+            string strLibName = "NFKernelPlugin.dll";
+            NFIPlugin xPlugin = new NFCPlugin(strLibName);
+
+            mxPluginDic.TryAdd(strLibName, xPlugin);
+
+            foreach(var x in mxPluginDic)
+            {
+                x.Value.Init();
+            }
         }
 
-        public override bool AfterInit() 
-        { 
-            return false;
-        }
-
-        public override bool BeforeShut() 
-        { 
-            return false;
-        }
-
-        public override bool Shut() 
+        public override void AfterInit() 
         {
-            return false;
+            foreach (var x in mxPluginDic)
+            {
+                x.Value.AfterInit();
+            }
         }
 
-        public override bool Execute() 
-        { 
-            return false; 
+        public override void BeforeShut() 
+        {
+            foreach (var x in mxPluginDic)
+            {
+                x.Value.BeforeShut();
+            }
         }
-        /////////////////////////////////////////////////////////
+
+        public override void Shut() 
+        {
+            foreach (var x in mxPluginDic)
+            {
+                x.Value.Shut();
+            }
+        }
+
+        public override void Execute() 
+        {
+            foreach (var x in mxPluginDic)
+            {
+                x.Value.Execute();
+            }
+        }
+
+        /////////////////////////////////////////////////////////        
+        private readonly ConcurrentDictionary<string, NFIPlugin> mxPluginDic = new ConcurrentDictionary<string, NFIPlugin>();
+
 
     }
 }
