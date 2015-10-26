@@ -18,7 +18,7 @@ namespace NFrame
         public NFCScheduler(NFIActorMng xMng)
         {
             ThreadPool.SetMaxThreads(1024, 1024);
-            ThreadPool.SetMinThreads(1024, 1024);
+            ThreadPool.SetMinThreads(16, 16);
 
             mxActorMng = xMng;
             mxTask = Task.Factory.StartNew(ExecuteScheduler, this);

@@ -16,7 +16,7 @@ namespace NFrame
     {
         Assembly xAssembly;
         Type xType;
-        Object xPlugin;
+        NFBehaviour xPlugin;
 
         public NFCPlugin(string strLibName)
         {
@@ -25,7 +25,7 @@ namespace NFrame
 
             xAssembly = Assembly.LoadFrom(mstrLibName);
             xType = xAssembly.GetType(mstrPluginName);
-            xPlugin = Activator.CreateInstance(xType);
+            xPlugin = Activator.CreateInstance(xType) as NFBehaviour;
 
         }
 
@@ -33,25 +33,45 @@ namespace NFrame
         {
             MethodInfo xMethod = xType.GetMethod("Init");
             if (xMethod != null)  
-            {  
-                //xMethod.Invoke(xPlugin, null);  
+            {
+                xMethod.Invoke(xPlugin, null);  
             }
         }
 
         public override void AfterInit()
         {
+            MethodInfo xMethod = xType.GetMethod("AfterInit");
+            if (xMethod != null)
+            {
+                xMethod.Invoke(xPlugin, null);
+            }
         }
 
         public override void BeforeShut()
         {
+            MethodInfo xMethod = xType.GetMethod("BeforeShut");
+            if (xMethod != null)
+            {
+                xMethod.Invoke(xPlugin, null);
+            }
         }
 
         public override void Shut()
         {
+            MethodInfo xMethod = xType.GetMethod("Shut");
+            if (xMethod != null)
+            {
+                xMethod.Invoke(xPlugin, null);
+            }
         }
 
         public override void Execute()
         {
+            MethodInfo xMethod = xType.GetMethod("Execute");
+            if (xMethod != null)
+            {
+                xMethod.Invoke(xPlugin, null);
+            }
         }
 
         private string mstrLibName = "";

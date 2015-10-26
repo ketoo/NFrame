@@ -173,14 +173,32 @@ namespace NFrame
 
              NFCActorMng.Intance().SendMsg(xID1, xID2, xMsgData);
 
+
+             for (int i = 0; i < 100000; ++i )
+             {
+                 NFIActorMessage xMsg = new NFIActorMessage();
+                 xMsg.data = "test";
+                 //xMsg.bAsync = false;//控制为同步消息还是异步消息
+                 xMsg.eType = NFIActorMessage.EACTOR_MESSAGE_ID.EACTOR_TEST_MSG;
+
+                 TestHandler1 xTest1 = new TestHandler1();
+                 TestHandler2 xTest2 = new TestHandler2();
+
+                 NFIDENTID x1 = NFCActorMng.Intance().CreateActor(xTest1.Handler);
+                 NFIDENTID x2 = NFCActorMng.Intance().CreateActor(xTest2.Handler);
+
+                 NFCActorMng.Intance().SendMsg(x1, x2, xMsg);
+             }
+
              Console.WriteLine("start loop... ThreadID: " + Thread.CurrentThread.ManagedThreadId);
+
 
             while(true)
             {
                 Thread.Sleep(1);
 
                 System.TimeSpan ts = System.DateTime.Now - currentTime;
-                if (ts.TotalMilliseconds > 1000)
+                if (ts.TotalMilliseconds > 10000)
                 {
                     int nCount = TestHandler1.i + TestHandler2.i;
                     Console.WriteLine("Count : " + nCount);

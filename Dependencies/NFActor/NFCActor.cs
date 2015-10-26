@@ -106,6 +106,22 @@ namespace NFrame
             return true;
         }
 
+        public override bool AddComponent(Type xType)
+        {
+            NFBehaviour xCom = Activator.CreateInstance(xType) as NFBehaviour;
+            return mxComponentDic.TryAdd(xType, xCom);
+        }
+
+        public override NFBehaviour GetComponent(Type xType)
+        {
+            NFBehaviour xCom;
+            if (mxComponentDic.TryGetValue(xType, out xCom))
+            {
+                return xCom;
+            }
+
+            return null;
+        }
         /////////////////////////////////////////////////////////////
 
         private static void TaskMethodSync(object param)
@@ -155,6 +171,7 @@ namespace NFrame
         private readonly NFIDENTID mxID;
         private readonly NFIActorMng mxActorMng;
 
+        private readonly ConcurrentDictionary<Type, NFBehaviour> mxComponentDic = new ConcurrentDictionary<Type, NFBehaviour>();
         private readonly ConcurrentQueue<NFIActorMessage> mxMessageQueue = new ConcurrentQueue<NFIActorMessage>();
         private readonly ConcurrentQueue<Handler> mxMessageHandler = new ConcurrentQueue<Handler>();
     }
