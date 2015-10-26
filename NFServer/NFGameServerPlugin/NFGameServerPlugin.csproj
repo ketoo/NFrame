@@ -42,6 +42,16 @@
     <Compile Include="NFGameServerPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Dependencies\NFActor\NFActor.csproj">
+      <Project>{fc246931-d865-4bd4-9e5c-534fe796756d}</Project>
+      <Name>NFActor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NFComm\NFPluginModule\NFComm.csproj">
+      <Project>{fafe0576-7d94-468c-b0fb-95c2c7f33dcd}</Project>
+      <Name>NFComm</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

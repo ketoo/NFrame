@@ -20,26 +20,42 @@ namespace NFrame
 
         public virtual void Init()
         {
-
+            foreach(var v in mxPluginModule)
+            {
+                v.Value.Init();
+            }
         }
 
         public virtual void AfterInit()
         {
-
+            foreach (var v in mxPluginModule)
+            {
+                v.Value.Init();
+            }
         }
 
         public virtual void BeforeShut()
         {
-
+            foreach (var v in mxPluginModule)
+            {
+                v.Value.BeforeShut();
+            }
         }
 
         public virtual void Shut()
         {
-
+            foreach (var v in mxPluginModule)
+            {
+                v.Value.Shut();
+            }
         }
 
         public virtual void Execute() 
         {
+            foreach (var v in mxPluginModule)
+            {
+                v.Value.Execute();
+            }
         }
 
 
