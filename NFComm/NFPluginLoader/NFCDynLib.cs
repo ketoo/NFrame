@@ -16,7 +16,7 @@ namespace NFrame
     {
         Assembly xAssembly;
         Type xType;
-        NFIPlugin xDynLib;
+        NFIPlugin xPlugin;
 
         public NFCDynLib(string strLibName)
         {
@@ -25,7 +25,7 @@ namespace NFrame
 
             xAssembly = Assembly.LoadFrom(mstrLibName);
             xType = xAssembly.GetType(mstrPluginName);
-            xDynLib = Activator.CreateInstance(xType) as NFIPlugin;
+            xPlugin = Activator.CreateInstance(xType) as NFIPlugin;
 
         }
 
@@ -34,7 +34,7 @@ namespace NFrame
             MethodInfo xMethod = xType.GetMethod("Init");
             if (xMethod != null)  
             {
-                xMethod.Invoke(xDynLib, null);  
+                xMethod.Invoke(xPlugin, null);  
             }
         }
 
@@ -43,7 +43,7 @@ namespace NFrame
             MethodInfo xMethod = xType.GetMethod("AfterInit");
             if (xMethod != null)
             {
-                xMethod.Invoke(xDynLib, null);
+                xMethod.Invoke(xPlugin, null);
             }
         }
 
@@ -52,7 +52,7 @@ namespace NFrame
             MethodInfo xMethod = xType.GetMethod("BeforeShut");
             if (xMethod != null)
             {
-                xMethod.Invoke(xDynLib, null);
+                xMethod.Invoke(xPlugin, null);
             }
         }
 
@@ -61,7 +61,7 @@ namespace NFrame
             MethodInfo xMethod = xType.GetMethod("Shut");
             if (xMethod != null)
             {
-                xMethod.Invoke(xDynLib, null);
+                xMethod.Invoke(xPlugin, null);
             }
         }
 
@@ -70,7 +70,7 @@ namespace NFrame
             MethodInfo xMethod = xType.GetMethod("Execute");
             if (xMethod != null)
             {
-                xMethod.Invoke(xDynLib, null);
+                xMethod.Invoke(xPlugin, null);
             }
         }
 
