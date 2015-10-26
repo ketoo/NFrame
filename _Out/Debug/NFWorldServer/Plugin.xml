@@ -1,0 +1,5 @@
+<XML>
+	<Plugin Name="NFKernelPlugin" Main="1"/>
+	<APPID Name="6" />
+	<ClassPath Name="" />
+</XML>
