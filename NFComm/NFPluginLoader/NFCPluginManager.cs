@@ -36,7 +36,7 @@ namespace NFrame
         public override void Init() 
         {
             string strLibName = "NFKernelPlugin.dll";
-            NFIPlugin xPlugin = new NFCPlugin(strLibName);
+            NFCDynLib xPlugin = new NFCDynLib(strLibName);
 
             mxPluginDic.TryAdd(strLibName, xPlugin);
 
@@ -79,7 +79,7 @@ namespace NFrame
         }
 
         /////////////////////////////////////////////////////////        
-        private readonly ConcurrentDictionary<string, NFIPlugin> mxPluginDic = new ConcurrentDictionary<string, NFIPlugin>();
+        private readonly ConcurrentDictionary<string, NFCDynLib> mxPluginDic = new ConcurrentDictionary<string, NFCDynLib>();
 
 
     }

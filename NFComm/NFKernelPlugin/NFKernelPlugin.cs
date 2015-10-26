@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace NFrame
 {
-	public class NFKernelPlugin : NFBehaviour
+	public class NFKernelPlugin : NFIPlugin
 	{
         public NFKernelPlugin()
         {

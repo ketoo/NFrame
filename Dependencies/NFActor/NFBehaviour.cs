@@ -29,9 +29,9 @@ namespace NFrame
 
         public virtual void Execute() {}
 
-        public virtual NFIDENTID Self() { return new NFIDENTID(); }
+        public virtual void SetSelf(NFIDENTID xID) { mxID = xID; }
+        public virtual NFIDENTID Self() { return mxID; }
 
-        //event
-        //ThreadPool
+        private NFIDENTID mxID = new NFIDENTID();
     }
 }

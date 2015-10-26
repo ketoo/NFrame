@@ -12,20 +12,20 @@ using System.Threading.Tasks;
 
 namespace NFrame
 {
-    public class NFCPlugin : NFIPlugin
+    public class NFCDynLib : NFBehaviour
     {
         Assembly xAssembly;
         Type xType;
-        NFBehaviour xPlugin;
+        NFIPlugin xDynLib;
 
-        public NFCPlugin(string strLibName)
+        public NFCDynLib(string strLibName)
         {
             mstrLibName = strLibName;
             mstrPluginName = "NFrame." + mstrLibName.Substring(0, mstrLibName.LastIndexOf("."));
 
             xAssembly = Assembly.LoadFrom(mstrLibName);
             xType = xAssembly.GetType(mstrPluginName);
-            xPlugin = Activator.CreateInstance(xType) as NFBehaviour;
+            xDynLib = Activator.CreateInstance(xType) as NFIPlugin;
 
         }
 
@@ -34,7 +34,7 @@ namespace NFrame
             MethodInfo xMethod = xType.GetMethod("Init");
             if (xMethod != null)  
             {
-                xMethod.Invoke(xPlugin, null);  
+                xMethod.Invoke(xDynLib, null);  
             }
         }
 
@@ -43,7 +43,7 @@ namespace NFrame
             MethodInfo xMethod = xType.GetMethod("AfterInit");
             if (xMethod != null)
             {
-                xMethod.Invoke(xPlugin, null);
+                xMethod.Invoke(xDynLib, null);
             }
         }
 
@@ -52,7 +52,7 @@ namespace NFrame
             MethodInfo xMethod = xType.GetMethod("BeforeShut");
             if (xMethod != null)
             {
-                xMethod.Invoke(xPlugin, null);
+                xMethod.Invoke(xDynLib, null);
             }
         }
 
@@ -61,7 +61,7 @@ namespace NFrame
             MethodInfo xMethod = xType.GetMethod("Shut");
             if (xMethod != null)
             {
-                xMethod.Invoke(xPlugin, null);
+                xMethod.Invoke(xDynLib, null);
             }
         }
 
@@ -70,7 +70,7 @@ namespace NFrame
             MethodInfo xMethod = xType.GetMethod("Execute");
             if (xMethod != null)
             {
-                xMethod.Invoke(xPlugin, null);
+                xMethod.Invoke(xDynLib, null);
             }
         }
 

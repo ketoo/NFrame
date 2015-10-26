@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F0355E7C-5F74-4A9E-A25D-471051BB83FA}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{F12B49D4-263F-4D8D-A24A-E32406AB0192}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NFrame</RootNamespace>
-    <AssemblyName>NFPluginLoader</AssemblyName>
+    <AssemblyName>NFMasterServerPlugin</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\_Out\Lib\</OutputPath>
@@ -41,23 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.cs" />
-    <Compile Include="NFCDynLib.cs" />
-    <Compile Include="NFCPluginManager.cs" />
-    <Compile Include="NFIPluginManager.cs" />
+    <Compile Include="NFCMasterServerModule.cs" />
+    <Compile Include="NFMasterServerPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Dependencies\NFActor\NFActor.csproj">
       <Project>{fc246931-d865-4bd4-9e5c-534fe796756d}</Project>
       <Name>NFActor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NFPluginModule\NFComm.csproj">
-      <Project>{fafe0576-7d94-468c-b0fb-95c2c7f33dcd}</Project>
-      <Name>NFComm</Name>
+    <ProjectReference Include="..\..\NFComm\NFKernelPlugin\NFKernelPlugin.csproj">
+      <Project>{3c73f6be-f1ae-412a-ac32-fccd86498812}</Project>
+      <Name>NFKernelPlugin</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

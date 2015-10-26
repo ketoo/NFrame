@@ -34,7 +34,7 @@ namespace NFrame
 			mHeartManager = new NFCHeartBeatManager(mSelf);
 			mEventManager = new NFCEventModule(mSelf);
 
-            return true;
+            return;
         }
 
         public override void Shut()
@@ -58,7 +58,7 @@ namespace NFrame
             mHeartManager = null;
             mEventManager = null;
 
-            return true;
+            return;
         }
 
         public override bool UpData(float fLastTime, float fAllTime)
