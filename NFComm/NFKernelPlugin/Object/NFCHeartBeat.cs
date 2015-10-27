@@ -1,0 +1,54 @@
+//-----------------------------------------------------------------------
+// <copyright file="NFCHeartBeat.cs">
+//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFrame>
+// </copyright>
+//-----------------------------------------------------------------------
+using System;
+using System.Linq;
+using System.Text;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace NFrame
+{
+	public class NFCHeartBeat : NFIHeartBeat
+	{
+
+		public NFCHeartBeat(NFIDENTID self, string strHeartBeatName, float fTime, NFIDataList valueList)
+		{
+			mSelf = self;
+			mstrHeartBeatName = strHeartBeatName;
+			mfTime = fTime;
+			mfOldTime = fTime;
+			mArgValueList = valueList;
+		}
+
+		public override void RegisterCallback(NFIHeartBeat.HeartBeatEventHandler handler)
+		{
+			doHandlerDel += handler;
+		}
+
+		public override bool Update(float fPassTime)
+		{
+			mfTime -= fPassTime;
+			if (mfTime < 0.0f)
+			{
+				if (null != doHandlerDel)
+				{
+					doHandlerDel(mSelf, mstrHeartBeatName, mfOldTime, mArgValueList);
+				}
+				return true;
+			}
+
+			return false;
+		}
+
+		NFIDENTID mSelf;
+		string mstrHeartBeatName;
+		float mfTime;
+		float mfOldTime;
+		NFIDataList mArgValueList;
+
+		HeartBeatEventHandler doHandlerDel;
+    }
+}
