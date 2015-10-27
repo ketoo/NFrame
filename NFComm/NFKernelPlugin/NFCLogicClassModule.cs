@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="NFCLogicClassModule.cs">
-//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFActor>
+//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFrame>
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -15,22 +15,27 @@ namespace NFrame
 {
     public class NFCLogicClassModule : NFILogicClassModule
     {
-
-        #region Instance
-        private static NFCLogicClassModule _Instance = null;
-        public static NFCLogicClassModule Instance
+        public virtual void Init()
         {
-            get
-            {
-                if (_Instance == null)
-                {
-                    _Instance = new NFCLogicClassModule();
-                    _Instance.Load();
-                }
-                return _Instance;
-            }
+            Load();
         }
-        #endregion
+
+        public virtual void AfterInit() 
+        {
+        }
+
+        public virtual void BeforeShut()
+        {
+
+        }
+
+        public virtual void Shut()
+        {
+        }
+
+        public virtual void Execute()
+        {
+        }
 
         private bool Load()
         {

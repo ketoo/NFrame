@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="App.cs">
-//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFActor>
+//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFrame>
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -18,6 +18,8 @@ namespace NFrame
 
         static void Main(string[] args)
         {
+            NFCPluginManager.Intance().Install();
+
             NFCPluginManager.Intance().Init();
             NFCPluginManager.Intance().AfterInit();
 
@@ -30,6 +32,8 @@ namespace NFrame
 
             NFCPluginManager.Intance().BeforeShut();
             NFCPluginManager.Intance().Shut();
+
+            NFCPluginManager.Intance().UnInstall();
         }
     }
 }

@@ -30,9 +30,10 @@ namespace NFrame
         {
             Type xType = typeof(T);
             NFBehaviour xBehaviour = GetComponent(xType);
+            object xBehaviour = GetComponent(xType);
             if (null != xBehaviour)
             {
-
+                return (T)xBehaviour;
             }
 
             return default(T);

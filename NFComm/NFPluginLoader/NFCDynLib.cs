@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="NFCPlugin.cs">
-//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFActor>
+//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFrame>
 // </copyright>
 //-----------------------------------------------------------------------
 using System;

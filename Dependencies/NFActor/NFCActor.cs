@@ -21,6 +21,15 @@ namespace NFrame
             mxActorMng = xActorMng;
         }
 
+        ~NFCActor()
+        {
+            foreach(var kv in mxComponentDic)
+            {
+                kv.Value.BeforeShut();
+                kv.Value.Shut();
+            }
+        }
+
         public override NFIDENTID GetAddress()
         {
             return mxID;
@@ -109,7 +118,14 @@ namespace NFrame
         public override bool AddComponent(Type xType)
         {
             NFBehaviour xCom = Activator.CreateInstance(xType) as NFBehaviour;
-            return mxComponentDic.TryAdd(xType, xCom);
+            bool bRet = mxComponentDic.TryAdd(xType, xCom);
+            if (true == bRet)
+            {
+                xCom.Init();
+                xCom.AfterInit();
+            }
+
+            return bRet;
         }
 
         public override NFBehaviour GetComponent(Type xType)

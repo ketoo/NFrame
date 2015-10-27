@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="NFCElementModule.cs">
-//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFActor>
+//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFrame>
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -20,20 +20,6 @@ namespace NFrame
             mhtObject = new Dictionary<string, NFIElement>();
         }
 
-        #region Instance
-        private static NFIElementModule _Instance = null;
-        public static NFIElementModule Instance
-        {
-            get
-            {
-                if (_Instance == null)
-                {
-                    _Instance = new NFCElementModule();
-                }
-                return _Instance;
-            }
-        }
-        #endregion
         public override bool Load()
         {
             mstrRootPath = "";

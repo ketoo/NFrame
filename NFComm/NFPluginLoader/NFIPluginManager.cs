@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="NFIPluginManager.cs">
-//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFActor>
+//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFrame>
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -14,10 +14,7 @@ namespace NFrame
 {
     public abstract class NFIPluginManager : NFBehaviour
     {
-//         public abstract bool LoadPlugin();
-//         public abstract NFIPlugin FindPlugin(string strPluginName);
-// 
-//         public abstract bool Registered(NFIPlugin xPlugin);
-//         public abstract bool UnsRegistered(NFIPlugin xPlugin);
+        public abstract void Install();
+        public abstract void UnInstall();
     }
 }

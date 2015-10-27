@@ -65,16 +65,16 @@
     <Compile Include="NFCElementModule.cs" />
     <Compile Include="NFCEvent.cs" />
     <Compile Include="NFCEventModule.cs" />
-    <Compile Include="NFCHeartBeat.cs" />
-    <Compile Include="NFCHeartBeatManager.cs" />
+    <Compile Include="Object\NFCHeartBeat.cs" />
+    <Compile Include="Object\NFCHeartBeatManager.cs" />
     <Compile Include="NFCKernelModule.cs" />
     <Compile Include="NFCLogicClass.cs" />
     <Compile Include="NFCLogicClassModule.cs" />
-    <Compile Include="NFCObject.cs" />
-    <Compile Include="NFCProperty.cs" />
-    <Compile Include="NFCPropertyManager.cs" />
-    <Compile Include="NFCRecord.cs" />
-    <Compile Include="NFCRecordManager.cs" />
+    <Compile Include="Object\NFCObject.cs" />
+    <Compile Include="Object\NFCProperty.cs" />
+    <Compile Include="Object\NFCPropertyManager.cs" />
+    <Compile Include="Object\NFCRecord.cs" />
+    <Compile Include="Object\NFCRecordManager.cs" />
     <Compile Include="NFKernelPlugin.cs" />
   </ItemGroup>
   <ItemGroup>

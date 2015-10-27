@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace NFrame
 {
-    public abstract class NFILogicClassModule
+    public abstract class NFILogicClassModule : NFBehaviour
     {
         public abstract bool Clear();
 

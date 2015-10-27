@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="NFIPlugin.cs">
-//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFActor>
+//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFrame>
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -17,8 +17,10 @@ namespace NFrame
         {
 
         }
+        public virtual void Install(){}
+        public virtual void UnInstall(){}
 
-        public virtual void Init()
+        public override void Init()
         {
             foreach(var v in mxPluginModule)
             {
@@ -26,7 +28,7 @@ namespace NFrame
             }
         }
 
-        public virtual void AfterInit()
+        public override void AfterInit()
         {
             foreach (var v in mxPluginModule)
             {
@@ -34,7 +36,7 @@ namespace NFrame
             }
         }
 
-        public virtual void BeforeShut()
+        public override void BeforeShut()
         {
             foreach (var v in mxPluginModule)
             {
@@ -42,7 +44,7 @@ namespace NFrame
             }
         }
 
-        public virtual void Shut()
+        public override void Shut()
         {
             foreach (var v in mxPluginModule)
             {
@@ -50,7 +52,7 @@ namespace NFrame
             }
         }
 
-        public virtual void Execute() 
+        public override void Execute() 
         {
             foreach (var v in mxPluginModule)
             {

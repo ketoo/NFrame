@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="NFCHeartBeat.cs">
-//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFActor>
+//     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFrame>
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -13,36 +13,46 @@ namespace NFrame
 {
 	public class NFKernelPlugin : NFIPlugin
 	{
-        public NFKernelPlugin()
+        public virtual void Install() 
         {
-            int i = 5;
-            ++i;
+            mxLogicClassModule = new NFCLogicClassModule();
+            mxElementModule = new NFCElementModule();
+        }
+
+        public virtual void UnInstall()
+        {
+
         }
 
         public override void Init()
         {
-            mxLogicModule = null;
+            mxLogicClassModule.Init();
+            mxElementModule.Init();
         }
 
         public override void AfterInit()
         {
+            mxLogicClassModule.AfterInit();
+            mxElementModule.AfterInit();
         }
 
         public override void BeforeShut()
         {
-
+            mxElementModule.BeforeShut();
+            mxLogicClassModule.BeforeShut();
         }
 
         public override void Shut()
         {
-
+            mxElementModule.Shut();
+            mxLogicClassModule.Shut();
         }
 
         public override void Execute()
         { 
         }
 
-        private NFILogicClassModule mxLogicModule;
+        private NFILogicClassModule mxLogicClassModule;
         private NFIElementModule mxElementModule;
     }
 }

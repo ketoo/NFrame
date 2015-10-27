@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NFrame
 {
-    public abstract class NFIElementModule
+    public abstract class NFIElementModule : NFBehaviour
     {
         public abstract bool Load();
         public abstract bool Clear();
