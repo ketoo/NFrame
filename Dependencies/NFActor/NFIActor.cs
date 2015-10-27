@@ -29,7 +29,6 @@ namespace NFrame
         public T GetComponent<T>()
         {
             Type xType = typeof(T);
-            NFBehaviour xBehaviour = GetComponent(xType);
             object xBehaviour = GetComponent(xType);
             if (null != xBehaviour)
             {
