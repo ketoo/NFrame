@@ -13,39 +13,21 @@ namespace NFrame
 {
 	public class NFCKernelModule : NFIKernelModule
 	{
-		#region Instance
-		private static NFIKernelModule _Instance = null;
-        private static readonly object _syncLock = new object();
-		public static NFIKernelModule Instance
-		{
-			get
-			{
-                lock (_syncLock)
-                {
-                    if (_Instance == null)
-                    {
-                        _Instance = new NFCKernelModule();
-                    }
-                    return _Instance;
-                }
-			}
-		}
-		#endregion
-
-		public NFCKernelModule()
-		{
+        public NFCKernelModule()
+        {
             mhtObject = new Dictionary<NFIDENTID, NFIObject>();
             mhtClassHandleDel = new Dictionary<string, ClassHandleDel>();
 
-            mxLogicClassManager = new NFCLogicClassModule();
-            mxElementManager = new NFCElementModule();
-		}
+            mxLogicClassModule = new NFCLogicClassModule();
+            mxElementModule = new NFCElementModule();
 
+        }
+		
 		~NFCKernelModule()
 		{
 			mhtObject = null;
-            mxElementManager = null;
-            mxLogicClassManager = null;
+            mxElementModule = null;
+            mxLogicClassModule = null;
 		}
 
 		public override bool AddHeartBeat(NFIDENTID self, string strHeartBeatName, NFIHeartBeat.HeartBeatEventHandler handler, float fTime, NFIDataList valueList)
@@ -590,7 +572,7 @@ namespace NFrame
 
         void InitProperty(NFIDENTID self, string strClassName)
         {
-            NFILogicClass xLogicClass = NFCLogicClassModule.Instance.GetElement(strClassName);
+            NFILogicClass xLogicClass = mxLogicClassModule.GetElement(strClassName);
             NFIDataList xDataList = xLogicClass.GetPropertyManager().GetPropertyList();
             for (int i = 0; i < xDataList.Count(); ++i )
             {
@@ -606,7 +588,7 @@ namespace NFrame
 
         void InitRecord(NFIDENTID self, string strClassName)
         {
-            NFILogicClass xLogicClass = NFCLogicClassModule.Instance.GetElement(strClassName);
+            NFILogicClass xLogicClass = mxLogicClassModule.GetElement(strClassName);
             NFIDataList xDataList = xLogicClass.GetRecordManager().GetRecordList();
             for (int i = 0; i < xDataList.Count(); ++i)
             {
@@ -620,10 +602,10 @@ namespace NFrame
             }
         }
 
-        Dictionary<NFIDENTID, NFIObject> mhtObject;
-        Dictionary<string, ClassHandleDel> mhtClassHandleDel;
-        NFIElementModule mxElementManager;
-        NFILogicClassModule mxLogicClassManager;
+        private Dictionary<NFIDENTID, NFIObject> mhtObject;
+        private Dictionary<string, ClassHandleDel> mhtClassHandleDel;
+        private NFIElementModule mxElementModule;
+        private NFILogicClassModule mxLogicClassModule;
 
 		class ClassHandleDel
 		{

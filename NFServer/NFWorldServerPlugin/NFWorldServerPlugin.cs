@@ -13,5 +13,8 @@ namespace NFrame
 {
     public class NFWorldServerPlugin : NFIPlugin
     {
+        public NFWorldServerPlugin()
+        {
+        }
     }
 }

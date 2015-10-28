@@ -13,5 +13,9 @@ namespace NFrame
 {
     public class NFLoginServerPlugin : NFIPlugin
     {
+        public NFLoginServerPlugin()
+        {
+        }
+
     }
 }

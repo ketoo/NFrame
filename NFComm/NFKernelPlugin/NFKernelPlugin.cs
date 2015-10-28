@@ -13,46 +13,21 @@ namespace NFrame
 {
 	public class NFKernelPlugin : NFIPlugin
 	{
-        public virtual void Install() 
-        {
-            mxLogicClassModule = new NFCLogicClassModule();
-            mxElementModule = new NFCElementModule();
-        }
-
-        public virtual void UnInstall()
+        public NFKernelPlugin()
         {
 
         }
 
-        public override void Init()
+        public override void Install() 
         {
-            mxLogicClassModule.Init();
-            mxElementModule.Init();
+            CreateModule<NFCLogicClassModule>();
+            CreateModule<NFCElementModule>();
+            CreateModule<NFCKernelModule>();
         }
 
-        public override void AfterInit()
+        public override void UnInstall()
         {
-            mxLogicClassModule.AfterInit();
-            mxElementModule.AfterInit();
-        }
 
-        public override void BeforeShut()
-        {
-            mxElementModule.BeforeShut();
-            mxLogicClassModule.BeforeShut();
         }
-
-        public override void Shut()
-        {
-            mxElementModule.Shut();
-            mxLogicClassModule.Shut();
-        }
-
-        public override void Execute()
-        { 
-        }
-
-        private NFILogicClassModule mxLogicClassModule;
-        private NFIElementModule mxElementModule;
     }
 }

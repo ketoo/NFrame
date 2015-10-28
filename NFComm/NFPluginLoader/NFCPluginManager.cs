@@ -33,6 +33,11 @@ namespace NFrame
 
             return _instance;
         }
+       
+        public override string GetClassPath()
+        {
+            return mstrClassPath;
+        }
 
         public override void Install()
         {
@@ -47,8 +52,8 @@ namespace NFrame
                 XmlAttribute strID = xNodeClass.Attributes["Name"];
                 string strLibName = strID.Value;
 
-                NFCDynLib xPlugin = new NFCDynLib(strLibName);
-                mxPluginDic.TryAdd(strLibName, xPlugin);
+                NFCDynLib xDynLib = new NFCDynLib(strLibName, this);
+                mxDynLibDic.TryAdd(strLibName, xDynLib);
             }
 
             XmlNode xAPPIDNode = xRoot.SelectSingleNode("APPID");
@@ -69,7 +74,7 @@ namespace NFrame
 
         public override void Init() 
         {
-            foreach(var x in mxPluginDic)
+            foreach(var x in mxDynLibDic)
             {
                 x.Value.Init();
             }
@@ -77,7 +82,7 @@ namespace NFrame
 
         public override void AfterInit() 
         {
-            foreach (var x in mxPluginDic)
+            foreach (var x in mxDynLibDic)
             {
                 x.Value.AfterInit();
             }
@@ -85,7 +90,7 @@ namespace NFrame
 
         public override void BeforeShut() 
         {
-            foreach (var x in mxPluginDic)
+            foreach (var x in mxDynLibDic)
             {
                 x.Value.BeforeShut();
             }
@@ -93,7 +98,7 @@ namespace NFrame
 
         public override void Shut() 
         {
-            foreach (var x in mxPluginDic)
+            foreach (var x in mxDynLibDic)
             {
                 x.Value.Shut();
             }
@@ -101,14 +106,15 @@ namespace NFrame
 
         public override void Execute() 
         {
-            foreach (var x in mxPluginDic)
+            foreach (var x in mxDynLibDic)
             {
                 x.Value.Execute();
             }
         }
 
         /////////////////////////////////////////////////////////        
-        private readonly ConcurrentDictionary<string, NFCDynLib> mxPluginDic = new ConcurrentDictionary<string, NFCDynLib>();
+        private readonly ConcurrentDictionary<string, NFCDynLib> mxDynLibDic = new ConcurrentDictionary<string, NFCDynLib>();
+        private readonly ConcurrentDictionary<string, NFBehaviour> mxPluginModule = new ConcurrentDictionary<string, NFBehaviour>();
         private string mstrClassPath;
     }
 }

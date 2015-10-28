@@ -13,6 +13,11 @@ namespace NFrame
 {
     public class NFNetPlugin : NFIPlugin
     {
+        public NFNetPlugin()
+        {
+
+        }
+
         public override void Install()
         {
 

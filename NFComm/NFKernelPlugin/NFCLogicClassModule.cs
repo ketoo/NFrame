@@ -15,26 +15,17 @@ namespace NFrame
 {
     public class NFCLogicClassModule : NFILogicClassModule
     {
-        public virtual void Init()
+        public override void Init()
         {
+            
             Load();
         }
 
-        public virtual void AfterInit() 
-        {
-        }
 
-        public virtual void BeforeShut()
+        public override bool SetPath(string strPath)
         {
-
-        }
-
-        public virtual void Shut()
-        {
-        }
-
-        public virtual void Execute()
-        {
+            mstrPath = strPath;
+            return true;
         }
 
         private bool Load()
@@ -42,6 +33,7 @@ namespace NFrame
             ClearLogicClass();
 
             XmlDocument xmldoc = new XmlDocument();
+            //string strLogicPath = mstrPath + "/Struct/LogicClass.NF";
 
             string strLogicPath = "../../NFDataCfg/Struct/LogicClass.NF";
             ///////////////////////////////////////////////////////////////////////////////////////
@@ -140,7 +132,7 @@ namespace NFrame
 
         private void LoadLogicClassProperty()
         {
-            Dictionary<string, NFILogicClass> xTable = NFCLogicClassModule.Instance.GetElementList();
+            Dictionary<string, NFILogicClass> xTable = GetElementList();
             foreach (KeyValuePair<string, NFILogicClass> kv in xTable)
             {
                 LoadLogicClassProperty((string)kv.Key);
@@ -158,7 +150,7 @@ namespace NFrame
 
         private void LoadLogicClassRecord()
         {
-            Dictionary<string, NFILogicClass> xTable = NFCLogicClassModule.Instance.GetElementList();
+            Dictionary<string, NFILogicClass> xTable = GetElementList();
             foreach (KeyValuePair<string, NFILogicClass> kv in xTable)
             {
                 LoadLogicClassRecord(kv.Key);
@@ -353,5 +345,6 @@ namespace NFrame
         }
         /////////////////////////////////////////
         private Dictionary<string, NFILogicClass> mhtObject = new Dictionary<string, NFILogicClass>();
+        private string mstrPath = "";
     }
 }

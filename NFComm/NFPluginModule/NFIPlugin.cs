@@ -11,56 +11,26 @@ using System.Threading.Tasks;
 
 namespace NFrame
 {
-    public class NFIPlugin : NFBehaviour
+    public class NFIPlugin : NFILogicModule
     {
-        public NFIPlugin()
-        {
-
-        }
         public virtual void Install(){}
         public virtual void UnInstall(){}
 
-        public override void Init()
+
+        public bool CreateModule<T>()
         {
-            foreach(var v in mxPluginModule)
+            Type xType = typeof(T);
+            if (xType.IsSubclassOf(typeof(NFILogicModule)))
             {
-                v.Value.Init();
+                NFILogicModule xModule = Activator.CreateInstance(xType) as NFILogicModule;
+
+
+                GetMng().AddModule(xType, xModule);
+
+                return true;
             }
+
+            return false;
         }
-
-        public override void AfterInit()
-        {
-            foreach (var v in mxPluginModule)
-            {
-                v.Value.Init();
-            }
-        }
-
-        public override void BeforeShut()
-        {
-            foreach (var v in mxPluginModule)
-            {
-                v.Value.BeforeShut();
-            }
-        }
-
-        public override void Shut()
-        {
-            foreach (var v in mxPluginModule)
-            {
-                v.Value.Shut();
-            }
-        }
-
-        public override void Execute() 
-        {
-            foreach (var v in mxPluginModule)
-            {
-                v.Value.Execute();
-            }
-        }
-
-
-        private Dictionary<string, NFBehaviour> mxPluginModule;
     }
 }

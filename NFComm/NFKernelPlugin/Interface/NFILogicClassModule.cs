@@ -6,9 +6,10 @@ using System.Collections.Generic;
 
 namespace NFrame
 {
-    public abstract class NFILogicClassModule : NFBehaviour
+    public abstract class NFILogicClassModule : NFILogicModule
     {
         public abstract bool Clear();
+        public abstract bool SetPath(string strPath);
 
         public abstract bool ExistElement(string strClassName);
 

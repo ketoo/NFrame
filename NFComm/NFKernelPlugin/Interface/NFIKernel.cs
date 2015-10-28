@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NFrame
 {
-    public abstract class NFIKernelModule
+    public abstract class NFIKernelModule : NFILogicModule
     {
 		public abstract bool AddHeartBeat(NFIDENTID self, string strHeartBeatName, NFIHeartBeat.HeartBeatEventHandler handler, float fTime, NFIDataList valueList);
 

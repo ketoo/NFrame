@@ -13,5 +13,9 @@ namespace NFrame
 {
     public class NFMasterServerPlugin : NFIPlugin
     {
+        public NFMasterServerPlugin()
+        {
+
+        }
     }
 }

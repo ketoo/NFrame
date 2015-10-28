@@ -5,8 +5,12 @@ using System.Text;
 
 namespace NFrame
 {
-    public abstract class NFIElementModule : NFBehaviour
+    public abstract class NFIElementModule : NFILogicModule
     {
+        public NFIElementModule()
+        {
+        }
+
         public abstract bool Load();
         public abstract bool Clear();
 

@@ -13,5 +13,8 @@ namespace NFrame
 {
     public class NFGameServerPlugin : NFIPlugin
     {
+        public NFGameServerPlugin()
+        {
+        }
     }
 }

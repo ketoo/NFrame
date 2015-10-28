@@ -44,7 +44,6 @@
     <Compile Include="App.cs" />
     <Compile Include="NFCDynLib.cs" />
     <Compile Include="NFCPluginManager.cs" />
-    <Compile Include="NFIPluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

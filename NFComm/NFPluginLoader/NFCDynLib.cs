@@ -18,15 +18,24 @@ namespace NFrame
         Type xType;
         NFIPlugin xPlugin;
 
-        public NFCDynLib(string strLibName)
+        public NFCDynLib(string strLibName, NFIPluginManager xMng)
         {
             mstrLibName = strLibName;
             mstrPluginName = "NFrame." + mstrLibName.Substring(0, mstrLibName.LastIndexOf("."));
 
             xAssembly = Assembly.LoadFrom(mstrLibName);
             xType = xAssembly.GetType(mstrPluginName);
-            xPlugin = Activator.CreateInstance(xType) as NFIPlugin;
 
+            xPlugin = Activator.CreateInstance(xType) as NFIPlugin;
+            xPlugin.SetMng(xMng);
+
+            xPlugin.Install();
+
+        }
+
+        ~NFCDynLib()
+        {
+            xPlugin.UnInstall();
         }
 
         public override void Init()

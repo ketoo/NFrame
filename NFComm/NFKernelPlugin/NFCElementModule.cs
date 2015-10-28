@@ -20,12 +20,36 @@ namespace NFrame
             mhtObject = new Dictionary<string, NFIElement>();
         }
 
+        public override void Init()
+        {
+            //mxLogicClassModule = GetMng().GetModule<NFILogicClassModule>();
+        }
+
+        public override void AfterInit()
+        {
+            Load();
+        }
+
+        public override void BeforeShut() 
+        {
+        }
+
+        public override void Shut()
+        {
+        }
+
+
+        public override void Execute()
+        {
+
+        }
+
         public override bool Load()
         {
             mstrRootPath = "";
             ClearInstanceElement();
 
-            Dictionary<string, NFILogicClass> xTable = NFCLogicClassModule.Instance.GetElementList();
+            Dictionary<string, NFILogicClass> xTable = mxLogicClassModule.GetElementList();
             foreach (KeyValuePair<string, NFILogicClass> kv in xTable)
             {
                 LoadInstanceElement(kv.Value);
@@ -215,6 +239,8 @@ namespace NFrame
             }
         }
 
+        /////////////////////////////////////////
+        private NFILogicClassModule mxLogicClassModule;
         /////////////////////////////////////////
         private Dictionary<string, NFIElement> mhtObject;
         private string mstrRootPath;

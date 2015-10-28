@@ -13,5 +13,8 @@ namespace NFrame
 {
     public class NFProxyServerPlugin : NFIPlugin
     {
+        public NFProxyServerPlugin()
+        {
+        }
     }
 }
