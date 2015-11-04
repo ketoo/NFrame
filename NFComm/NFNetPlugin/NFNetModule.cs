@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NFrame
 {
-    class NFNetServerModule : NFBehaviour
+    class NFNetModule : NFBehaviour
     {
     }
 }

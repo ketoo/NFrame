@@ -40,8 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NFClusterClientModule.cs" />
+    <Compile Include="NFNetModule.cs" />
     <Compile Include="NFNetPlugin.cs" />
-    <Compile Include="NFNetServerModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
