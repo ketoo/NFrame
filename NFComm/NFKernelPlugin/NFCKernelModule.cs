@@ -14,38 +14,95 @@ namespace NFrame
 	public class NFCKernelModule : NFIKernelModule
 	{
 
+#if NF_CLIENT_FRAME
+        #region Instance
+        private static NFIKernelModule _Instance = null;
+        private static readonly object _syncLock = new object();
+        public static NFIKernelModule Instance
+        {
+            get
+            {
+                lock (_syncLock)
+                {
+                    if (_Instance == null)
+                    {
+                        _Instance = new NFCKernelModule();
+                    }
+                    return _Instance;
+                }
+            }
+        }
+        #endregion
+#endif
         public NFCKernelModule()
         {
             mhtObject = new Dictionary<NFGUID, NFIObject>();
             mhtClassHandleDel = new Dictionary<string, ClassHandleDel>();
+
+#if NF_CLIENT_FRAME
+            mxLogicClassModule = new NFCLogicClassModule();
+            mxElementModule = new NFCElementModule();
+#endif
         }
 		
 		~NFCKernelModule()
 		{
 			mhtObject = null;
-		}
+
+#if NF_CLIENT_FRAME
+            mxElementModule = null;
+            mxLogicClassModule = null;
+#endif
+        }
 
         public override void Init()
         {
+#if NF_CLIENT_FRAME
+            mxLogicClassModule.Init();
+            mxElementModule.Init();
+#endif
         }
 
         public override void AfterInit()
         {
+#if NF_CLIENT_FRAME
+            mxLogicClassModule.AfterInit();
+            mxElementModule.AfterInit();
+#endif
         }
 
         public override void BeforeShut()
         {
+#if NF_CLIENT_FRAME
+            mxElementModule.BeforeShut();
+            mxLogicClassModule.BeforeShut();
+#endif
         }
 
         public override void Shut()
         {
+#if NF_CLIENT_FRAME
+            mxElementModule.Shut();
+            mxLogicClassModule.Shut();
+#endif
         }
 
         public override void Execute()
         {
-
+#if NF_CLIENT_FRAME
+#endif
+        }
+#if NF_CLIENT_FRAME
+        public override NFILogicClassModule GetLogicClassModule()
+        {
+            return mxLogicClassModule;
         }
 
+        public override NFIElementModule GetElementModule()
+        {
+            return mxElementModule;
+        }
+#endif
         public override bool AddHeartBeat(NFGUID self, string strHeartBeatName, NFIHeartBeat.HeartBeatEventHandler handler, float fTime, int nCount)
 		{
             NFIObject xGameObject = GetObject(self);
@@ -626,8 +683,11 @@ namespace NFrame
 
         private Dictionary<NFGUID, NFIObject> mhtObject;
         private Dictionary<string, ClassHandleDel> mhtClassHandleDel;
-
-		class ClassHandleDel
+#if NF_CLIENT_FRAME
+        private NFIElementModule mxElementModule;
+        private NFILogicClassModule mxLogicClassModule;
+#endif
+        class ClassHandleDel
 		{
 			public ClassHandleDel()
 			{
@@ -650,7 +710,9 @@ namespace NFrame
 			
 			private NFIObject.ClassEventHandler mHandleDel;
             private Dictionary<NFIObject.ClassEventHandler, string> mhtHandleDelList;
-		}
+
+
+        }
         
 	}
 }
