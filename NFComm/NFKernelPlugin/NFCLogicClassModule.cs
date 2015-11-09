@@ -334,7 +334,7 @@ namespace NFrame
                 for (int i = 0; i < xValue.Count(); ++i)
                 {
                     NFIProperty xProperty = xOtherClass.GetPropertyManager().GetProperty(xValue.StringVal(i));
-                    xLogicClass.GetPropertyManager().AddProperty(xValue.StringVal(i), xProperty.GetValue());
+                    xLogicClass.GetPropertyManager().AddProperty(xValue.StringVal(i), xProperty.GetData());
                 }
             }
         }

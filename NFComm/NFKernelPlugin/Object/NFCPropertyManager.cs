@@ -27,6 +27,18 @@ namespace NFrame
 			return xProperty;
 		}
 
+        public override NFIProperty AddProperty(string strPropertyName, NFIDataList.TData varData)
+        {
+            NFIProperty xProperty = null;
+            if (!mhtProperty.ContainsKey(strPropertyName))
+            {
+                xProperty = new NFCProperty(mSelf, strPropertyName, varData);
+                mhtProperty[strPropertyName] = xProperty;
+            }
+
+            return xProperty;
+        }
+
 		public override bool SetProperty(string strPropertyName, NFIDataList varData)
 		{
 			if (mhtProperty.ContainsKey(strPropertyName))
@@ -34,7 +46,7 @@ namespace NFrame
 				NFIProperty xProperty = (NFCProperty)mhtProperty[strPropertyName];
 				if (null != xProperty)
 				{
-					xProperty.SetValue(varData);
+					xProperty.SetData(varData.GetData(0));
 				} 
 			}
 			return true;

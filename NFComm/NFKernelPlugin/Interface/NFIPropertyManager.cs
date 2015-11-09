@@ -8,6 +8,7 @@ namespace NFrame
     public abstract class NFIPropertyManager
     {
         public abstract NFIProperty AddProperty(string strPropertyName, NFIDataList varData);
+        public abstract NFIProperty AddProperty(string strPropertyName, NFIDataList.TData varData);
 
         public abstract bool SetProperty(string strPropertyName, NFIDataList varData);
 

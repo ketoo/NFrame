@@ -40,7 +40,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NFClusterClientModule.cs" />
-    <Compile Include="NFNetModule.cs" />
+    <Compile Include="NFCNet.cs" />
+    <Compile Include="NFCNetModule.cs" />
+    <Compile Include="NFCPacket.cs" />
+    <Compile Include="NFINet.cs" />
+    <Compile Include="NFINetModule.cs" />
+    <Compile Include="NFIPacket.cs" />
     <Compile Include="NFNetPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

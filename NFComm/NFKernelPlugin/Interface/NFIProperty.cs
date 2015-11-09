@@ -9,13 +9,10 @@ namespace NFrame
     {
 	public delegate void PropertyEventHandler(NFIDENTID self, string strProperty, NFIDataList oldVar, NFIDataList newVar);
 
-    public abstract void SetValue(NFIDataList varData);
-
-    public abstract NFIDataList GetValue();
-
     public abstract string GetKey();
 		
 	public abstract NFIDataList.VARIANT_TYPE GetType();
+    public abstract NFIDataList.TData GetData();
 
     public abstract Int64 QueryInt();
 
@@ -35,7 +32,9 @@ namespace NFrame
 
 	public abstract bool SetString(string value);
 
-	public abstract bool SetObject(NFIDENTID value);
+    public abstract bool SetObject(NFIDENTID value);
+
+    public abstract bool SetData(NFIDataList.TData x);
 
 	public abstract void RegisterCallback(PropertyEventHandler handler);
     }

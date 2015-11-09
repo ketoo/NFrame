@@ -20,7 +20,6 @@ namespace NFrame
 
         public override void Install()
         {
-
         }
 
         public override void UnInstall()

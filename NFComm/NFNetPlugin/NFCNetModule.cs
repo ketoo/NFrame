@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="NFNetServerModule.cs">
+// <copyright file="NFCNetModule.cs">
 //     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFrame>
 // </copyright>
 //-----------------------------------------------------------------------
@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace NFrame
 {
-    class NFNetModule : NFBehaviour
-    {
-    }
+//     public class NFCNetModule : NFINetModule
+//     {
+// 
+//     }
 }

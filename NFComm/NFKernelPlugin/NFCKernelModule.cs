@@ -582,7 +582,7 @@ namespace NFrame
                 NFIObject xObject = GetObject(self);
                 NFIPropertyManager xPropertyManager = xObject.GetPropertyManager();
 
-                xPropertyManager.AddProperty(strPropertyName, xProperty.GetValue());
+                xPropertyManager.AddProperty(strPropertyName, xProperty.GetData());
             }
         }
 

@@ -13,9 +13,7 @@ namespace NFrame
 {
     public class NFCDataList : NFIDataList
     {
-
-
-        private Dictionary<int, Var_Data> mValueObject = new Dictionary<int, Var_Data>();
+        private Dictionary<int, TData> mValueObject = new Dictionary<int, TData>();
 
         //==============================================
 
@@ -62,7 +60,7 @@ namespace NFrame
 
         public override bool AddInt(Int64 value)
         {
-            Var_Data data = new Var_Data();
+            TData data = new TData();
             data.nType = VARIANT_TYPE.VTYPE_INT;
             data.mData = value;
 
@@ -71,7 +69,7 @@ namespace NFrame
 
         public override bool AddFloat(float value)
         {
-            Var_Data data = new Var_Data();
+            TData data = new TData();
             data.nType = VARIANT_TYPE.VTYPE_FLOAT;
             data.mData = value;
 
@@ -80,7 +78,7 @@ namespace NFrame
 
         public override bool AddDouble(double value)
         {
-            Var_Data data = new Var_Data();
+            TData data = new TData();
             data.nType = VARIANT_TYPE.VTYPE_DOUBLE;
             data.mData = value;
 
@@ -89,7 +87,7 @@ namespace NFrame
 
         public override bool AddString(string value)
         {
-            Var_Data data = new Var_Data();
+            TData data = new TData();
             data.nType = VARIANT_TYPE.VTYPE_STRING;
             data.mData = value;
 
@@ -98,7 +96,7 @@ namespace NFrame
 
         public override bool AddObject(NFIDENTID value)
         {
-            Var_Data data = new Var_Data();
+            TData data = new TData();
             data.nType = VARIANT_TYPE.VTYPE_OBJECT;
             data.mData = value;
 
@@ -107,7 +105,7 @@ namespace NFrame
 
         public override bool SetInt(int index, Int64 value)
         {
-            Var_Data data = GetDataObject(index);
+            TData data = GetData(index);
             if (data != null && data.nType == VARIANT_TYPE.VTYPE_INT)
             {
                 data.mData = value;
@@ -120,7 +118,7 @@ namespace NFrame
 
         public override bool SetFloat(int index, float value)
         {
-            Var_Data data = GetDataObject(index);
+            TData data = GetData(index);
             if (data != null && data.nType == VARIANT_TYPE.VTYPE_FLOAT)
             {
                 data.mData = value;
@@ -133,7 +131,7 @@ namespace NFrame
 
         public override bool SetDouble(int index, double value)
         {
-            Var_Data data = GetDataObject(index);
+            TData data = GetData(index);
             if (data != null && data.nType == VARIANT_TYPE.VTYPE_DOUBLE)
             {
                 data.mData = value;
@@ -146,7 +144,7 @@ namespace NFrame
 
         public override bool SetString(int index, string value)
         {
-            Var_Data data = GetDataObject(index);
+            TData data = GetData(index);
             if (data != null && data.nType == VARIANT_TYPE.VTYPE_STRING)
             {
                 data.mData = value;
@@ -159,7 +157,7 @@ namespace NFrame
 
         public override bool SetObject(int index, NFIDENTID value)
         {
-            Var_Data data = GetDataObject(index);
+            TData data = GetData(index);
             if (data != null && data.nType == VARIANT_TYPE.VTYPE_OBJECT)
             {
                 data.mData = value;
@@ -172,7 +170,7 @@ namespace NFrame
 
         public override Int64 IntVal(int index)
         {
-            Var_Data data = GetDataObject(index);
+            TData data = GetData(index);
             if (data != null && data.nType == VARIANT_TYPE.VTYPE_INT)
             {
                 return (Int64)data.mData;
@@ -183,7 +181,7 @@ namespace NFrame
 
         public override float FloatVal(int index)
         {
-            Var_Data data = GetDataObject(index);
+            TData data = GetData(index);
             if (data != null && data.nType == VARIANT_TYPE.VTYPE_FLOAT)
             {
                 return (float)data.mData;
@@ -194,7 +192,7 @@ namespace NFrame
 
         public override double DoubleVal(int index)
         {
-            Var_Data data = GetDataObject(index);
+            TData data = GetData(index);
             if (data != null && data.nType == VARIANT_TYPE.VTYPE_DOUBLE)
             {
                 return (double)data.mData;
@@ -205,7 +203,7 @@ namespace NFrame
 
         public override string StringVal(int index)
         {
-            Var_Data data = GetDataObject(index);
+            TData data = GetData(index);
             if (data != null && data.nType == VARIANT_TYPE.VTYPE_STRING)
             {
                 return (string)data.mData;
@@ -216,7 +214,7 @@ namespace NFrame
 
         public override NFIDENTID ObjectVal(int index)
         {
-            Var_Data data = GetDataObject(index);
+            TData data = GetData(index);
             if (data != null && data.nType == VARIANT_TYPE.VTYPE_OBJECT)
             {
                 return (NFIDENTID)data.mData;
@@ -239,7 +237,7 @@ namespace NFrame
 		/// </summary>
 		/// <param name="data"></param>
 		/// <returns></returns>
-        protected bool AddDataObject(ref Var_Data data)
+        protected bool AddDataObject(ref TData data)
         {
             int nCount = mValueObject.Count;
             mValueObject.Add(nCount, data);
@@ -251,7 +249,7 @@ namespace NFrame
         {
 			if (mValueObject.Count > index)
 			{
-				Var_Data data = (Var_Data)mValueObject[index];
+				TData data = (TData)mValueObject[index];
 
 				return data.nType;
 			}
@@ -259,17 +257,14 @@ namespace NFrame
 			return VARIANT_TYPE.VTYPE_UNKNOWN;
         }
 
-        protected Var_Data GetDataObject(int index)
+        public override TData GetData(int index)
         {
-
             if (mValueObject.ContainsKey(index))
             {
-                return (Var_Data)mValueObject[index];
+                return (TData)mValueObject[index];
             }
 
             return null;
         }
-
-
     }
 }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NFrame
 {
-    public class NFClusterClientModule : NFBehaviour
+    public class NFClusterClientModule : NFILogicModule
     {
         public enum ClusterClientState
         {
@@ -41,7 +41,7 @@ namespace NFrame
             public Int32 mnPort;
             public Int32 mnState;
             public Int32 mnAreaID;
-            public NFNetModule xNetModule;
+            public NFINetModule xNetModule;
             public NFClusterClientModule.ClusterClientState eState;
         }
 

@@ -17,11 +17,19 @@ namespace NFrame
             VTYPE_OBJECT,       // 对象ID
             VTYPE_MAX,
         };
-        public class Var_Data
+
+        public class TData
         {
-            public Var_Data()
+            public TData(TData x)
+            {
+                nType = x.nType;
+                mData = x.mData;
+            }
+
+            public TData()
             {
                 mData = new Object();
+                nType = VARIANT_TYPE.VTYPE_UNKNOWN;
             }
 
             public VARIANT_TYPE nType;
@@ -48,7 +56,8 @@ namespace NFrame
 
 		public abstract int Count();
 		public abstract void Clear();
-		public abstract VARIANT_TYPE GetType(int index);
+        public abstract VARIANT_TYPE GetType(int index);
+        public abstract TData GetData(int index);
     }
 }
 
