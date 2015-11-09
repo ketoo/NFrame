@@ -19,7 +19,7 @@ namespace NFrame
             mhtHeartBeat = new Dictionary<string, NFIHeartBeat>();
 		}
 
-        public override void AddHeartBeat(string strHeartBeatName, float fTime, NFIHeartBeat.HeartBeatEventHandler handler)
+        public override void AddHeartBeat(string strHeartBeatName, float fTime, NFIHeartBeat.HeartBeatEventHandler handler, int nCount)
 		{
 			if (!mhtHeartBeat.ContainsKey(strHeartBeatName))
 			{

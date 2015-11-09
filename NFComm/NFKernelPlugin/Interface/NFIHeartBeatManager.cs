@@ -8,7 +8,7 @@ namespace NFrame
 {
     public abstract class NFIHeartBeatManager
     {
-        public abstract void AddHeartBeat(string strHeartBeatName, float fTime, NFIHeartBeat.HeartBeatEventHandler handler);
+        public abstract void AddHeartBeat(string strHeartBeatName, float fTime, NFIHeartBeat.HeartBeatEventHandler handler, int nCount);
         public abstract bool FindHeartBeat(string strHeartBeatName);
         public abstract void RemoveHeartBeat(string strHeartBeatName);
 		public abstract void Update(float fPassTime);

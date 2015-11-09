@@ -46,12 +46,12 @@ namespace NFrame
 
         }
 
-		public override bool AddHeartBeat(NFGUID self, string strHeartBeatName, NFIHeartBeat.HeartBeatEventHandler handler, float fTime)
+        public override bool AddHeartBeat(NFGUID self, string strHeartBeatName, NFIHeartBeat.HeartBeatEventHandler handler, float fTime, int nCount)
 		{
             NFIObject xGameObject = GetObject(self);
             if (null != xGameObject)
             {
-                xGameObject.GetHeartBeatManager().AddHeartBeat(strHeartBeatName, fTime, handler);
+                xGameObject.GetHeartBeatManager().AddHeartBeat(strHeartBeatName, fTime, handler, nCount);
             }
 			return true;
 		}
@@ -90,7 +90,7 @@ namespace NFrame
 			}
 		}
 
-		public override void RegisterEventCallBack(NFGUID self, int nEventID, NFIEvent.EventHandler handler, NFIDataList valueList)
+		public override void RegisterEventCallBack(NFGUID self, int nEventID, NFIEvent.EventHandler handler)
 		{
 			NFIObject xGameObject = GetObject(self);
 			if (null != xGameObject)

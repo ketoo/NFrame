@@ -7,7 +7,7 @@ namespace NFrame
 {
     public abstract class NFIKernelModule : NFILogicModule
     {
-		public abstract bool AddHeartBeat(NFGUID self, string strHeartBeatName, NFIHeartBeat.HeartBeatEventHandler handler, float fTime);
+		public abstract bool AddHeartBeat(NFGUID self, string strHeartBeatName, NFIHeartBeat.HeartBeatEventHandler handler, float fTime, int nCount);
 
         public abstract bool FindHeartBeat(NFGUID self, string strHeartBeatName);
 
@@ -24,7 +24,7 @@ namespace NFrame
 
         public abstract void RegisterClassCallBack(string strClassName, NFIObject.ClassEventHandler handler);
 
-		public abstract void RegisterEventCallBack(NFGUID self, int nEventID, NFIEvent.EventHandler handler, NFIDataList valueList);
+		public abstract void RegisterEventCallBack(NFGUID self, int nEventID, NFIEvent.EventHandler handler);
         /////////////////////////////////////////////////////////////////
 
         public abstract NFIObject GetObject(NFGUID ident);
