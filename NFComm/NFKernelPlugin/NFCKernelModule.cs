@@ -13,34 +13,50 @@ namespace NFrame
 {
 	public class NFCKernelModule : NFIKernelModule
 	{
+
         public NFCKernelModule()
         {
-            mhtObject = new Dictionary<NFIDENTID, NFIObject>();
+            mhtObject = new Dictionary<NFGUID, NFIObject>();
             mhtClassHandleDel = new Dictionary<string, ClassHandleDel>();
-
-            mxLogicClassModule = new NFCLogicClassModule();
-            mxElementModule = new NFCElementModule();
-
         }
 		
 		~NFCKernelModule()
 		{
 			mhtObject = null;
-            mxElementModule = null;
-            mxLogicClassModule = null;
 		}
 
-		public override bool AddHeartBeat(NFIDENTID self, string strHeartBeatName, NFIHeartBeat.HeartBeatEventHandler handler, float fTime, NFIDataList valueList)
+        public override void Init()
+        {
+        }
+
+        public override void AfterInit()
+        {
+        }
+
+        public override void BeforeShut()
+        {
+        }
+
+        public override void Shut()
+        {
+        }
+
+        public override void Execute()
+        {
+
+        }
+
+		public override bool AddHeartBeat(NFGUID self, string strHeartBeatName, NFIHeartBeat.HeartBeatEventHandler handler, float fTime)
 		{
             NFIObject xGameObject = GetObject(self);
             if (null != xGameObject)
             {
-                xGameObject.GetHeartBeatManager().AddHeartBeat(strHeartBeatName, fTime, handler, valueList);
+                xGameObject.GetHeartBeatManager().AddHeartBeat(strHeartBeatName, fTime, handler);
             }
 			return true;
 		}
 
-		public override void RegisterPropertyCallback(NFIDENTID self, string strPropertyName, NFIProperty.PropertyEventHandler handler)
+		public override void RegisterPropertyCallback(NFGUID self, string strPropertyName, NFIProperty.PropertyEventHandler handler)
 		{
 			NFIObject xGameObject = GetObject(self);
 			if (null != xGameObject)
@@ -49,7 +65,7 @@ namespace NFrame
 			}
 		}
 
-		public override void RegisterRecordCallback(NFIDENTID self, string strRecordName, NFIRecord.RecordEventHandler handler)
+		public override void RegisterRecordCallback(NFGUID self, string strRecordName, NFIRecord.RecordEventHandler handler)
 		{
 			NFIObject xGameObject = GetObject(self);
 			if (null != xGameObject)
@@ -74,34 +90,40 @@ namespace NFrame
 			}
 		}
 
-		public override void RegisterEventCallBack(NFIDENTID self, int nEventID, NFIEvent.EventHandler handler, NFIDataList valueList)
+		public override void RegisterEventCallBack(NFGUID self, int nEventID, NFIEvent.EventHandler handler, NFIDataList valueList)
 		{
 			NFIObject xGameObject = GetObject(self);
 			if (null != xGameObject)
 			{
-				xGameObject.GetEventManager().RegisterCallback(nEventID, handler, valueList);
+				//xGameObject.GetEventManager().RegisterCallback(nEventID, handler, valueList);
 			}
 		}
 
-		public override bool FindHeartBeat(NFIDENTID self, string strHeartBeatName)
+		public override bool FindHeartBeat(NFGUID self, string strHeartBeatName)
 		{
 			NFIObject xGameObject = GetObject(self);
 			if (null != xGameObject)
 			{
-				//gameObject.GetHeartBeatManager().AddHeartBeat()
+                return xGameObject.GetHeartBeatManager().FindHeartBeat(strHeartBeatName);
 			}
 
 			return false;
 		}
 
-		public override bool RemoveHeartBeat(NFIDENTID self, string strHeartBeatName)
+		public override bool RemoveHeartBeat(NFGUID self, string strHeartBeatName)
 		{
+            NFIObject xGameObject = GetObject(self);
+            if (null != xGameObject)
+            {
+                xGameObject.GetHeartBeatManager().RemoveHeartBeat(strHeartBeatName);
+            }
+
 			return true;
 		}
 
         public override bool UpDate(float fTime)
         {
-            foreach (NFIDENTID id in mhtObject.Keys)
+            foreach (NFGUID id in mhtObject.Keys)
             {
                 NFIObject xGameObject = (NFIObject)mhtObject[id];
                 xGameObject.GetHeartBeatManager().Update(fTime);
@@ -111,9 +133,9 @@ namespace NFrame
         }
 		/////////////////////////////////////////////////////////////
 
-		//public override bool AddRecordCallBack( NFIDENTID self, string strRecordName, RECORD_EVENT_FUNC cb );
+		//public override bool AddRecordCallBack( NFGUID self, string strRecordName, RECORD_EVENT_FUNC cb );
 
-		//public override bool AddPropertyCallBack( NFIDENTID self, string strCriticalName, PROPERTY_EVENT_FUNC cb );
+		//public override bool AddPropertyCallBack( NFGUID self, string strCriticalName, PROPERTY_EVENT_FUNC cb );
 
 		//     public override bool AddClassCallBack( string strClassName, CLASS_EVENT_FUNC cb );
 		//
@@ -121,7 +143,7 @@ namespace NFrame
 
 		/////////////////////////////////////////////////////////////////
 
-		public override NFIObject GetObject(NFIDENTID ident)
+		public override NFIObject GetObject(NFGUID ident)
 		{
             if (null != ident && mhtObject.ContainsKey(ident))
 			{
@@ -131,7 +153,7 @@ namespace NFrame
 			return null;
 		}
 
-		public override NFIObject CreateObject(NFIDENTID self, int nContainerID, int nGroupID, string strClassName, string strConfigIndex, NFIDataList arg)
+		public override NFIObject CreateObject(NFGUID self, int nContainerID, int nGroupID, string strClassName, string strConfigIndex, NFIDataList arg)
 		{
 			if (!mhtObject.ContainsKey(self))
 			{
@@ -215,7 +237,7 @@ namespace NFrame
 		}
 
 
-		public override bool DestroyObject(NFIDENTID self)
+		public override bool DestroyObject(NFGUID self)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -239,7 +261,7 @@ namespace NFrame
 			return false;
 		}
 
-		public override bool FindProperty(NFIDENTID self, string strPropertyName)
+		public override bool FindProperty(NFGUID self, string strPropertyName)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -250,7 +272,7 @@ namespace NFrame
 			return false;
 		}
 
-        public override bool SetPropertyInt(NFIDENTID self, string strPropertyName, Int64 nValue)
+        public override bool SetPropertyInt(NFGUID self, string strPropertyName, Int64 nValue)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -261,7 +283,7 @@ namespace NFrame
 			return false;
 		}
 
-		public override bool SetPropertyFloat(NFIDENTID self, string strPropertyName, float fValue)
+		public override bool SetPropertyFloat(NFGUID self, string strPropertyName, float fValue)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -272,7 +294,7 @@ namespace NFrame
 			return false;
 		}
 
-		public override bool SetPropertyDouble(NFIDENTID self, string strPropertyName, double dValue)
+		public override bool SetPropertyDouble(NFGUID self, string strPropertyName, double dValue)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -283,7 +305,7 @@ namespace NFrame
 			return false;
 		}
 
-		public override bool SetPropertyString(NFIDENTID self, string strPropertyName, string strValue)
+		public override bool SetPropertyString(NFGUID self, string strPropertyName, string strValue)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -294,7 +316,7 @@ namespace NFrame
 			return false;
 		}
 
-		public override bool SetPropertyObject(NFIDENTID self, string strPropertyName, NFIDENTID objectValue)
+		public override bool SetPropertyObject(NFGUID self, string strPropertyName, NFGUID objectValue)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -306,7 +328,7 @@ namespace NFrame
 		}
 
 
-		public override Int64 QueryPropertyInt(NFIDENTID self, string strPropertyName)
+		public override Int64 QueryPropertyInt(NFGUID self, string strPropertyName)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -317,7 +339,7 @@ namespace NFrame
 			return 0;
 		}
 
-		public override float QueryPropertyFloat(NFIDENTID self, string strPropertyName)
+		public override float QueryPropertyFloat(NFGUID self, string strPropertyName)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -328,7 +350,7 @@ namespace NFrame
 			return 0.0f;
 		}
 
-		public override double QueryPropertyDouble(NFIDENTID self, string strPropertyName)
+		public override double QueryPropertyDouble(NFGUID self, string strPropertyName)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -339,7 +361,7 @@ namespace NFrame
 			return 0.0;
 		}
 
-		public override string QueryPropertyString(NFIDENTID self, string strPropertyName)
+		public override string QueryPropertyString(NFGUID self, string strPropertyName)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -350,7 +372,7 @@ namespace NFrame
 			return "";
 		}
 
-		public override NFIDENTID QueryPropertyObject(NFIDENTID self, string strPropertyName)
+		public override NFGUID QueryPropertyObject(NFGUID self, string strPropertyName)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -358,11 +380,11 @@ namespace NFrame
 				return xGameObject.QueryPropertyObject(strPropertyName);
 			}
 
-			return new NFIDENTID();
+			return new NFGUID();
 		}
 
 
-		public override NFIRecord FindRecord(NFIDENTID self, string strRecordName)
+		public override NFIRecord FindRecord(NFGUID self, string strRecordName)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -374,7 +396,7 @@ namespace NFrame
 		}
 
 
-        public override bool SetRecordInt(NFIDENTID self, string strRecordName, int nRow, int nCol, Int64 nValue)
+        public override bool SetRecordInt(NFGUID self, string strRecordName, int nRow, int nCol, Int64 nValue)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -385,7 +407,7 @@ namespace NFrame
 			return false;
 		}
 
-		public override bool SetRecordFloat(NFIDENTID self, string strRecordName, int nRow, int nCol, float fValue)
+		public override bool SetRecordFloat(NFGUID self, string strRecordName, int nRow, int nCol, float fValue)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -396,7 +418,7 @@ namespace NFrame
 			return false;
 		}
 
-		public override bool SetRecordDouble(NFIDENTID self, string strRecordName, int nRow, int nCol, double dwValue)
+		public override bool SetRecordDouble(NFGUID self, string strRecordName, int nRow, int nCol, double dwValue)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -407,7 +429,7 @@ namespace NFrame
 			return false;
 		}
 
-		public override bool SetRecordString(NFIDENTID self, string strRecordName, int nRow, int nCol, string strValue)
+		public override bool SetRecordString(NFGUID self, string strRecordName, int nRow, int nCol, string strValue)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -418,7 +440,7 @@ namespace NFrame
 			return false;
 		}
 
-		public override bool SetRecordObject(NFIDENTID self, string strRecordName, int nRow, int nCol, NFIDENTID objectValue)
+		public override bool SetRecordObject(NFGUID self, string strRecordName, int nRow, int nCol, NFGUID objectValue)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -430,7 +452,7 @@ namespace NFrame
 		}
 
 
-        public override Int64 QueryRecordInt(NFIDENTID self, string strRecordName, int nRow, int nCol)
+        public override Int64 QueryRecordInt(NFGUID self, string strRecordName, int nRow, int nCol)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -441,7 +463,7 @@ namespace NFrame
 			return 0;
 		}
 
-		public override float QueryRecordFloat(NFIDENTID self, string strRecordName, int nRow, int nCol)
+		public override float QueryRecordFloat(NFGUID self, string strRecordName, int nRow, int nCol)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -452,7 +474,7 @@ namespace NFrame
 			return 0.0f;
 		}
 
-		public override double QueryRecordDouble(NFIDENTID self, string strRecordName, int nRow, int nCol)
+		public override double QueryRecordDouble(NFGUID self, string strRecordName, int nRow, int nCol)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -463,7 +485,7 @@ namespace NFrame
 			return 0.0;
 		}
 
-		public override string QueryRecordString(NFIDENTID self, string strRecordName, int nRow, int nCol)
+		public override string QueryRecordString(NFGUID self, string strRecordName, int nRow, int nCol)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -474,7 +496,7 @@ namespace NFrame
 			return "";
 		}
 
-		public override NFIDENTID QueryRecordObject(NFIDENTID self, string strRecordName, int nRow, int nCol)
+		public override NFGUID QueryRecordObject(NFGUID self, string strRecordName, int nRow, int nCol)
 		{
 			if (mhtObject.ContainsKey(self))
 			{
@@ -482,20 +504,20 @@ namespace NFrame
 				return xGameObject.QueryRecordObject(strRecordName, nRow, nCol);
 			}
 
-			return new NFIDENTID();
+			return new NFGUID();
 		}
 		
 		public override NFIDataList GetObjectList()
 		{
 			NFIDataList varData = new NFCDataList();
-            foreach (KeyValuePair<NFIDENTID, NFIObject> kv in mhtObject)
+            foreach (KeyValuePair<NFGUID, NFIObject> kv in mhtObject)
             {
                 varData.AddObject(kv.Key);				
             }
 
 			return varData;
 		}
-        public override int FindRecordRow(NFIDENTID self, string strRecordName, int nCol, int nValue)
+        public override int FindRecordRow(NFGUID self, string strRecordName, int nCol, int nValue)
         {
             if (mhtObject.ContainsKey(self))
             {
@@ -510,7 +532,7 @@ namespace NFrame
             return -1;
         }
 
-        public override int FindRecordRow(NFIDENTID self, string strRecordName, int nCol, float fValue)
+        public override int FindRecordRow(NFGUID self, string strRecordName, int nCol, float fValue)
         {
             if (mhtObject.ContainsKey(self))
             {
@@ -525,7 +547,7 @@ namespace NFrame
             return -1;
         }
 
-        public override int FindRecordRow(NFIDENTID self, string strRecordName, int nCol, double fValue)
+        public override int FindRecordRow(NFGUID self, string strRecordName, int nCol, double fValue)
         {
             if (mhtObject.ContainsKey(self))
             {
@@ -540,7 +562,7 @@ namespace NFrame
             return -1;
         }
 
-        public override int FindRecordRow(NFIDENTID self, string strRecordName, int nCol, string strValue)
+        public override int FindRecordRow(NFGUID self, string strRecordName, int nCol, string strValue)
         {
             if (mhtObject.ContainsKey(self))
             {
@@ -555,7 +577,7 @@ namespace NFrame
             return -1;
         }
 
-        public override int FindRecordRow(NFIDENTID self, string strRecordName, int nCol, NFIDENTID nValue)
+        public override int FindRecordRow(NFGUID self, string strRecordName, int nCol, NFGUID nValue)
         {
             if (mhtObject.ContainsKey(self))
             {
@@ -570,7 +592,7 @@ namespace NFrame
             return -1;
         }
 
-        void InitProperty(NFIDENTID self, string strClassName)
+        void InitProperty(NFGUID self, string strClassName)
         {
             NFILogicClass xLogicClass = mxLogicClassModule.GetElement(strClassName);
             NFIDataList xDataList = xLogicClass.GetPropertyManager().GetPropertyList();
@@ -586,7 +608,7 @@ namespace NFrame
             }
         }
 
-        void InitRecord(NFIDENTID self, string strClassName)
+        void InitRecord(NFGUID self, string strClassName)
         {
             NFILogicClass xLogicClass = mxLogicClassModule.GetElement(strClassName);
             NFIDataList xDataList = xLogicClass.GetRecordManager().GetRecordList();
@@ -602,10 +624,8 @@ namespace NFrame
             }
         }
 
-        private Dictionary<NFIDENTID, NFIObject> mhtObject;
+        private Dictionary<NFGUID, NFIObject> mhtObject;
         private Dictionary<string, ClassHandleDel> mhtClassHandleDel;
-        private NFIElementModule mxElementModule;
-        private NFILogicClassModule mxLogicClassModule;
 
 		class ClassHandleDel
 		{

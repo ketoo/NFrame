@@ -14,7 +14,7 @@ namespace NFrame
     public class NFCRecord : NFIRecord
     {
 
-		public NFCRecord(NFIDENTID self, string strRecordName, int nRow, NFIDataList varData)
+		public NFCRecord(NFGUID self, string strRecordName, int nRow, NFIDataList varData)
 		{
 			mSelf = self;
 			mnRow = nRow;
@@ -75,7 +75,7 @@ namespace NFrame
 
                     if (null != doHandleDel)
                     {
-                        doHandleDel(mSelf, mstrRecordName, eRecordOptype.Add, nRow, 0, var, var);
+                        doHandleDel(mSelf, mstrRecordName, eRecordOptype.Add, nRow, 0, NFIDataList.NULL_TDATA, NFIDataList.NULL_TDATA);
                     }
 					return nRow;
 				}
@@ -114,13 +114,13 @@ namespace NFrame
 				{
 					if (valueList.IntVal(nCol) != value)
 					{
-						NFCDataList oldValue = new NFCDataList();
-						oldValue.AddInt(valueList.IntVal(nCol));
-	
-						valueList.SetInt(nCol, value);
-	
-						NFCDataList newValue = new NFCDataList();
-						newValue.AddInt(valueList.IntVal(nCol));
+                        NFIDataList.TData oldValue = new NFIDataList.TData(NFIDataList.VARIANT_TYPE.VTYPE_INT);
+                        NFIDataList.TData newValue = new NFIDataList.TData(NFIDataList.VARIANT_TYPE.VTYPE_INT);
+
+                        oldValue.Set(valueList.IntVal(nCol));
+                        newValue.Set(value);
+
+                        valueList.SetInt(nCol, value);
 	                   
 	                    if (null != doHandleDel)
 	                    {
@@ -145,16 +145,16 @@ namespace NFrame
 				NFIDataList valueList = (NFIDataList)mhtRecordVec[nRow];
 				if (valueList.GetType(nCol) == NFIDataList.VARIANT_TYPE.VTYPE_FLOAT)
 				{
-					if (valueList.FloatVal(nCol) - value > 0.01f
-						|| valueList.FloatVal(nCol) - value < -0.01f)
+					if (valueList.FloatVal(nCol) - value > NFIDataList.EPS_DOUBLE
+						|| valueList.FloatVal(nCol) - value < -NFIDataList.EPS_DOUBLE)
 					{
-						NFCDataList oldValue = new NFCDataList();
-						oldValue.AddFloat(valueList.FloatVal(nCol));
-	
-						valueList.SetFloat(nCol, value);
-	
-						NFCDataList newValue = new NFCDataList();
-						newValue.AddFloat(valueList.FloatVal(nCol));
+                        NFIDataList.TData oldValue = new NFIDataList.TData(NFIDataList.VARIANT_TYPE.VTYPE_FLOAT);
+                        NFIDataList.TData newValue = new NFIDataList.TData(NFIDataList.VARIANT_TYPE.VTYPE_FLOAT);
+
+                        oldValue.Set(valueList.FloatVal(nCol));
+                        newValue.Set(value);
+
+	                    valueList.SetFloat(nCol, value);
 	
 	                    if (null != doHandleDel)
 	                    {
@@ -177,20 +177,20 @@ namespace NFrame
 				{
 					AddRow(nRow);
 				}
-				
-				NFIDataList valueList = (NFIDataList)mhtRecordVec[nRow];
-				if (valueList.GetType(nCol) == NFIDataList.VARIANT_TYPE.VTYPE_DOUBLE)
-				{
-					if (valueList.DoubleVal(nCol) - value > 0.01f
-						|| valueList.DoubleVal(nCol) - value < -0.01f)
-					{
-						NFCDataList oldValue = new NFCDataList();
-						oldValue.AddDouble(valueList.DoubleVal(nCol));
-	
-						valueList.SetDouble(nCol, value);
-	
-						NFCDataList newValue = new NFCDataList();
-						newValue.AddDouble(valueList.DoubleVal(nCol));
+
+                NFIDataList valueList = (NFIDataList)mhtRecordVec[nRow];
+                if (valueList.GetType(nCol) == NFIDataList.VARIANT_TYPE.VTYPE_DOUBLE)
+                {
+                    if (valueList.DoubleVal(nCol) - value > NFIDataList.EPS_DOUBLE
+                        || valueList.DoubleVal(nCol) - value < -NFIDataList.EPS_DOUBLE)
+                    {
+                        NFIDataList.TData oldValue = new NFIDataList.TData(NFIDataList.VARIANT_TYPE.VTYPE_DOUBLE);
+                        NFIDataList.TData newValue = new NFIDataList.TData(NFIDataList.VARIANT_TYPE.VTYPE_DOUBLE);
+
+                        oldValue.Set(valueList.DoubleVal(nCol));
+                        newValue.Set(value);
+
+                        valueList.SetDouble(nCol, value);
 	
 	                    if (null != doHandleDel)
 	                    {
@@ -217,13 +217,13 @@ namespace NFrame
 				{
 					if (valueList.StringVal(nCol) != value)
 					{
-						NFCDataList oldValue = new NFCDataList();
-						oldValue.AddString(valueList.StringVal(nCol));
-	
-						valueList.SetString(nCol, value);
-	
-						NFCDataList newValue = new NFCDataList();
-						newValue.AddString(valueList.StringVal(nCol));
+                        NFIDataList.TData oldValue = new NFIDataList.TData(NFIDataList.VARIANT_TYPE.VTYPE_STRING);
+                        NFIDataList.TData newValue = new NFIDataList.TData(NFIDataList.VARIANT_TYPE.VTYPE_STRING);
+
+                        oldValue.Set(valueList.StringVal(nCol));
+                        newValue.Set(value);
+
+                        valueList.SetString(nCol, value);
 	
 	                    if (null != doHandleDel)
 	                    {
@@ -238,7 +238,7 @@ namespace NFrame
 			return false;
         }
 
-        public override bool SetObject(int nRow, int nCol, NFIDENTID value)
+        public override bool SetObject(int nRow, int nCol, NFGUID value)
         {
 			if(nRow >= 0 && nRow < mnRow)
 			{
@@ -251,13 +251,13 @@ namespace NFrame
 				{
 					if (valueList.ObjectVal(nCol) != value)
 					{
-						NFCDataList oldValue = new NFCDataList();
-						oldValue.AddObject(valueList.ObjectVal(nCol));
+                        NFIDataList.TData oldValue = new NFIDataList.TData(NFIDataList.VARIANT_TYPE.VTYPE_OBJECT);
+                        NFIDataList.TData newValue = new NFIDataList.TData(NFIDataList.VARIANT_TYPE.VTYPE_OBJECT);
 
-						valueList.SetObject(nCol, value);
+                        oldValue.Set(valueList.ObjectVal(nCol));
+                        newValue.Set(value);
 
-						NFCDataList newValue = new NFCDataList();
-						newValue.AddObject(valueList.ObjectVal(nCol));
+                        valueList.SetObject(nCol, value);
 
                         if (null != doHandleDel)
                         {
@@ -325,7 +325,7 @@ namespace NFrame
 	           
 	            if (null != doHandleDel)
 	             {
-	                 doHandleDel(mSelf, mstrRecordName, eRecordOptype.Swap, nOriginRow, nTargetRow, new NFCDataList(), new NFCDataList());
+	                 doHandleDel(mSelf, mstrRecordName, eRecordOptype.Swap, nOriginRow, nTargetRow, NFIDataList.NULL_TDATA, NFIDataList.NULL_TDATA);
 	             }
 	            return true;
 			}
@@ -373,10 +373,10 @@ namespace NFrame
 				return valueList.StringVal(nCol);
 			}
 
-            return "";
+            return NFIDataList.NULL_STRING;
         }
 
-        public override NFIDENTID QueryObject(int nRow, int nCol)
+        public override NFGUID QueryObject(int nRow, int nCol)
         {
 			NFIDataList valueList = QueryRow(nRow);
 			if (null != valueList)
@@ -384,7 +384,7 @@ namespace NFrame
 				return valueList.ObjectVal(nCol);
 			}
 
-            return new NFIDENTID();
+            return NFIDataList.NULL_OBJECT;
         }
 
         //public override int FindRow( int nRow );
@@ -409,7 +409,6 @@ namespace NFrame
 
 					case NFIDataList.VARIANT_TYPE.VTYPE_OBJECT:
 						return FindObject(nCol, var.ObjectVal(0));
-
 					default:
 					break;
 				}
@@ -472,7 +471,7 @@ namespace NFrame
             return -1;
         }
 
-        public override int FindObject(int nCol, NFIDENTID value)
+        public override int FindObject(int nCol, NFGUID value)
         {
 			foreach (int i in mhtRecordVec.Keys)
 			{
@@ -492,7 +491,7 @@ namespace NFrame
             {
 				if (null != doHandleDel)
                 {
-                    doHandleDel(mSelf, mstrRecordName, eRecordOptype.Del, nRow, 0, (NFIDataList)mhtRecordVec[nRow], (NFIDataList)mhtRecordVec[nRow]);
+                    doHandleDel(mSelf, mstrRecordName, eRecordOptype.Del, nRow, 0, NFIDataList.NULL_TDATA, NFIDataList.NULL_TDATA);
                 }
 				mhtRecordVec.Remove(nRow);
 				return true;
@@ -539,7 +538,7 @@ namespace NFrame
         Hashtable mhtRecordVec = new Hashtable();
         Dictionary<int, int> mhtUseState = new Dictionary<int, int>();
 
-		NFIDENTID mSelf;
+		NFGUID mSelf;
 		string mstrRecordName;
 		int mnRow;
     }

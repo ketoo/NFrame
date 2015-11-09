@@ -13,7 +13,7 @@ namespace NFrame
         public abstract float QueryFloat(string strName);
         public abstract double QueryDouble(string strName);
         public abstract string QueryString(string strName);
-        public abstract NFIDENTID QueryObject(string strName);
+        public abstract NFGUID QueryObject(string strName);
 
 	}
 }

@@ -28,9 +28,9 @@ namespace NFrame
 
         public virtual void Execute() {}
 
-        public virtual void SetSelf(NFIDENTID xID) { mxID = xID; }
-        public virtual NFIDENTID Self() { return mxID; }
+        public virtual void SetSelf(NFGUID xID) { mxID = xID; }
+        public virtual NFGUID Self() { return mxID; }
 
-        private NFIDENTID mxID = new NFIDENTID();
+        private NFGUID mxID = new NFGUID();
     }
 }

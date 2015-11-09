@@ -13,7 +13,7 @@ namespace NFrame
 {
 	public class NFCEventModule : NFIEventModule
     {
-		public NFCEventModule(NFIDENTID self)
+		public NFCEventModule(NFGUID self)
 		{
 			mSelf = self;
             mhtEvent = new Dictionary<int, NFIEvent>();
@@ -40,7 +40,7 @@ namespace NFrame
 			}
 		}
 
-		NFIDENTID mSelf;
+		NFGUID mSelf;
         Dictionary<int, NFIEvent> mhtEvent;
     }
 }

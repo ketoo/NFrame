@@ -14,7 +14,7 @@ namespace NFrame
 {
     public abstract class NFIScheduler : NFBehaviour
     {
-        public abstract void AddToScheduler(NFIDENTID xID);
+        public abstract void AddToScheduler(NFGUID xID);
 
     }
 }

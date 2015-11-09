@@ -19,9 +19,9 @@ namespace NFrame
 
         public abstract bool RegisterHandler(Handler handler);
 
-        public abstract NFIDENTID GetAddress();
+        public abstract NFGUID GetAddress();
         public abstract int GetNumQueuedMessages();
-        public abstract bool PushMessages(NFIDENTID from, NFIActorMessage xMessage);
+        public abstract bool PushMessages(NFGUID from, NFIActorMessage xMessage);
 
         public abstract bool AddComponent(Type xType);
         public abstract NFBehaviour GetComponent(Type xType);

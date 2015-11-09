@@ -35,14 +35,14 @@ namespace NFrame
             }
         }
         /////////////////////////////////////////////////////////////
-        public override void AddToScheduler(NFIDENTID xID)
+        public override void AddToScheduler(NFGUID xID)
         {
             mxWaitScheduler.Enqueue(xID);
         }
 
         public override void Execute() 
         {
-            NFIDENTID xID = null;
+            NFGUID xID = null;
             while (mxWaitScheduler.TryDequeue(out xID))
             {
                 NFIActor xActor = mxActorMng.GetActor(xID);
@@ -58,6 +58,6 @@ namespace NFrame
 
         private readonly NFIActorMng mxActorMng;
         private readonly Task mxTask;
-        private readonly ConcurrentQueue<NFIDENTID> mxWaitScheduler = new ConcurrentQueue<NFIDENTID>();
+        private readonly ConcurrentQueue<NFGUID> mxWaitScheduler = new ConcurrentQueue<NFGUID>();
     }
 }

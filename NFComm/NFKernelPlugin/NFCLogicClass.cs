@@ -18,8 +18,8 @@ namespace NFrame
 	{
         public NFCLogicClass()
         {
-            mxPropertyManager = new NFCPropertyManager(new NFIDENTID());
-            mxRecordManager = new NFCRecordManager(new NFIDENTID());
+            mxPropertyManager = new NFCPropertyManager(new NFGUID());
+            mxRecordManager = new NFCRecordManager(new NFGUID());
         }
 
         public override NFIPropertyManager GetPropertyManager()

@@ -12,7 +12,7 @@ namespace NFrame
 {
     public class NFCObject : NFIObject
     {
-		public NFCObject(NFIDENTID self, int nContainerID, int nGroupID, string strClassName, string strConfigIndex)
+		public NFCObject(NFGUID self, int nContainerID, int nGroupID, string strClassName, string strConfigIndex)
 		{
 			mSelf = self;
             mstrClassName = strClassName;
@@ -32,7 +32,6 @@ namespace NFrame
 			mRecordManager = new NFCRecordManager(mSelf);
 			mPropertyManager = new NFCPropertyManager(mSelf);
 			mHeartManager = new NFCHeartBeatManager(mSelf);
-			mEventManager = new NFCEventModule(mSelf);
 
             return;
         }
@@ -56,19 +55,34 @@ namespace NFrame
 			mRecordManager = null;
 			mPropertyManager = null;
             mHeartManager = null;
-            mEventManager = null;
 
             return;
         }
 
+        public override void AddHeartBeat(string strHeartBeatName, float fTime, NFIHeartBeat.HeartBeatEventHandler handler)
+        {
+            GetHeartBeatManager().AddHeartBeat(strHeartBeatName, fTime, handler);
+        }
+
+        public override bool FindHeartBeat(string strHeartBeatName)
+        {
+            return GetHeartBeatManager().FindHeartBeat(strHeartBeatName);
+        }
+
+        public override void RemoveHeartBeat(string strHeartBeatName)
+        {
+            GetHeartBeatManager().RemoveHeartBeat(strHeartBeatName);
+        }
+
         public override bool UpData(float fLastTime, float fAllTime)
         {
-			//mHeartManager
+            GetHeartBeatManager().Update(fLastTime);
+
             return true;
         }
 
         ///////////////////////////////////////////////////////////////////////
-        public override NFIDENTID Self()
+        public override NFGUID Self()
         {
 			return mSelf;
         }
@@ -92,26 +106,6 @@ namespace NFrame
         {
             return mstrConfigIndex;
         }
-
-        // public override bool AddHeartBeat(  string strHeartBeatName, HEART_BEAT_FUNC cb,  NFIDataList& var,  float fTime,  int nCount );
-
-        public override bool FindHeartBeat(string strHeartBeatName)
-        {
-            return true;
-        }
-
-        public override bool RemoveHeartBeat(string strHeartBeatName)
-        {
-            return true;
-        }
-
-        //////////////////////////////////////////////////
-        // 
-        //     public override bool AddRecordCallBack(  string strRecordName,  RECORD_EVENT_FUNC cb );
-        // 
-        //     public override bool AddPropertyCallBack(  string strCriticalName,  PROPERTY_EVENT_FUNC cb );
-
-        /////////////////////////////////////////////////////////////////
 
         public override bool FindProperty(string strPropertyName)
         {
@@ -179,13 +173,13 @@ namespace NFrame
 			return true;
         }
 
-        public override bool SetPropertyObject(string strPropertyName, NFIDENTID obj)
+        public override bool SetPropertyObject(string strPropertyName, NFGUID obj)
         {
 			NFIProperty property = mPropertyManager.GetProperty(strPropertyName);
 			if (null == property)
 			{
                 NFIDataList valueList = new NFCDataList();
-                valueList.AddObject(new NFIDENTID());
+                valueList.AddObject(new NFGUID());
                 property = mPropertyManager.AddProperty(strPropertyName, valueList);
             }
 
@@ -235,10 +229,10 @@ namespace NFrame
 				return property.QueryString();
 			}
 
-            return "";
+            return NFIDataList.NULL_STRING;
         }
 
-        public override NFIDENTID QueryPropertyObject(string strPropertyName)
+        public override NFGUID QueryPropertyObject(string strPropertyName)
         {
 			NFIProperty property = mPropertyManager.GetProperty(strPropertyName);
 			if (null != property)
@@ -246,7 +240,7 @@ namespace NFrame
 				return property.QueryObject();
 			}
 
-            return new NFIDENTID();
+            return NFIDataList.NULL_OBJECT;
         }
 
         public override bool FindRecord(string strRecordName)
@@ -307,7 +301,7 @@ namespace NFrame
 			return false;
         }
 
-        public override bool SetRecordObject(string strRecordName, int nRow, int nCol, NFIDENTID obj)
+        public override bool SetRecordObject(string strRecordName, int nRow, int nCol, NFGUID obj)
         {
 			NFIRecord record = mRecordManager.GetRecord(strRecordName);
 			if (null != record)
@@ -360,10 +354,10 @@ namespace NFrame
 				return record.QueryString(nRow, nCol);
 			}
 
-            return "";
+            return NFIDataList.NULL_STRING;
         }
 
-        public override NFIDENTID QueryRecordObject(string strRecordName, int nRow, int nCol)
+        public override NFGUID QueryRecordObject(string strRecordName, int nRow, int nCol)
         {
 			NFIRecord record = mRecordManager.GetRecord(strRecordName);
 			if (null != record)
@@ -389,12 +383,7 @@ namespace NFrame
 			return mPropertyManager;
         }
 
-		public override NFIEventModule GetEventManager()
-		{
-			return mEventManager;
-		}
-
-		NFIDENTID mSelf;
+		NFGUID mSelf;
 		int mnContainerID;
 		int mnGroupID;
 		
@@ -404,6 +393,5 @@ namespace NFrame
 		NFIRecordManager mRecordManager;
 		NFIPropertyManager mPropertyManager;
 		NFIHeartBeatManager mHeartManager;
-		NFIEventModule mEventManager;
 	}
 }

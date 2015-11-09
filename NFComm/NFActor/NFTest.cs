@@ -82,9 +82,9 @@ namespace NFrame
             { 
             }
 
-            public override NFIDENTID Self() 
+            public override NFGUID Self() 
             { 
-                return new NFIDENTID();
+                return new NFGUID();
             }
         }
 
@@ -147,9 +147,9 @@ namespace NFrame
             { 
             }
 
-            public override NFIDENTID Self()
+            public override NFGUID Self()
             { 
-                return new NFIDENTID(); 
+                return new NFGUID(); 
             }
         }
 
@@ -160,8 +160,8 @@ namespace NFrame
 
             Console.WriteLine("start run... ThreadID: " + Thread.CurrentThread.ManagedThreadId);
 
-            NFIDENTID xID1 = NFCActorMng.Intance().CreateActor(xTestHandler1.Handler);
-            NFIDENTID xID2 = NFCActorMng.Intance().CreateActor(xTestHandler2.Handler);
+            NFGUID xID1 = NFCActorMng.Intance().CreateActor(xTestHandler1.Handler);
+            NFGUID xID2 = NFCActorMng.Intance().CreateActor(xTestHandler2.Handler);
 
              NFIActorMessage xMsgData = new NFIActorMessage();
              xMsgData.data = "test";
@@ -184,8 +184,8 @@ namespace NFrame
                  TestHandler1 xTest1 = new TestHandler1();
                  TestHandler2 xTest2 = new TestHandler2();
 
-                 NFIDENTID x1 = NFCActorMng.Intance().CreateActor(xTest1.Handler);
-                 NFIDENTID x2 = NFCActorMng.Intance().CreateActor(xTest2.Handler);
+                 NFGUID x1 = NFCActorMng.Intance().CreateActor(xTest1.Handler);
+                 NFGUID x2 = NFCActorMng.Intance().CreateActor(xTest2.Handler);
 
                  NFCActorMng.Intance().SendMsg(x1, x2, xMsg);
              }

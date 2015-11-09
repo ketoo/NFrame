@@ -45,7 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interface\NFIDataList.cs" />
-    <Compile Include="Interface\NFIdentID.cs" />
     <Compile Include="Interface\NFIElement.cs" />
     <Compile Include="Interface\NFIElementModule.cs" />
     <Compile Include="Interface\NFIEvent.cs" />
@@ -81,10 +80,6 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Dependencies\NFActor\NFActor.csproj">
-      <Project>{fc246931-d865-4bd4-9e5c-534fe796756d}</Project>
-      <Name>NFActor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NFPluginModule\NFComm.csproj">
       <Project>{fafe0576-7d94-468c-b0fb-95c2c7f33dcd}</Project>
       <Name>NFComm</Name>

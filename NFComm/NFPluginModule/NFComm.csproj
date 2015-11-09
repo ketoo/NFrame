@@ -39,16 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NFBehaviour.cs" />
+    <Compile Include="NFGUID.cs" />
     <Compile Include="NFILogicModule.cs" />
     <Compile Include="NFIPlugin.cs" />
     <Compile Include="NFIPluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Dependencies\NFActor\NFActor.csproj">
-      <Project>{fc246931-d865-4bd4-9e5c-534fe796756d}</Project>
-      <Name>NFActor</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

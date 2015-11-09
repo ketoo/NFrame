@@ -12,7 +12,7 @@ namespace NFrame
 {
 	class NFCEvent : NFIEvent
 	{
-		public NFCEvent(NFIDENTID self, int nEventID, NFIDataList valueList)
+		public NFCEvent(NFGUID self, int nEventID, NFIDataList valueList)
 		{
 			mSelf = self;
 			mnEventID = nEventID;
@@ -33,7 +33,7 @@ namespace NFrame
 		}
 
 
-		NFIDENTID mSelf;
+		NFGUID mSelf;
 		int mnEventID;
 		NFIDataList mArgValueList;
 

@@ -9,7 +9,7 @@ namespace NFrame
 {
 	public class NFCPropertyManager : NFIPropertyManager
 	{
-		public NFCPropertyManager(NFIDENTID self)
+		public NFCPropertyManager(NFGUID self)
 		{
 			mSelf = self;
 			mhtProperty = new Hashtable();
@@ -84,7 +84,7 @@ namespace NFrame
 			return varData;
 		}
 		
-		NFIDENTID mSelf;
+		NFGUID mSelf;
 		Hashtable mhtProperty;
 	}
 }

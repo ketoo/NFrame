@@ -60,7 +60,7 @@ namespace NFrame
             XmlAttribute strAppID = xAPPIDNode.Attributes["Name"];
             int nID = 0;
             int.TryParse(strAppID.Value, out nID);
-            SetSelf(new NFIDENTID(nID, 0));
+            SetSelf(new NFGUID(nID, 0));
 
             XmlNode xClassPathNode = xRoot.SelectSingleNode("ClassPath");
             XmlAttribute strClassPathID = xClassPathNode.Attributes["Name"];

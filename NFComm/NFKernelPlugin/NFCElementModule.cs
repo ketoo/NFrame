@@ -114,7 +114,7 @@ namespace NFrame
                 return xElement.QueryString(strPropertyName);
             }
 
-            return "";
+            return NFIDataList.NULL_STRING;
         }
 
         public override bool AddElement(string strName, NFIElement xElement)
@@ -226,7 +226,7 @@ namespace NFrame
                                 case NFIDataList.VARIANT_TYPE.VTYPE_OBJECT:
                                     {
                                         NFIDataList xValue = new NFCDataList();
-                                        xValue.AddObject(new NFIDENTID(0, int.Parse(xAttribute.Value)));
+                                        xValue.AddObject(new NFGUID(0, int.Parse(xAttribute.Value)));
                                         xElement.GetPropertyManager().AddProperty(xAttribute.Name, xValue);
                                     }
                                     break;

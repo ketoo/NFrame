@@ -13,18 +13,18 @@ namespace NFrame
 {
     public abstract class NFIActorMng : NFBehaviour
     {
-        public abstract NFIDENTID CreateActor();
-        public abstract NFIDENTID CreateActor(NFIActor.Handler handler);
+        public abstract NFGUID CreateActor();
+        public abstract NFGUID CreateActor(NFIActor.Handler handler);
 
         public abstract NFIScheduler GetScheduler();
 
-        public abstract NFIActor GetActor(NFIDENTID xID);
-        public abstract bool ReleaseActor(NFIDENTID xID);
+        public abstract NFIActor GetActor(NFGUID xID);
+        public abstract bool ReleaseActor(NFGUID xID);
 
         public abstract void ReleaseAllActor();
         
-        public abstract bool RegisterHandler(NFIDENTID xID, NFIActor.Handler handler); 
-        public abstract bool SendMsg(NFIDENTID address, NFIDENTID from, NFIActorMessage xMessage);
+        public abstract bool RegisterHandler(NFGUID xID, NFIActor.Handler handler); 
+        public abstract bool SendMsg(NFGUID address, NFGUID from, NFIActorMessage xMessage);
 
     }
 }

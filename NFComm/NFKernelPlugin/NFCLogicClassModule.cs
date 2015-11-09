@@ -224,7 +224,7 @@ namespace NFrame
                         case "object":
                             {
                                 NFIDataList xValue = new NFCDataList();
-                                xValue.AddObject(new NFIDENTID(0, 0));
+                                xValue.AddObject(new NFGUID(0, 0));
                                 xLogicClass.GetPropertyManager().AddProperty(strID.Value, xValue);
                             }
                             break;
@@ -308,7 +308,7 @@ namespace NFrame
                                         break;
                                     case "object":
                                         {
-                                            xValue.AddObject(new NFIDENTID(0, 0));
+                                            xValue.AddObject(new NFGUID(0, 0));
                                         }
                                         break;
                                     default:

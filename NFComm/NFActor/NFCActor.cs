@@ -15,7 +15,7 @@ namespace NFrame
 {
     public class NFCActor : NFIActor
     {
-        public NFCActor(NFIDENTID xID, NFIActorMng xActorMng)
+        public NFCActor(NFGUID xID, NFIActorMng xActorMng)
         {
             mxID = xID;
             mxActorMng = xActorMng;
@@ -30,7 +30,7 @@ namespace NFrame
             }
         }
 
-        public override NFIDENTID GetAddress()
+        public override NFGUID GetAddress()
         {
             return mxID;
         }
@@ -85,7 +85,7 @@ namespace NFrame
             return true;
         }
 
-        public override bool PushMessages(NFIDENTID from, NFIActorMessage xMessage)
+        public override bool PushMessages(NFGUID from, NFIActorMessage xMessage)
         {
             xMessage.nMasterActor = mxID;
             xMessage.nFromActor = from;
@@ -184,7 +184,7 @@ namespace NFrame
 
 
         /////////////////////////////////////////////////////////////
-        private readonly NFIDENTID mxID;
+        private readonly NFGUID mxID;
         private readonly NFIActorMng mxActorMng;
 
         private readonly ConcurrentDictionary<Type, NFBehaviour> mxComponentDic = new ConcurrentDictionary<Type, NFBehaviour>();

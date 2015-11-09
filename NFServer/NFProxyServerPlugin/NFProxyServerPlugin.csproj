@@ -46,10 +46,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Dependencies\NFActor\NFActor.csproj">
-      <Project>{fc246931-d865-4bd4-9e5c-534fe796756d}</Project>
-      <Name>NFActor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\NFComm\NFPluginModule\NFComm.csproj">
       <Project>{fafe0576-7d94-468c-b0fb-95c2c7f33dcd}</Project>
       <Name>NFComm</Name>

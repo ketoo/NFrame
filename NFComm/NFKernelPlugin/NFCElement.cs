@@ -14,7 +14,7 @@ namespace NFrame
 	{
         public NFCElement()
         {
-            mxPropertyManager = new NFCPropertyManager(new NFIDENTID());
+            mxPropertyManager = new NFCPropertyManager(new NFGUID());
         }
 
         public override NFIPropertyManager GetPropertyManager()
@@ -53,7 +53,7 @@ namespace NFrame
                 return xProperty.QueryDouble();
             }
 
-            return 0f;
+            return 0.0;
         }
 
         public override string QueryString(string strName)
@@ -64,10 +64,10 @@ namespace NFrame
                 return xProperty.QueryString();
             }
 
-            return "";
+            return NFIDataList.NULL_STRING;
         }
 
-        public override NFIDENTID QueryObject(string strName)
+        public override NFGUID QueryObject(string strName)
         {
             NFIProperty xProperty = GetPropertyManager().GetProperty(strName);
             if (null != xProperty)
@@ -75,7 +75,7 @@ namespace NFrame
                 return xProperty.QueryObject();
             }
 
-            return new NFIDENTID();
+            return NFIDataList.NULL_OBJECT;
         }
 
         private NFIPropertyManager mxPropertyManager;

@@ -13,35 +13,35 @@ namespace NFrame
 {
     public class NFCProperty : NFIProperty
     {
-        public NFCProperty( NFIDENTID self, string strPropertyName, NFIDataList varData)
+        public NFCProperty( NFGUID self, string strPropertyName, NFIDataList varData)
         {
             mSelf = self;
             msPropertyName = strPropertyName;
-            mxData = new NFIDataList.TData();
-            mxData.nType = varData.GetType(0);
+            mxData = new NFIDataList.TData(varData.GetType(0));
+
             switch (varData.GetType(0))
             {
                 case NFIDataList.VARIANT_TYPE.VTYPE_INT:
-                    mxData.mData = varData.IntVal(0);
+                    mxData.Set(varData.IntVal(0));
                     break;
                 case NFIDataList.VARIANT_TYPE.VTYPE_FLOAT:
-                    mxData.mData = varData.FloatVal(0);
+                    mxData.Set(varData.FloatVal(0));
                     break;
                 case NFIDataList.VARIANT_TYPE.VTYPE_DOUBLE:
-                    mxData.mData = varData.DoubleVal(0);
+                    mxData.Set(varData.DoubleVal(0));
                     break;
                 case NFIDataList.VARIANT_TYPE.VTYPE_OBJECT:
-                    mxData.mData = varData.ObjectVal(0);
+                    mxData.Set(varData.ObjectVal(0));
                     break;
                 case NFIDataList.VARIANT_TYPE.VTYPE_STRING:
-                    mxData.mData = varData.StringVal(0);
+                    mxData.Set(varData.StringVal(0));
                     break;
                 default:
                     break;
             }
         }
 
-        public NFCProperty(NFIDENTID self, string strPropertyName, NFIDataList.TData varData)
+        public NFCProperty(NFGUID self, string strPropertyName, NFIDataList.TData varData)
         {
             mSelf = self;
             msPropertyName = strPropertyName;
@@ -55,7 +55,7 @@ namespace NFrame
 		
 		public override NFIDataList.VARIANT_TYPE GetType()
 		{
-            return mxData.nType;
+            return mxData.GetType();
 		}
 
         public override NFIDataList.TData GetData()
@@ -65,67 +65,63 @@ namespace NFrame
 
         public override Int64 QueryInt()
         {
-            if (NFIDataList.VARIANT_TYPE.VTYPE_INT == mxData.nType)
+            if (NFIDataList.VARIANT_TYPE.VTYPE_INT == mxData.GetType())
             {
-                return (Int64)mxData.mData;
+                return mxData.IntVal();
             }
 
-            return 0;
+            return NFIDataList.NULL_INT;
         }
 
         public override float QueryFloat()
         {
-            if (NFIDataList.VARIANT_TYPE.VTYPE_FLOAT == mxData.nType)
+            if (NFIDataList.VARIANT_TYPE.VTYPE_FLOAT == mxData.GetType())
             {
-                return (float)mxData.mData;
+                return (float)mxData.DoubleVal();
             }
 
-            return 0.0f;
+            return (float)NFIDataList.EPS_DOUBLE;
         }
 
         public override double QueryDouble()
         {
-            if (NFIDataList.VARIANT_TYPE.VTYPE_DOUBLE == mxData.nType)
+            if (NFIDataList.VARIANT_TYPE.VTYPE_DOUBLE == mxData.GetType())
             {
-                return (double)mxData.mData;
+                return mxData.DoubleVal();
             }
 
-            return 0.0;
+            return NFIDataList.EPS_DOUBLE;
         }
 
         public override string QueryString()
         {
-            if (NFIDataList.VARIANT_TYPE.VTYPE_STRING == mxData.nType)
+            if (NFIDataList.VARIANT_TYPE.VTYPE_STRING == mxData.GetType())
             {
-                return (string)mxData.mData;
+                return mxData.StringVal();
             }
 
-            return "";
+            return NFIDataList.NULL_STRING;
         }
 
-        public override NFIDENTID QueryObject()
+        public override NFGUID QueryObject()
         {
-            if(NFIDataList.VARIANT_TYPE.VTYPE_INT == mxData.nType)
+            if (NFIDataList.VARIANT_TYPE.VTYPE_INT == mxData.GetType())
             {
-                return (NFIDENTID)mxData.mData;
+                return (NFGUID)mxData.ObjectVal();
             }
 
-            return new NFIDENTID();
+            return NFIDataList.NULL_OBJECT;
         }
 
         public override bool SetInt(Int64 value)
 		{
-            Int64 nData = (Int64)mxData.mData;
-
-            if (nData != value)
+            if (mxData.IntVal() != value)
             {
-                NFCDataList oldValue = new NFCDataList();
-                NFCDataList newValue = new NFCDataList();
+                NFIDataList.TData oldValue = new NFIDataList.TData(mxData);
+                NFIDataList.TData newValue = new NFIDataList.TData(NFIDataList.VARIANT_TYPE.VTYPE_INT);
+                newValue.Set(value);
 
-                oldValue.SetInt(0, nData);
-                newValue.SetInt(0, value);
-
-                mxData.mData = value;
+                mxData.Set(value);
 
                 if (null != doHandleDel)
                 {
@@ -139,18 +135,14 @@ namespace NFrame
 
 		public override bool SetFloat(float value)
 		{
-            double dwData = (double)mxData.mData;
-
-            if (dwData - value > 0.001f
-                || dwData - value < -0.001f)
+            if (mxData.DoubleVal() - value > NFIDataList.EPS_DOUBLE
+                || mxData.DoubleVal() - value < -NFIDataList.EPS_DOUBLE)
             {
-                NFCDataList oldValue = new NFCDataList();
-                NFCDataList newValue = new NFCDataList();
+                NFIDataList.TData oldValue = new NFIDataList.TData(mxData);
+                NFIDataList.TData newValue = new NFIDataList.TData(NFIDataList.VARIANT_TYPE.VTYPE_FLOAT);
+                newValue.Set(value);
 
-                oldValue.SetDouble(0, dwData);
-                newValue.SetDouble(0, value);
-
-                mxData.mData = value;
+                mxData.Set(value);
 
                 if (null != doHandleDel)
                 {
@@ -163,18 +155,14 @@ namespace NFrame
 
 		public override bool SetDouble(double value)
 		{
-            double dwData = (double)mxData.mData;
-
-            if (dwData - value > 0.001f
-                || dwData - value < -0.001f)
+            if (mxData.DoubleVal() - value > NFIDataList.EPS_DOUBLE
+                || mxData.DoubleVal() - value < -NFIDataList.EPS_DOUBLE)
             {
-                NFCDataList oldValue = new NFCDataList();
-                NFCDataList newValue = new NFCDataList();
+                NFIDataList.TData oldValue = new NFIDataList.TData(mxData);
+                NFIDataList.TData newValue = new NFIDataList.TData(NFIDataList.VARIANT_TYPE.VTYPE_DOUBLE);
+                newValue.Set(value);
 
-                oldValue.SetDouble(0, dwData);
-                newValue.SetDouble(0, value);
-
-                mxData.mData = value;
+                mxData.Set(value);
 
                 if (null != doHandleDel)
                 {
@@ -187,17 +175,13 @@ namespace NFrame
 
 		public override bool SetString(string value)
 		{
-            string strData = (string)mxData.mData;
-
-            if (strData != value)
+            if (mxData.StringVal() != value)
             {
-                NFCDataList oldValue = new NFCDataList();
-                NFCDataList newValue = new NFCDataList();
+                NFIDataList.TData oldValue = new NFIDataList.TData(mxData);
+                NFIDataList.TData newValue = new NFIDataList.TData(NFIDataList.VARIANT_TYPE.VTYPE_STRING);
+                newValue.Set(value);
 
-                oldValue.SetString(0, strData);
-                newValue.SetString(0, value);
-
-                mxData.mData = value;
+                mxData.Set(value);
 
                 if (null != doHandleDel)
                 {
@@ -208,19 +192,16 @@ namespace NFrame
 			return true;
 		}
 
-		public override bool SetObject(NFIDENTID value)
+		public override bool SetObject(NFGUID value)
 		{
-            NFIDENTID xData = (NFIDENTID)mxData.mData;
-
-            if (xData != value)
+            if (mxData.ObjectVal() != value)
             {
-                NFCDataList oldValue = new NFCDataList();
-                NFCDataList newValue = new NFCDataList();
+                NFIDataList.TData oldValue = new NFIDataList.TData(mxData);
+                NFIDataList.TData newValue = new NFIDataList.TData(NFIDataList.VARIANT_TYPE.VTYPE_OBJECT);
+                newValue.Set(value);
 
-                oldValue.SetObject(0, xData);
-                newValue.SetObject(0, value);
+                mxData.Set(value);
 
-                mxData.mData = value;
                 if (null != doHandleDel)
                 {
                     doHandleDel(mSelf, msPropertyName, oldValue, newValue);
@@ -232,11 +213,29 @@ namespace NFrame
 
         public override bool SetData(NFIDataList.TData x)
         {
-            if (NFIDataList.VARIANT_TYPE.VTYPE_UNKNOWN == mxData.nType
-                || x.nType == mxData.nType)
+            if (NFIDataList.VARIANT_TYPE.VTYPE_UNKNOWN == mxData.GetType()
+                || x.GetType() == mxData.GetType())
             {
-                mxData.nType = x.nType;
-                mxData.mData = x.mData;
+                switch (mxData.GetType())
+                {
+                    case NFIDataList.VARIANT_TYPE.VTYPE_INT:
+                        SetInt(x.IntVal());
+                        break;
+                    case NFIDataList.VARIANT_TYPE.VTYPE_STRING:
+                        SetString(x.StringVal());
+                        break;
+                    case NFIDataList.VARIANT_TYPE.VTYPE_FLOAT:
+                        SetFloat((float)x.DoubleVal());
+                        break;
+                    case NFIDataList.VARIANT_TYPE.VTYPE_DOUBLE:
+                        SetDouble(x.DoubleVal());
+                        break;
+                    case NFIDataList.VARIANT_TYPE.VTYPE_OBJECT:
+                        SetObject(x.ObjectVal());
+                        break;
+                    default:
+                        break;
+                }
 
                 return true;
             }
@@ -251,7 +250,7 @@ namespace NFrame
 
 		PropertyEventHandler doHandleDel;
 
-		NFIDENTID mSelf;
+		NFGUID mSelf;
 		string msPropertyName;
         NFIDataList.TData mxData;
     }

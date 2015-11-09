@@ -17,7 +17,7 @@ namespace NFrame
             Create,
         };
 
-		public delegate void RecordEventHandler(NFIDENTID self, string strRecordName, NFIRecord.eRecordOptype eType, int nRow, int nCol, NFIDataList oldVar, NFIDataList newVar);
+        public delegate void RecordEventHandler(NFGUID self, string strRecordName, NFIRecord.eRecordOptype eType, int nRow, int nCol, NFIDataList.TData oldVar, NFIDataList.TData newVar);
 		
 		public abstract bool IsUsed(int nRow);
 		public abstract int GetRows();
@@ -36,7 +36,7 @@ namespace NFrame
         public abstract bool SetFloat(int nRow, int nCol, float value);
         public abstract bool SetDouble(int nRow, int nCol, double value);
         public abstract bool SetString(int nRow, int nCol, string value);
-        public abstract bool SetObject(int nRow, int nCol, NFIDENTID value);
+        public abstract bool SetObject(int nRow, int nCol, NFGUID value);
 
         // query data
         public abstract NFIDataList QueryRow(int nRow);
@@ -46,7 +46,7 @@ namespace NFrame
         public abstract float QueryFloat(int nRow, int nCol);
         public abstract double QueryDouble(int nRow, int nCol);
         public abstract string QueryString(int nRow, int nCol);
-        public abstract NFIDENTID QueryObject(int nRow, int nCol);
+        public abstract NFGUID QueryObject(int nRow, int nCol);
 
         //public abstract int FindRow( int nRow );
         public abstract int FindColValue(int nCol, NFIDataList var);
@@ -55,7 +55,7 @@ namespace NFrame
         public abstract int FindFloat(int nCol, float value);
         public abstract int FindDouble(int nCol, double value);
         public abstract int FindString(int nCol, string value);
-        public abstract int FindObject(int nCol, NFIDENTID value);
+        public abstract int FindObject(int nCol, NFGUID value);
 
         public abstract bool Remove(int nRow);
         public abstract bool Clear();

@@ -13,21 +13,39 @@ namespace NFrame
 {
 	public class NFCHeartBeatManager : NFIHeartBeatManager
     {
-		public NFCHeartBeatManager(NFIDENTID self)
+		public NFCHeartBeatManager(NFGUID self)
 		{
 			mSelf = self;
             mhtHeartBeat = new Dictionary<string, NFIHeartBeat>();
 		}
 
-        public override void AddHeartBeat(string strHeartBeatName, float fTime, NFIHeartBeat.HeartBeatEventHandler handler, NFIDataList valueList)
+        public override void AddHeartBeat(string strHeartBeatName, float fTime, NFIHeartBeat.HeartBeatEventHandler handler)
 		{
 			if (!mhtHeartBeat.ContainsKey(strHeartBeatName))
 			{
-                NFIHeartBeat xHeartBeat = new NFCHeartBeat(mSelf, strHeartBeatName, fTime, valueList);
+                NFIHeartBeat xHeartBeat = new NFCHeartBeat(mSelf, strHeartBeatName, fTime);
                 mhtHeartBeat.Add(strHeartBeatName, xHeartBeat);
                 xHeartBeat.RegisterCallback(handler);
 			}
 		}
+
+        public override bool FindHeartBeat(string strHeartBeatName)
+        {
+            if (!mhtHeartBeat.ContainsKey(strHeartBeatName))
+            {
+                return true;
+            }
+
+            return false;
+        }
+        
+        public override void RemoveHeartBeat(string strHeartBeatName)
+        {
+            if (!mhtHeartBeat.ContainsKey(strHeartBeatName))
+            {
+                mhtHeartBeat.Remove(strHeartBeatName);
+            }
+        }
 
 		public override void Update(float fPassTime)
 		{
@@ -57,7 +75,7 @@ namespace NFrame
             }
 		}
 
-		NFIDENTID mSelf;
+		NFGUID mSelf;
         Dictionary<string, NFIHeartBeat> mhtHeartBeat;
     }
 }

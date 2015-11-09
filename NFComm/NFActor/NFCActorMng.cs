@@ -37,14 +37,14 @@ namespace NFrame
             mxScheduler = new NFCScheduler(this);
         }
 
-        public override NFIDENTID CreateActor()
+        public override NFGUID CreateActor()
         {
              return CreateActor(null);
         }
 
-        public override NFIDENTID CreateActor(NFIActor.Handler handler)
+        public override NFGUID CreateActor(NFIActor.Handler handler)
         {
-            NFIDENTID xID = new NFIDENTID(0, ++mnActorIndex);
+            NFGUID xID = new NFGUID(0, ++mnActorIndex);
             NFIActor xActor = new NFCActor(xID, this);
 
             //添加仍旧有问题，foreach中万一有其他线程添加
@@ -86,7 +86,7 @@ namespace NFrame
             }
         }
 
-        public override bool ReleaseActor(NFIDENTID xID)
+        public override bool ReleaseActor(NFGUID xID)
         {
             if (null == xID)
             {
@@ -102,7 +102,7 @@ namespace NFrame
             return true;
         }
 
-        public override bool RegisterHandler(NFIDENTID xID, NFIActor.Handler handler)
+        public override bool RegisterHandler(NFGUID xID, NFIActor.Handler handler)
         {
             if (null == xID || null == handler)
             {
@@ -121,7 +121,7 @@ namespace NFrame
         }
 
 
-        public override bool SendMsg(NFIDENTID address, NFIDENTID from, NFIActorMessage xMessage)
+        public override bool SendMsg(NFGUID address, NFGUID from, NFIActorMessage xMessage)
         {
             if (null == address || null == xMessage)
             {
@@ -142,7 +142,7 @@ namespace NFrame
             //调度，send的时候记录哪些有(异步)消息，然后这里统一调度过去
         }
 
-        public override NFIActor GetActor(NFIDENTID xID)
+        public override NFIActor GetActor(NFGUID xID)
         {
             if (null == xID)
             {
@@ -180,7 +180,7 @@ namespace NFrame
         }
         ///////////////////////////////////////////////////////
         private readonly NFIScheduler mxScheduler;
-        private readonly ConcurrentDictionary<NFIDENTID, NFIActor> mxActorDic = new ConcurrentDictionary<NFIDENTID, NFIActor>();
+        private readonly ConcurrentDictionary<NFGUID, NFIActor> mxActorDic = new ConcurrentDictionary<NFGUID, NFIActor>();
         private int mnActorIndex = 0;
     }
 }

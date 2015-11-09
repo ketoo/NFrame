@@ -13,7 +13,7 @@ namespace NFrame
 {
 	public class NFCRecordManager : NFIRecordManager
 	{
-		public NFCRecordManager(NFIDENTID ident)
+		public NFCRecordManager(NFGUID ident)
 		{
 			mSelf = ident;
             mhtRecord = new Dictionary<string, NFIRecord>();
@@ -59,7 +59,7 @@ namespace NFrame
 			return varData;
 		}
 		
-		NFIDENTID mSelf;
+		NFGUID mSelf;
         //Hashtable mhtRecord;
         Dictionary<string, NFIRecord> mhtRecord;
 	}

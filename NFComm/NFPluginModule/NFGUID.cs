@@ -6,30 +6,30 @@ using System.Text;
 
 namespace NFrame
 {
-    public class NFIDENTID : Object
+    public class NFGUID : Object
     {
         public Int64 nHead64;
         public Int64 nData64;
 
-        public NFIDENTID()
+        public NFGUID()
         {
             nHead64 = 0;
             nData64 = 0;
         }
 
-        public NFIDENTID(NFIDENTID id)
+        public NFGUID(NFGUID id)
         {
             nHead64 = id.nHead64;
             nData64 = id.nData64;
         }
 
-        public NFIDENTID(Int64 nHead, Int64 nData)
+        public NFGUID(Int64 nHead, Int64 nData)
         {
             nHead64 = nHead;
             nData64 = nData;
         }
 
-		public static bool operator == (NFIDENTID ident, NFIDENTID other)
+		public static bool operator == (NFGUID ident, NFGUID other)
 		{
             if (((object)ident == null) && ((object)other == null))
             {
@@ -44,14 +44,14 @@ namespace NFrame
             return ident.nHead64 == other.nHead64 && ident.nData64 == other.nData64;
 		}
 
-		public static bool operator != (NFIDENTID ident, NFIDENTID other)
+		public static bool operator != (NFGUID ident, NFGUID other)
 		{
             return !(ident == other);
 		}
 
         public override bool Equals(object other)
         {
-            return this == (NFIDENTID)other;
+            return this == (NFGUID)other;
         }
 
         public bool IsNull()
@@ -64,9 +64,9 @@ namespace NFrame
             return nHead64.ToString() + "-" + nData64.ToString();
         }
 
-        public bool Parse(string strData, out NFIDENTID id)
+        public bool Parse(string strData, out NFGUID id)
         {
-            NFIDENTID xId = new NFIDENTID();
+            NFGUID xId = new NFGUID();
             id = xId;
 
             string[] strList = strData.Split('-');
