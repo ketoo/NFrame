@@ -52,7 +52,7 @@
     <Compile Include="Interface\NFIEventManager.cs" />
     <Compile Include="Interface\NFIHeartBeat.cs" />
     <Compile Include="Interface\NFIHeartBeatManager.cs" />
-    <Compile Include="Interface\NFIKernel.cs" />
+    <Compile Include="Interface\NFIKernelModule.cs" />
     <Compile Include="Interface\NFILogicClass.cs" />
     <Compile Include="Interface\NFILogicClassModule.cs" />
     <Compile Include="Interface\NFIObject.cs" />
