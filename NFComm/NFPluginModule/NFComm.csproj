@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="NFBehaviour.cs" />
     <Compile Include="NFGUID.cs" />
+    <Compile Include="NFIComponent.cs" />
     <Compile Include="NFILogicModule.cs" />
     <Compile Include="NFIPlugin.cs" />
     <Compile Include="NFIPluginManager.cs" />

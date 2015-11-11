@@ -18,8 +18,6 @@ namespace NFrame
 	{
         public NFCLogicClass()
         {
-            mxPropertyManager = new NFCPropertyManager(new NFGUID());
-            mxRecordManager = new NFCRecordManager(new NFGUID());
         }
 
         public override NFIPropertyManager GetPropertyManager()
@@ -32,7 +30,7 @@ namespace NFrame
             return mxRecordManager;
         }
 
-        public override ArrayList GetConfigNameList()
+        public override List<string> GetConfigNameList()
         {
             return mxIntansList;
         }
@@ -77,9 +75,9 @@ namespace NFrame
 
 
         /////////////////////////////////////
-        private NFIPropertyManager mxPropertyManager;
-        private NFIRecordManager mxRecordManager;
-        private ArrayList mxIntansList = new ArrayList();
+        private NFIPropertyManager mxPropertyManager = new NFCPropertyManager(new NFGUID());
+        private NFIRecordManager mxRecordManager = new NFCRecordManager(new NFGUID());
+        private List<string> mxIntansList = new List<string>();
         private string mstrName;
         private string mstrPath;
         private string mstrInstance;

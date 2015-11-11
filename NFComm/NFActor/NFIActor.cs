@@ -41,7 +41,7 @@ namespace NFrame
         public bool AddComponent<T>()
         {
             Type xType = typeof(T);
-            if (xType.IsSubclassOf(typeof(NFBehaviour)))
+            if (xType.IsSubclassOf(typeof(NFIComponent)))
             {
                 return AddComponent(xType);
             }

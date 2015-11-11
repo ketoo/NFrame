@@ -18,33 +18,41 @@ namespace NFrame
         public abstract void UnInstall();
 
         public abstract string GetClassPath();
+        public abstract int GetAPPID();
+        public abstract int GetAPPType();
 
-//         public abstract bool AddModule(Type xType);
-//         public abstract NFBehaviour GetModule(Type xType);
-        Dictionary<string, NFILogicModule>  mhtObject = new Dictionary<string, NFILogicModule>();
+        public abstract NFILogicModule GetModule(string strClassName);
+        public abstract bool AddModule(string strClassName, NFILogicModule xModule);
 
-        public NFILogicModule GetModule(string strClassName)
-        {
-            return null;
-        }
+        //////////////////////////////////////////////////////////////////////
 
         public T GetModule<T>()
         {
+            Type xType = typeof(T);
+            if (xType.ToString().Contains("NFC"))
+            {
+                xType = xType.BaseType;
+            }
+
+            object xModule = GetModule(xType.ToString());
+            if(null != xModule)
+            {
+                return (T)(xModule);
+            }
+
             return default(T);
         }
 
         public bool AddModule(Type xType, NFILogicModule xModule)
         {
-            AddModule(xType.ToString(), xModule);
+            xModule.SetMng(this);
+
+            AddModule(xType.BaseType.ToString(), xModule);
 
             return false;
         }
 
-        public bool AddModule(string strClassName, NFILogicModule xModule)
-        {
-            
+        
 
-            return false;
-        }
     }
 }

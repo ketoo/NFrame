@@ -13,7 +13,7 @@ namespace NFrame
 	{
         public abstract NFIPropertyManager GetPropertyManager();
         public abstract NFIRecordManager GetRecordManager();
-        public abstract ArrayList GetConfigNameList();
+        public abstract List<string> GetConfigNameList();
         public abstract bool AddConfigName(string strConfigName);
 
         public abstract string GetName();

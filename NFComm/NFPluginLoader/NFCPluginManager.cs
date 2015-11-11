@@ -39,6 +39,16 @@ namespace NFrame
             return mstrClassPath;
         }
 
+        public override int GetAPPID()
+        {
+            return mnAPPID;
+        }
+
+        public override int GetAPPType()
+        {
+            return mnAPPType;
+        }
+
         public override void Install()
         {
             XmlDocument xmldoc = new XmlDocument();
@@ -56,15 +66,20 @@ namespace NFrame
                 mxDynLibDic.TryAdd(strLibName, xDynLib);
             }
 
+            ///////////////////////////////////////////////////////////
+
             XmlNode xAPPIDNode = xRoot.SelectSingleNode("APPID");
             XmlAttribute strAppID = xAPPIDNode.Attributes["Name"];
-            int nID = 0;
-            int.TryParse(strAppID.Value, out nID);
-            SetSelf(new NFGUID(nID, 0));
+            mnAPPID = int.Parse(strAppID.Value);
+            SetSelf(new NFGUID(mnAPPID, 0));
 
             XmlNode xClassPathNode = xRoot.SelectSingleNode("ClassPath");
             XmlAttribute strClassPathID = xClassPathNode.Attributes["Name"];
             mstrClassPath = strClassPathID.Value;
+
+            XmlNode xAPPTypeNode = xRoot.SelectSingleNode("APPType");
+            XmlAttribute strAPPType = xAPPTypeNode.Attributes["Name"];
+            mnAPPType = int.Parse(strAPPType.Value);
         }
 
         public override void UnInstall()
@@ -74,7 +89,7 @@ namespace NFrame
 
         public override void Init() 
         {
-            foreach(var x in mxDynLibDic)
+            foreach (var x in mhtObject)
             {
                 x.Value.Init();
             }
@@ -82,7 +97,7 @@ namespace NFrame
 
         public override void AfterInit() 
         {
-            foreach (var x in mxDynLibDic)
+            foreach (var x in mhtObject)
             {
                 x.Value.AfterInit();
             }
@@ -90,7 +105,7 @@ namespace NFrame
 
         public override void BeforeShut() 
         {
-            foreach (var x in mxDynLibDic)
+            foreach (var x in mhtObject)
             {
                 x.Value.BeforeShut();
             }
@@ -98,7 +113,7 @@ namespace NFrame
 
         public override void Shut() 
         {
-            foreach (var x in mxDynLibDic)
+            foreach (var x in mhtObject)
             {
                 x.Value.Shut();
             }
@@ -106,15 +121,37 @@ namespace NFrame
 
         public override void Execute() 
         {
-            foreach (var x in mxDynLibDic)
+            foreach (var x in mhtObject)
             {
                 x.Value.Execute();
             }
         }
 
+
+        /////////////////////////////////////////////////////////
+
+        public override NFILogicModule GetModule(string strClassName)
+        {
+            NFILogicModule xModule;
+            if (mhtObject.TryGetValue(strClassName, out xModule))
+            {
+                return xModule;
+            }
+
+            return null;
+        }
+
+        public override bool AddModule(string strClassName, NFILogicModule xModule)
+        {
+            return mhtObject.TryAdd(strClassName, xModule);
+        }
         /////////////////////////////////////////////////////////        
         private readonly ConcurrentDictionary<string, NFCDynLib> mxDynLibDic = new ConcurrentDictionary<string, NFCDynLib>();
         private readonly ConcurrentDictionary<string, NFBehaviour> mxPluginModule = new ConcurrentDictionary<string, NFBehaviour>();
+        private readonly ConcurrentDictionary<string, NFILogicModule> mhtObject = new ConcurrentDictionary<string, NFILogicModule>();
+
+        private int mnAPPID;
+        private int mnAPPType;
         private string mstrClassPath;
     }
 }

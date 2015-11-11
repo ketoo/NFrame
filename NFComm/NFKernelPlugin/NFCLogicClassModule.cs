@@ -17,15 +17,9 @@ namespace NFrame
     {
         public override void Init()
         {
-            
+            mstrPath = GetMng().GetClassPath();
+
             Load();
-        }
-
-
-        public override bool SetPath(string strPath)
-        {
-            mstrPath = strPath;
-            return true;
         }
 
         private bool Load()
@@ -35,7 +29,7 @@ namespace NFrame
             XmlDocument xmldoc = new XmlDocument();
             //string strLogicPath = mstrPath + "/Struct/LogicClass.NF";
 
-            string strLogicPath = "../../NFDataCfg/Struct/LogicClass.NF";
+            string strLogicPath = mstrPath + "/NFDataCfg/Struct/LogicClass.NF";
             ///////////////////////////////////////////////////////////////////////////////////////
             StreamReader cepherReader = new StreamReader(strLogicPath); ;
             string strContent = cepherReader.ReadToEnd();
@@ -58,11 +52,6 @@ namespace NFrame
             LoadLogicClassRecord();
             
 
-            return false;
-        }
-
-        public override bool Clear()
-        {
             return false;
         }
 
@@ -162,7 +151,7 @@ namespace NFrame
             NFILogicClass xLogicClass = GetElement(strName);
             if (null != xLogicClass)
             {
-                string strLogicPath = xLogicClass.GetPath();
+                string strLogicPath = mstrPath + xLogicClass.GetPath();
 
                 XmlDocument xmldoc = new XmlDocument();
 

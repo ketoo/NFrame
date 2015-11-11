@@ -22,7 +22,7 @@ namespace NFrame
 
         public override void Init()
         {
-            //mxLogicClassModule = GetMng().GetModule<NFILogicClassModule>();
+            mxLogicClassModule = GetMng().GetModule<NFILogicClassModule>();
         }
 
         public override void AfterInit()

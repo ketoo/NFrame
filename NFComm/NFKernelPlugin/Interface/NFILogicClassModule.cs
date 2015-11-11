@@ -8,15 +8,10 @@ namespace NFrame
 {
     public abstract class NFILogicClassModule : NFILogicModule
     {
-        public abstract bool Clear();
-        public abstract bool SetPath(string strPath);
-
         public abstract bool ExistElement(string strClassName);
-
         public abstract bool AddElement(string strClassName);
 
         public abstract NFILogicClass GetElement(string strClassName);
-
         public abstract Dictionary<string, NFILogicClass> GetElementList();
 
     }

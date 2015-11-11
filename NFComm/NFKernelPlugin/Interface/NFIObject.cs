@@ -29,7 +29,7 @@ namespace NFrame
         public abstract string ClassName();
         public abstract string ConfigIndex();
 
-        public abstract void AddHeartBeat(string strHeartBeatName, float fTime, NFIHeartBeat.HeartBeatEventHandler handler);
+        public abstract void AddHeartBeat(string strHeartBeatName, float fTime, int nCount, NFIHeartBeat.HeartBeatEventHandler handler);
         public abstract bool FindHeartBeat(string strHeartBeatName);
         public abstract void RemoveHeartBeat(string strHeartBeatName);
 
@@ -64,7 +64,8 @@ namespace NFrame
         public abstract NFGUID QueryRecordObject(string strRecordName, int nRow, int nCol);
 
         public abstract NFIRecordManager GetRecordManager();
-        public abstract NFIHeartBeatManager GetHeartBeatManager();
         public abstract NFIPropertyManager GetPropertyManager();
+        public abstract NFIHeartBeatManager GetHeartBeatManager();
+
     }
 }

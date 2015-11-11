@@ -68,7 +68,11 @@ namespace NFrame
 #if NF_CLIENT_FRAME
             mxLogicClassModule.AfterInit();
             mxElementModule.AfterInit();
+#else
+//             mxLogicClassModule = GetMng().GetModule
+//             mxElementModule = new NFCElementModule();
 #endif
+
         }
 
         public override void BeforeShut()
@@ -108,7 +112,7 @@ namespace NFrame
             NFIObject xGameObject = GetObject(self);
             if (null != xGameObject)
             {
-                xGameObject.GetHeartBeatManager().AddHeartBeat(strHeartBeatName, fTime, handler, nCount);
+                xGameObject.GetHeartBeatManager().AddHeartBeat(strHeartBeatName, fTime, nCount, handler);
             }
 			return true;
 		}
@@ -683,10 +687,9 @@ namespace NFrame
 
         private Dictionary<NFGUID, NFIObject> mhtObject;
         private Dictionary<string, ClassHandleDel> mhtClassHandleDel;
-#if NF_CLIENT_FRAME
         private NFIElementModule mxElementModule;
         private NFILogicClassModule mxLogicClassModule;
-#endif
+
         class ClassHandleDel
 		{
 			public ClassHandleDel()

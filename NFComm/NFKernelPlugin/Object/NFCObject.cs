@@ -59,9 +59,9 @@ namespace NFrame
             return;
         }
 
-        public override void AddHeartBeat(string strHeartBeatName, float fTime, NFIHeartBeat.HeartBeatEventHandler handler)
+        public override void AddHeartBeat(string strHeartBeatName, float fTime, int nCount, NFIHeartBeat.HeartBeatEventHandler handler)
         {
-            GetHeartBeatManager().AddHeartBeat(strHeartBeatName, fTime, handler);
+            GetHeartBeatManager().AddHeartBeat(strHeartBeatName, fTime, nCount, handler);
         }
 
         public override bool FindHeartBeat(string strHeartBeatName)
