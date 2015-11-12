@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NFCProxyServerNet_ServerModule.cs" />
+    <Compile Include="NFIProxyServerNet_ServerModule.cs" />
     <Compile Include="NFProxyServerPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -46,6 +48,14 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\NFComm\NFKernelPlugin\NFKernelPlugin.csproj">
+      <Project>{3c73f6be-f1ae-412a-ac32-fccd86498812}</Project>
+      <Name>NFKernelPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NFComm\NFNetPlugin\NFNetPlugin.csproj">
+      <Project>{d77fcab3-66a9-4929-86fe-b01d28aded6d}</Project>
+      <Name>NFNetPlugin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\NFComm\NFPluginModule\NFComm.csproj">
       <Project>{fafe0576-7d94-468c-b0fb-95c2c7f33dcd}</Project>
       <Name>NFComm</Name>
