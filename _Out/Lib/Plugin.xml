@@ -1,0 +1,7 @@
+<XML>
+	<Plugin Name="NFKernelPlugin.dll" Main="1"/>
+	<Plugin Name="NFMasterServerPlugin.dll" Main="1"/>
+	<APPID Name="6" />
+	<APPType Name="6" />
+	<ClassPath Name="../" />
+</XML>
