@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NFrame
 {
-    class NFIWorldServerNetModule : NFClusterClientModule
+    class NFIWorldServerNetModule : NFNetModule
     {
     }
 }

@@ -47,6 +47,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\NFComm\NFActor\NFActor.csproj">
+      <Project>{fc246931-d865-4bd4-9e5c-534fe796756d}</Project>
+      <Name>NFActor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NFComm\NFKernelPlugin\NFKernelPlugin.csproj">
+      <Project>{3c73f6be-f1ae-412a-ac32-fccd86498812}</Project>
+      <Name>NFKernelPlugin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\NFComm\NFMessageDefine\NFMessageDefine.csproj">
       <Project>{c28689aa-5575-420d-9aa7-c00531613ab8}</Project>
       <Name>NFMessageDefine</Name>

@@ -13,5 +13,55 @@ namespace NFrame
 {
     class NFCWorldServerNetModule : NFIWorldServerNetModule
     {
+        protected NFIKernelModule mxKernelModule;
+        protected NFILogicClassModule mxLogicClassModule;
+        protected NFIElementModule mxElementInfoModule;
+        protected NFIEventModule mxEventProcessModule;
+
+        public override void Init()
+        {
+        }
+
+        public override void Shut()
+        {
+        }
+
+        public override void Execute()
+        {
+
+        }
+
+        public override void AfterInit()
+        {
+            mxEventProcessModule = GetMng().GetModule<NFCEventModule>();
+            mxKernelModule = GetMng().GetModule<NFIKernelModule>();
+            mxLogicClassModule = GetMng().GetModule<NFILogicClassModule>();
+            mxElementInfoModule = GetMng().GetModule<NFIElementModule>();
+
+            NFILogicClass xLogicClass = mxLogicClassModule.GetElement("Server");
+            if (xLogicClass != null)
+            {
+                List<string> xNameList = xLogicClass.GetConfigNameList();
+
+                foreach (string strConfigName in xNameList)
+                {
+                    Int64 nServerType = mxElementInfoModule.QueryPropertyInt(strConfigName, "Type");
+                    Int64 nServerID = mxElementInfoModule.QueryPropertyInt(strConfigName, "ServerID");
+                    if (nServerType == (long)NFServer_def.NF_SERVER_TYPES.NF_ST_PROXY && GetMng().GetAPPID() == nServerID)
+                    {
+                        Int64 nPort = mxElementInfoModule.QueryPropertyInt(strConfigName, "Port");
+                        Int64 nMaxConnect = mxElementInfoModule.QueryPropertyInt(strConfigName, "MaxOnline");
+                        Int64 nCpus = mxElementInfoModule.QueryPropertyInt(strConfigName, "CpuCount");
+                        string strName = mxElementInfoModule.QueryPropertyString(strConfigName, "Name");
+                        string strIP = mxElementInfoModule.QueryPropertyString(strConfigName, "IP");
+
+                        //GetNetHandler().RegisterEventCallback(OnSocketEvent);
+                        //GetNetHandler().RegisterPackCallback(-1, OnRecivePack);
+
+                        Initialization(NFIMsgHead.NF_Head.NF_HEAD_LENGTH, (UInt32)nMaxConnect, (UInt16)nPort);
+                    }
+                }
+            }
+        }
     }
 }

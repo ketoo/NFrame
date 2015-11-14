@@ -26,21 +26,19 @@ namespace NFrame
         {
             public ConnectObjectData()
             {
-
             }
 
             public float fMaxReconnectTime;//重连时间
             public DateTime xNextTriggerTime = new DateTime();//下次重连时间
 
-            public Int32 nServerID;
-            public Int32 mnServerType;
+            public long nServerID;
+            public NFServer_def.NF_SERVER_TYPES meServerType;
             public string mstrIP;
             public string mstrDns;
             public string mstrAuth;
 
-            public Int32 mnPort;
-            public Int32 mnState;
-            public Int32 mnAreaID;
+            public long mnPort;
+            public long mnAreaID;
             public NFNetModule xNetModule;
             public NFClusterClientModule.ClusterClientState eState;
         }
@@ -87,7 +85,7 @@ namespace NFrame
             }
         }
 
-        void AddNetInfo(ConnectObjectData xData)
+        public void AddNetInfo(ConnectObjectData xData)
         {
             if(null == xData)
             {
@@ -105,6 +103,6 @@ namespace NFrame
         }
 
         private readonly NFNetHandler mxNetHandler = new NFNetHandler();
-        private readonly Dictionary<Int32, ConnectObjectData> mxNetDic = new Dictionary<int,ConnectObjectData>();
+        private readonly Dictionary<long, ConnectObjectData> mxNetDic = new Dictionary<long, ConnectObjectData>();
     }
 }

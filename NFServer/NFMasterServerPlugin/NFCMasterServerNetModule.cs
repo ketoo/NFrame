@@ -68,19 +68,10 @@ namespace NFrame
         {
         }
 
-        protected void OnSocketEvent(UInt32 nSockIndex, NFINet.NF_NET_EVENT eEvent, NFINet pNet)
-        {
-
-        }
-
-        protected void OnRecivePack(NFIPacket msg)
-        {
-
-        }
         //世界服务器注册，刷新信息
         protected void OnWorldRegisteredProcess(NFIPacket msg)
-            {
-            }
+        {
+        }
 	    protected void OnWorldUnRegisteredProcess(NFIPacket msg)
         {
 

@@ -18,11 +18,6 @@ namespace NFrame
         protected NFIElementModule mxElementInfoModule;
         protected NFIEventModule mxEventProcessModule;
 
-        public NFCProxyServerNet_ServerModule(NFIPluginManager p)
-        {
-            SetMng(p);
-        }
-
         public override void Init()
         {
         }
@@ -56,14 +51,14 @@ namespace NFrame
                     Int64 nServerID = mxElementInfoModule.QueryPropertyInt(strConfigName, "ServerID");
                     if (nServerType == (long)NFServer_def.NF_SERVER_TYPES.NF_ST_PROXY && GetMng().GetAPPID() == nServerID)
                     {
-                        Int64 nPort = mxElementInfoModule.QueryPropertyInt(strConfigName, "Port");
-                        Int64 nMaxConnect = mxElementInfoModule.QueryPropertyInt(strConfigName, "MaxOnline");
-                        Int64 nCpus = mxElementInfoModule.QueryPropertyInt(strConfigName, "CpuCount");
+                        long nPort = mxElementInfoModule.QueryPropertyInt(strConfigName, "Port");
+                        long nMaxConnect = mxElementInfoModule.QueryPropertyInt(strConfigName, "MaxOnline");
+                        long nCpus = mxElementInfoModule.QueryPropertyInt(strConfigName, "CpuCount");
                         string strName = mxElementInfoModule.QueryPropertyString(strConfigName, "Name");
                         string strIP = mxElementInfoModule.QueryPropertyString(strConfigName, "IP");
 
-                        GetNetHandler().RegisterEventCallback(OnSocketEvent);
-                        GetNetHandler().RegisterPackCallback(-1, OnRecivePack);
+                        //GetNetHandler().RegisterEventCallback(OnSocketEvent);
+                        //GetNetHandler().RegisterPackCallback(-1, OnRecivePack);
 
                         Initialization(NFIMsgHead.NF_Head.NF_HEAD_LENGTH, (UInt32)nMaxConnect, (UInt16)nPort);
                     }
@@ -135,15 +130,6 @@ namespace NFrame
         protected int HB_OnConnectCheckTime(NFGUID self, string strHeartBeat, float fTime, int nCount, NFIDataList var)
         {
             return 0;
-        }
-
-        protected void OnSocketEvent(UInt32 nSockIndex, NFINet.NF_NET_EVENT eEvent, NFINet pNet)
-        {
-
-        }
-        protected void OnRecivePack(NFIPacket msg)
-        {
-
         }
     }
 }
