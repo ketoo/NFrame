@@ -62,8 +62,10 @@ namespace NFrame
                         string strName = mxElementInfoModule.QueryPropertyString(strConfigName, "Name");
                         string strIP = mxElementInfoModule.QueryPropertyString(strConfigName, "IP");
 
+                        GetNetHandler().RegisterEventCallback(OnSocketEvent);
+                        GetNetHandler().RegisterPackCallback(-1, OnRecivePack);
 
-                        Initialization(NFIMsgHead.NF_Head.NF_HEAD_LENGTH, OnSocketEvent, OnRecivePack, (UInt32)nMaxConnect, (UInt16)nPort);
+                        Initialization(NFIMsgHead.NF_Head.NF_HEAD_LENGTH, (UInt32)nMaxConnect, (UInt16)nPort);
                     }
                 }
             }

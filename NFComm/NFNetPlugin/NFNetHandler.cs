@@ -13,11 +13,11 @@ namespace NFrame
 {
     public class NFNetHandler : NFILogicModule
     {
-        public void RegisterNetEventCallback(NFGUID self, NFINet.OnSocketEvent xEventHandler)
+        public void RegisterEventCallback(NFINet.OnSocketEvent xEventHandler)
         {
 
         }
-        public void RegisterNetPackCallback(NFINet.OnRecivePack xEventHandler)
+        public void RegisterPackCallback(int nMsgdID, NFINet.OnRecivePack xEventHandler)
         {
 
         }

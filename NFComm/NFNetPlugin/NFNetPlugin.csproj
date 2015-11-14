@@ -43,6 +43,7 @@
     <Compile Include="NFCNet.cs" />
     <Compile Include="NFCPacket.cs" />
     <Compile Include="NFINet.cs" />
+    <Compile Include="NFNetHandler.cs" />
     <Compile Include="NFNetModule.cs" />
     <Compile Include="NFIPacket.cs" />
     <Compile Include="NFNetPlugin.cs" />

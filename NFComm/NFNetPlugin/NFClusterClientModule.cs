@@ -45,6 +45,11 @@ namespace NFrame
             public NFClusterClientModule.ClusterClientState eState;
         }
 
+
+        public NFNetHandler GetNetHandler()
+        {
+            return mxNetHandler;
+        }
         public override void Execute()
         {
             foreach(var kv in mxNetDic)
@@ -99,7 +104,7 @@ namespace NFrame
             mxNetDic.Add(xData.nServerID, xData);
         }
 
-
+        private readonly NFNetHandler mxNetHandler = new NFNetHandler();
         private readonly Dictionary<Int32, ConnectObjectData> mxNetDic = new Dictionary<int,ConnectObjectData>();
     }
 }
