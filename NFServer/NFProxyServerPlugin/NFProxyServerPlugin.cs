@@ -15,6 +15,9 @@ namespace NFrame
     {
         public NFProxyServerPlugin()
         {
+            CreateModule<NFCProxyServerNet_ServerModule>();
+            CreateModule<NFCProxyToGameModule>();
+            CreateModule<NFCProxyToWorldModule>();
         }
     }
 }

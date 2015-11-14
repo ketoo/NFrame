@@ -39,7 +39,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NFCMasterServerModule.cs" />
     <Compile Include="NFCMasterServerNetModule.cs" />
     <Compile Include="NFIMasterServerNetModule.cs" />
     <Compile Include="NFMasterServerPlugin.cs" />

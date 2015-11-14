@@ -15,7 +15,7 @@ namespace NFrame
     {
         public NFMasterServerPlugin()
         {
-
+            CreateModule<NFCMasterServerNetModule>();
         }
     }
 }

@@ -15,6 +15,8 @@ namespace NFrame
     {
         public NFGameServerPlugin()
         {
+            CreateModule<NFCGameToWorldModule>();
+            CreateModule<NFCGameServerNetModule>();
         }
     }
 }

@@ -15,6 +15,7 @@ namespace NFrame
     {
         public NFLoginServerPlugin()
         {
+            CreateModule<NFCLoginServerNetModule>();
         }
 
     }
