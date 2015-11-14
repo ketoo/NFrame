@@ -22,7 +22,7 @@ namespace NFrame
         }
 
         public delegate void OnSocketEvent(UInt32 nSockIndex, NFINet.NF_NET_EVENT eEvent, NFINet pNet);
-        public delegate void OnRecivePack(NFIPacket msg);
+        public delegate void OnRecivePack(NFIPacket msg, NFINet pNet);
 
         public abstract int Initialization(string strIP, UInt16 nPort);
         public abstract int Initialization(UInt32 nMaxClient, UInt16 nPort);

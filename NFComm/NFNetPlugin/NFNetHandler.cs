@@ -15,11 +15,41 @@ namespace NFrame
     {
         public void RegisterEventCallback(NFINet.OnSocketEvent xEventHandler)
         {
-
+            mxEventHandlerList.Add(xEventHandler);
         }
         public void RegisterPackCallback(int nMsgdID, NFINet.OnRecivePack xEventHandler)
         {
+            List<NFINet.OnRecivePack> xList;
+            if(!mxPackHandlerDic.TryGetValue(nMsgdID, out xList))
+            {
+                xList = new List<NFINet.OnRecivePack>();
+            }
 
+            xList.Add(xEventHandler);
         }
+
+        public void OnSocketEvent(UInt32 nSockIndex, NFINet.NF_NET_EVENT eEvent, NFINet pNet)
+        {
+            foreach(NFINet.OnSocketEvent handler in mxEventHandlerList)
+            {
+                handler(nSockIndex, eEvent, pNet);
+            }
+        }
+
+        public void OnRecivePack(NFIPacket msg, NFINet pNet)
+        {
+            int nMsgID = msg.GetMsgID();
+            List<NFINet.OnRecivePack> xList;
+            if(mxPackHandlerDic.TryGetValue(nMsgID, out xList))
+            {
+                foreach (NFINet.OnRecivePack handler in xList)
+                {
+                    handler(msg, pNet);
+                }
+            }
+        }
+
+        private readonly Dictionary<int, List<NFINet.OnRecivePack>> mxPackHandlerDic = new Dictionary<int, List<NFINet.OnRecivePack>>();
+        private readonly List<NFINet.OnSocketEvent> mxEventHandlerList = new List<NFINet.OnSocketEvent>();
     }
 }

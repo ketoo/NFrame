@@ -40,6 +40,8 @@ namespace NFrame
         abstract public byte[] GetData();
         abstract public Int64 GetFd();
         abstract public void SetFd(Int64 nFd);
+        abstract public int GetMsgID();
+        abstract public void SetMsgID(Int64 nFd);
     }
 
 }

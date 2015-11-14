@@ -26,7 +26,15 @@ namespace NFrame
             return 0;
         }
 
-        private readonly NFNetHandler mxNetHandler = new NFNetHandler();
+        protected void OnSocketEvent(UInt32 nSockIndex, NFINet.NF_NET_EVENT eEvent, NFINet pNet)
+        {
+            GetNetHandler().OnSocketEvent(nSockIndex, eEvent, pNet);
+        }
+        protected void OnRecivePack(NFIPacket msg, NFINet pNet)
+        {
+            GetNetHandler().OnRecivePack(msg, pNet);
+        }
 
+        private readonly NFNetHandler mxNetHandler = new NFNetHandler();
     }
 }
