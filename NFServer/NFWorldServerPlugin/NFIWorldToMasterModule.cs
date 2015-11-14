@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="NFWorldServerPlugin.cs">
+// <copyright file="NFIWorldToMasterModule.cs">
 //     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFrame>
 // </copyright>
 //-----------------------------------------------------------------------
@@ -11,12 +11,7 @@ using System.Threading.Tasks;
 
 namespace NFrame
 {
-    public class NFWorldServerPlugin : NFIPlugin
+    class NFIWorldToMasterModule : NFClusterClientModule
     {
-        public NFWorldServerPlugin()
-        {
-            CreateModule<NFCWorldToMasterModule>();
-            CreateModule<NFCWorldServerNetModule>();
-        }
     }
 }
