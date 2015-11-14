@@ -132,6 +132,12 @@ namespace NFrame
         //世界服务器注册，刷新信息
         protected void OnWorldRegisteredProcess(NFIPacket msg)
         {
+            NFMsg.MsgBase xMsg = new NFMsg.MsgBase();
+            xMsg = Serializer.Deserialize<NFMsg.MsgBase>(stream);
+
+            NFMsg.ServerInfoReportList xMsg = new NFMsg.ServerInfoReportList();
+            msg.GetData
+
         }
 	    protected void OnWorldUnRegisteredProcess(NFIPacket msg)
         {
