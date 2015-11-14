@@ -21,5 +21,13 @@ namespace NFrame
         {
             return 0;
         }
+        public void RegisterNetEventCallback(NFGUID self, NFINet.OnSocketEvent xEventHandler)
+        {
+            
+        }
+        public void RegisterNetPackCallback(NFGUID self, NFINet.OnRecivePack xEventHandler)
+        {
+
+        }
     }
 }

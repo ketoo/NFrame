@@ -65,13 +65,57 @@ namespace NFrame
         public override void Execute()
         {
         }
+
         protected void OnSocketEvent(UInt32 nSockIndex, NFINet.NF_NET_EVENT eEvent, NFINet pNet)
         {
 
         }
+
         protected void OnRecivePack(NFIPacket msg)
         {
 
         }
+        //世界服务器注册，刷新信息
+        protected void OnWorldRegisteredProcess(NFIPacket msg)
+            {
+            }
+	    protected void OnWorldUnRegisteredProcess(NFIPacket msg)
+        {
+
+        }
+        protected void OnRefreshWorldInfoProcess(NFIPacket msg)
+        {
+
+        }
+
+        //////////////////////////////////////////////////////////////////////////
+        //登录服务器注册，刷新信息
+        protected void OnLoginRegisteredProcess(NFIPacket msg)
+        {
+
+        }
+        protected void OnLoginUnRegisteredProcess(NFIPacket msg)
+        {
+
+        }
+        protected void OnRefreshLoginInfoProcess(NFIPacket msg)
+        {
+
+        }
+
+        //选择世界服务器消息
+        protected void OnSelectWorldProcess(NFIPacket msg)
+        {
+
+        }
+        protected void OnSelectServerResultProcess(NFIPacket msg)
+        {
+
+        }
+
+        //////////////////////////////////////////////////////////////////////////
+
+        protected void SynWorldToLogin()
+        { }
     }
 }

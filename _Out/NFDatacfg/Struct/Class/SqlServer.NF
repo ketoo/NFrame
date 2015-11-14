@@ -1,1 +1,15 @@
-PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pg0KPFhNTD4NCiAgPFByb3BlcnR5cz4NCiAgICA8UHJvcGVydHkgSWQ9IlNlcnZlcklEIiBUeXBlPSJpbnQiIFB1YmxpYz0iMSIgUHJpdmF0ZT0iMCIgU2F2ZT0iMCIgVmlldz0iMSIgSW5kZXg9IjAiIFNhdmVJbnRlcnZhbD0iMCIgUmVsYXRpb25WYWx1ZT0iRnJpZW5kIiBEZXNjPSIiIC8+DQogICAgPFByb3BlcnR5IElkPSJJUCIgVHlwZT0ic3RyaW5nIiBQdWJsaWM9IjEiIFByaXZhdGU9IjAiIFNhdmU9IjAiIFZpZXc9IjEiIEluZGV4PSIwIiBTYXZlSW50ZXJ2YWw9IjAiIFJlbGF0aW9uVmFsdWU9IkZyaWVuZCIgRGVzYz0iIiAvPg0KICAgIDxQcm9wZXJ0eSBJZD0iUG9ydCIgVHlwZT0iaW50IiBQdWJsaWM9IjEiIFByaXZhdGU9IjAiIFNhdmU9IjAiIFZpZXc9IjEiIEluZGV4PSIwIiBTYXZlSW50ZXJ2YWw9IjAiIFJlbGF0aW9uVmFsdWU9IkZyaWVuZCIgRGVzYz0iIiAvPg0KICAgIDxQcm9wZXJ0eSBJZD0iU3FsSVAiIFR5cGU9InN0cmluZyIgUHVibGljPSIxIiBQcml2YXRlPSIwIiBTYXZlPSIwIiBWaWV3PSIxIiBJbmRleD0iMCIgU2F2ZUludGVydmFsPSIwIiBSZWxhdGlvblZhbHVlPSJGcmllbmQiIERlc2M9IiIgLz4NCiAgICA8UHJvcGVydHkgSWQ9IlNxbFBvcnQiIFR5cGU9ImludCIgUHVibGljPSIxIiBQcml2YXRlPSIwIiBTYXZlPSIwIiBWaWV3PSIxIiBJbmRleD0iMCIgU2F2ZUludGVydmFsPSIwIiBSZWxhdGlvblZhbHVlPSJGcmllbmQiIERlc2M9IiIgLz4NCiAgICA8UHJvcGVydHkgSWQ9IlNxbFVzZXIiIFR5cGU9InN0cmluZyIgUHVibGljPSIxIiBQcml2YXRlPSIwIiBTYXZlPSIwIiBWaWV3PSIxIiBJbmRleD0iMCIgU2F2ZUludGVydmFsPSIwIiBSZWxhdGlvblZhbHVlPSJGcmllbmQiIERlc2M9IiIgLz4NCiAgICA8UHJvcGVydHkgSWQ9IlNxbFB3ZCIgVHlwZT0ic3RyaW5nIiBQdWJsaWM9IjEiIFByaXZhdGU9IjAiIFNhdmU9IjAiIFZpZXc9IjEiIEluZGV4PSIwIiBTYXZlSW50ZXJ2YWw9IjAiIFJlbGF0aW9uVmFsdWU9IkZyaWVuZCIgRGVzYz0iIiAvPg0KICAgIDxQcm9wZXJ0eSBJZD0iU3FsTmFtZSIgVHlwZT0ic3RyaW5nIiBQdWJsaWM9IjEiIFByaXZhdGU9IjAiIFNhdmU9IjAiIFZpZXc9IjEiIEluZGV4PSIwIiBTYXZlSW50ZXJ2YWw9IjAiIFJlbGF0aW9uVmFsdWU9IkZyaWVuZCIgRGVzYz0iIiAvPg0KICA8L1Byb3BlcnR5cz4NCiAgPFJlY29yZHMgLz4NCiAgPENvbXBvbmVudHMgLz4NCjwvWE1MPg==
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<XML>
+  <Propertys>
+    <Property Id="ServerID" Type="int" Public="1" Private="0" Save="0" View="1" Index="0" SaveInterval="0" RelationValue="Friend" Desc="" />
+    <Property Id="IP" Type="string" Public="1" Private="0" Save="0" View="1" Index="0" SaveInterval="0" RelationValue="Friend" Desc="" />
+    <Property Id="Port" Type="int" Public="1" Private="0" Save="0" View="1" Index="0" SaveInterval="0" RelationValue="Friend" Desc="" />
+    <Property Id="SqlIP" Type="string" Public="1" Private="0" Save="0" View="1" Index="0" SaveInterval="0" RelationValue="Friend" Desc="" />
+    <Property Id="SqlPort" Type="int" Public="1" Private="0" Save="0" View="1" Index="0" SaveInterval="0" RelationValue="Friend" Desc="" />
+    <Property Id="SqlUser" Type="string" Public="1" Private="0" Save="0" View="1" Index="0" SaveInterval="0" RelationValue="Friend" Desc="" />
+    <Property Id="SqlPwd" Type="string" Public="1" Private="0" Save="0" View="1" Index="0" SaveInterval="0" RelationValue="Friend" Desc="" />
+    <Property Id="SqlName" Type="string" Public="1" Private="0" Save="0" View="1" Index="0" SaveInterval="0" RelationValue="Friend" Desc="" />
+  </Propertys>
+  <Records />
+  <Components />
+</XML>
