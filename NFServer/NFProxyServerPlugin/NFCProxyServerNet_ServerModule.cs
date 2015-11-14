@@ -8,9 +8,17 @@ namespace NFrame
 {
     class NFCProxyServerNet_ServerModule : NFIProxyServerNet_ServerModule
     {
-        protected NFILogicModule m_pLogicClassModule;
+        protected NFILogicClassModule m_pLogicClassModule;
 
         protected Dictionary<NFGUID, int> mxClientIdent;
+
+        //NFIProxyServerToWorldModule* m_pProxyToWorldModule;
+        //NFIProxyServerToGameModule* m_pProxyServerToGameModule;
+        protected NFIKernelModule m_pKernelModule;
+        //protected NFILogModule* m_pLogModule;
+        protected NFCElementModule m_pElementInfoModule;
+        protected NFCEventModule m_pEventProcessModule;
+        protected NFGUID m_pUUIDModule;
 
         public NFCProxyServerNet_ServerModule(NFIPluginManager p)
         {
@@ -40,7 +48,43 @@ namespace NFrame
 
         }
 
-        public override void AfterInit() { }
+        public override void AfterInit()
+        {
+                m_pEventProcessModule = GetMng().GetModule<NFCEventModule>();
+                m_pKernelModule = GetMng().GetModule<NFIKernelModule>();
+
+                m_pLogicClassModule = GetMng().GetModule<NFILogicClassModule>();
+                //m_pProxyServerToGameModule = dynamic_cast<NFIProxyServerToGameModule*>(pPluginManager->FindModule("NFCProxyServerToGameModule"));
+                //m_pProxyToWorldModule = dynamic_cast<NFIProxyServerToWorldModule*>(pPluginManager->FindModule("NFCProxyServerToWorldModule"));
+                //m_pLogModule = dynamic_cast<NFILogModule*>(pPluginManager->FindModule("NFCLogModule"));
+                m_pElementInfoModule = GetMng().GetModule<NFCElementModule>();
+                //m_pUUIDModule = GetMng().GetModule<NFGUID>();
+
+                NFILogicClass xLogicClass = m_pLogicClassModule.GetElement("Server");
+                if (xLogicClass != null)
+                {
+                    List<string> xNameList = xLogicClass.GetConfigNameList();
+                    
+                    foreach(string strConfigName in xNameList)
+                    {
+                        Int64 nServerType = m_pElementInfoModule.QueryPropertyInt(strConfigName, "Type");
+                        Int64 nServerID = m_pElementInfoModule.QueryPropertyInt(strConfigName, "ServerID");
+                        if (nServerType == (Int64)NFrame.NFServer_def.NF_SERVER_TYPES.NF_ST_PROXY && GetMng().GetAPPID() == nServerID)
+                        {
+                            Int64 nPort = m_pElementInfoModule.QueryPropertyInt(strConfigName, "Port");
+                            Int64 nMaxConnect = m_pElementInfoModule.QueryPropertyInt(strConfigName, "MaxOnline");
+                            Int64 nCpus = m_pElementInfoModule.QueryPropertyInt(strConfigName, "CpuCount");
+                            string strName = m_pElementInfoModule.QueryPropertyString(strConfigName, "Name");
+                            string strIP = m_pElementInfoModule.QueryPropertyString(strConfigName, "IP");
+
+                            //m_pUUIDModule = nServerID;
+
+                            //Initialization(NFIMsgHead::NF_Head::NF_HEAD_LENGTH, this, &NFCProxyServerNet_ServerModule::OnReciveClientPack, &NFCProxyServerNet_ServerModule::OnSocketClientEvent, nMaxConnect, nPort, nCpus);
+                        }
+                    }
+                }
+            
+        }
 
         //public override LogRecive(string str){}
 

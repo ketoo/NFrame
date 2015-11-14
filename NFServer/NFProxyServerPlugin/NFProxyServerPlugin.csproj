@@ -52,6 +52,10 @@
       <Project>{3c73f6be-f1ae-412a-ac32-fccd86498812}</Project>
       <Name>NFKernelPlugin</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\NFComm\NFMessageDefine\NFMessageDefine.csproj">
+      <Project>{c28689aa-5575-420d-9aa7-c00531613ab8}</Project>
+      <Name>NFMessageDefine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\NFComm\NFNetPlugin\NFNetPlugin.csproj">
       <Project>{d77fcab3-66a9-4929-86fe-b01d28aded6d}</Project>
       <Name>NFNetPlugin</Name>
