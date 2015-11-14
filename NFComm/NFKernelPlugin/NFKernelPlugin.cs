@@ -13,21 +13,20 @@ namespace NFrame
 {
 	public class NFKernelPlugin : NFIPlugin
 	{
-        public NFKernelPlugin()
-        {
-
-        }
-
-        public override void Install() 
+        public override void Init()
         {
             CreateModule<NFCLogicClassModule>();
             CreateModule<NFCElementModule>();
             CreateModule<NFCKernelModule>();
         }
 
-        public override void UnInstall()
-        {
+        public override void AfterInit() { }
 
-        }
+        public override void BeforeShut() { }
+
+        public override void Shut() { }
+
+        public override void Execute() { }
+
     }
 }

@@ -29,58 +29,70 @@ namespace NFrame
             xPlugin = Activator.CreateInstance(xType) as NFIPlugin;
             xPlugin.SetMng(xMng);
 
-            xPlugin.Install();
-
+            //xPlugin.Install();
+            xPlugin.Init();
+            xPlugin.AfterInit();
         }
 
         ~NFCDynLib()
         {
-            xPlugin.UnInstall();
+            //xPlugin.UnInstall();
+            xPlugin.BeforeShut();
+            xPlugin.Shut();
         }
 
         public override void Init()
         {
-            MethodInfo xMethod = xType.GetMethod("Init");
-            if (xMethod != null)  
-            {
-                xMethod.Invoke(xPlugin, null);  
-            }
+            xPlugin.Init();
+            //MethodInfo xMethod = xType.GetMethod("Init");
+            //if (xMethod != null)  
+            //{
+            //    xMethod.Invoke(xPlugin, null);  
+            //}
         }
 
         public override void AfterInit()
         {
-            MethodInfo xMethod = xType.GetMethod("AfterInit");
-            if (xMethod != null)
-            {
-                xMethod.Invoke(xPlugin, null);
-            }
+            xPlugin.AfterInit();
+
+            //MethodInfo xMethod = xType.GetMethod("AfterInit");
+            //if (xMethod != null)
+            //{
+            //    xMethod.Invoke(xPlugin, null);
+            //}
         }
 
         public override void BeforeShut()
         {
-            MethodInfo xMethod = xType.GetMethod("BeforeShut");
-            if (xMethod != null)
-            {
-                xMethod.Invoke(xPlugin, null);
-            }
+            xPlugin.BeforeShut();
+
+            //MethodInfo xMethod = xType.GetMethod("BeforeShut");
+            //if (xMethod != null)
+            //{
+            //    xMethod.Invoke(xPlugin, null);
+            //}
         }
 
         public override void Shut()
         {
-            MethodInfo xMethod = xType.GetMethod("Shut");
-            if (xMethod != null)
-            {
-                xMethod.Invoke(xPlugin, null);
-            }
+            xPlugin.Shut();
+
+            //MethodInfo xMethod = xType.GetMethod("Shut");
+            //if (xMethod != null)
+            //{
+            //    xMethod.Invoke(xPlugin, null);
+            //}
         }
 
         public override void Execute()
         {
-            MethodInfo xMethod = xType.GetMethod("Execute");
-            if (xMethod != null)
-            {
-                xMethod.Invoke(xPlugin, null);
-            }
+            xPlugin.Execute();
+
+            //MethodInfo xMethod = xType.GetMethod("Execute");
+            //if (xMethod != null)
+            //{
+            //    xMethod.Invoke(xPlugin, null);
+            //}
         }
 
         private string mstrLibName = "";

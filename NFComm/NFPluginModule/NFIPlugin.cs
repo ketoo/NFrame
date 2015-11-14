@@ -13,10 +13,6 @@ namespace NFrame
 {
     public class NFIPlugin : NFILogicModule
     {
-        public virtual void Install(){}
-        public virtual void UnInstall(){}
-
-
         public bool CreateModule<T>()
         {
             Type xType = typeof(T);

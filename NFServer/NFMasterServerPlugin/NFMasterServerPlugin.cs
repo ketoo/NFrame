@@ -13,9 +13,17 @@ namespace NFrame
 {
     public class NFMasterServerPlugin : NFIPlugin
     {
-        public NFMasterServerPlugin()
+        public override void Init()
         {
             CreateModule<NFCMasterServerNetModule>();
         }
+
+        public override void AfterInit() { }
+
+        public override void BeforeShut() { }
+
+        public override void Shut() { }
+
+        public override void Execute() { }
     }
 }
