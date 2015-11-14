@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NFrame
 {
-    public abstract class NFIProxyServerNet_ServerModule : NFINetModule
+    public abstract class NFIProxyServerNet_ServerModule : NFNetModule
     {
 
         public abstract int Transpond(NFIPacket msg);

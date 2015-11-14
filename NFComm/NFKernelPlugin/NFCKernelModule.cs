@@ -69,8 +69,8 @@ namespace NFrame
             mxLogicClassModule.AfterInit();
             mxElementModule.AfterInit();
 #else
-//             mxLogicClassModule = GetMng().GetModule
-//             mxElementModule = new NFCElementModule();
+            mxLogicClassModule = GetMng().GetModule<NFILogicClassModule>();
+            mxElementModule = GetMng().GetModule<NFIElementModule>();
 #endif
 
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NFrame
 {
-    public abstract class NFServer_def
+    public class NFServer_def
     {
         public enum NF_SERVER_TYPES
         {

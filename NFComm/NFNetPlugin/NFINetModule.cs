@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="NFINetModule.cs">
+// <copyright file="NFNetModule.cs">
 //     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFrame>
 // </copyright>
 //-----------------------------------------------------------------------
@@ -11,9 +11,15 @@ using System.Threading.Tasks;
 
 namespace NFrame
 {
-    public abstract class NFINetModule : NFILogicModule
+    public class NFNetModule : NFILogicModule
     {
-        public abstract int Initialization(NFIMsgHead.NF_Head nHeadLength, NFINet.OnSocketEvent xEventHandler, NFINet.OnRecivePack xPackHandler, string strIP, UInt16 nPort);
-        public abstract int Initialization(NFIMsgHead.NF_Head nHeadLength, NFINet.OnSocketEvent xEventHandler, NFINet.OnRecivePack xPackHandler, UInt32 nMaxClient, UInt16 nPort);
+        public int Initialization(NFIMsgHead.NF_Head nHeadLength, NFINet.OnSocketEvent xEventHandler, NFINet.OnRecivePack xPackHandler, string strIP, UInt16 nPort)
+        {
+            return 0;
+        }
+        public int Initialization(NFIMsgHead.NF_Head nHeadLength, NFINet.OnSocketEvent xEventHandler, NFINet.OnRecivePack xPackHandler, UInt32 nMaxClient, UInt16 nPort)
+        {
+            return 0;
+        }
     }
 }

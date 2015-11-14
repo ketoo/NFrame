@@ -41,7 +41,7 @@ namespace NFrame
             public Int32 mnPort;
             public Int32 mnState;
             public Int32 mnAreaID;
-            public NFINetModule xNetModule;
+            public NFNetModule xNetModule;
             public NFClusterClientModule.ClusterClientState eState;
         }
 

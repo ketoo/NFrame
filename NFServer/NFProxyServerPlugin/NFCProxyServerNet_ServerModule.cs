@@ -8,31 +8,19 @@ namespace NFrame
 {
     class NFCProxyServerNet_ServerModule : NFIProxyServerNet_ServerModule
     {
-        protected NFILogicClassModule m_pLogicClassModule;
 
-        protected Dictionary<NFGUID, int> mxClientIdent;
+        protected readonly Dictionary<NFGUID, int> mxClientIdent = new Dictionary<NFGUID, int>();
 
-        //NFIProxyServerToWorldModule* m_pProxyToWorldModule;
-        //NFIProxyServerToGameModule* m_pProxyServerToGameModule;
-        protected NFIKernelModule m_pKernelModule;
-        //protected NFILogModule* m_pLogModule;
-        protected NFCElementModule m_pElementInfoModule;
-        protected NFCEventModule m_pEventProcessModule;
-        protected NFGUID m_pUUIDModule;
+        protected NFIProxyToGameModule mxProxyToGameModule;
+        protected NFIProxyToWorldModule mxProxyToWorldModule;
+        protected NFIKernelModule mxKernelModule;
+        protected NFILogicClassModule mxLogicClassModule;
+        protected NFIElementModule mxElementInfoModule;
+        protected NFIEventModule mxEventProcessModule;
 
         public NFCProxyServerNet_ServerModule(NFIPluginManager p)
         {
             SetMng(p);
-        }
-
-        public override int Initialization(NFIMsgHead.NF_Head nHeadLength, NFINet.OnSocketEvent xEventHandler, NFINet.OnRecivePack xPackHandler, string strIP, ushort nPort)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override int Initialization(NFIMsgHead.NF_Head nHeadLength, NFINet.OnSocketEvent xEventHandler, NFINet.OnRecivePack xPackHandler, uint nMaxClient, ushort nPort)
-        {
-            throw new NotImplementedException();
         }
 
         public override void Init()
@@ -50,45 +38,36 @@ namespace NFrame
 
         public override void AfterInit()
         {
-                m_pEventProcessModule = GetMng().GetModule<NFCEventModule>();
-                m_pKernelModule = GetMng().GetModule<NFIKernelModule>();
+            mxEventProcessModule = GetMng().GetModule<NFCEventModule>();
+            mxKernelModule = GetMng().GetModule<NFIKernelModule>();
+            mxLogicClassModule = GetMng().GetModule<NFILogicClassModule>();
+            mxProxyToWorldModule = GetMng().GetModule<NFIProxyToWorldModule>();
+            mxProxyToGameModule = GetMng().GetModule<NFIProxyToGameModule>();
+            mxElementInfoModule = GetMng().GetModule<NFIElementModule>();
 
-                m_pLogicClassModule = GetMng().GetModule<NFILogicClassModule>();
-                //m_pProxyServerToGameModule = dynamic_cast<NFIProxyServerToGameModule*>(pPluginManager->FindModule("NFCProxyServerToGameModule"));
-                //m_pProxyToWorldModule = dynamic_cast<NFIProxyServerToWorldModule*>(pPluginManager->FindModule("NFCProxyServerToWorldModule"));
-                //m_pLogModule = dynamic_cast<NFILogModule*>(pPluginManager->FindModule("NFCLogModule"));
-                m_pElementInfoModule = GetMng().GetModule<NFCElementModule>();
-                //m_pUUIDModule = GetMng().GetModule<NFGUID>();
-
-                NFILogicClass xLogicClass = m_pLogicClassModule.GetElement("Server");
-                if (xLogicClass != null)
+            NFILogicClass xLogicClass = mxLogicClassModule.GetElement("Server");
+            if (xLogicClass != null)
+            {
+                List<string> xNameList = xLogicClass.GetConfigNameList();
+                
+                foreach(string strConfigName in xNameList)
                 {
-                    List<string> xNameList = xLogicClass.GetConfigNameList();
-                    
-                    foreach(string strConfigName in xNameList)
+                    Int64 nServerType = mxElementInfoModule.QueryPropertyInt(strConfigName, "Type");
+                    Int64 nServerID = mxElementInfoModule.QueryPropertyInt(strConfigName, "ServerID");
+                    if (nServerType == (long)NFServer_def.NF_SERVER_TYPES.NF_ST_PROXY && GetMng().GetAPPID() == nServerID)
                     {
-                        Int64 nServerType = m_pElementInfoModule.QueryPropertyInt(strConfigName, "Type");
-                        Int64 nServerID = m_pElementInfoModule.QueryPropertyInt(strConfigName, "ServerID");
-                        if (nServerType == (Int64)NFrame.NFServer_def.NF_SERVER_TYPES.NF_ST_PROXY && GetMng().GetAPPID() == nServerID)
-                        {
-                            Int64 nPort = m_pElementInfoModule.QueryPropertyInt(strConfigName, "Port");
-                            Int64 nMaxConnect = m_pElementInfoModule.QueryPropertyInt(strConfigName, "MaxOnline");
-                            Int64 nCpus = m_pElementInfoModule.QueryPropertyInt(strConfigName, "CpuCount");
-                            string strName = m_pElementInfoModule.QueryPropertyString(strConfigName, "Name");
-                            string strIP = m_pElementInfoModule.QueryPropertyString(strConfigName, "IP");
+                        Int64 nPort = mxElementInfoModule.QueryPropertyInt(strConfigName, "Port");
+                        Int64 nMaxConnect = mxElementInfoModule.QueryPropertyInt(strConfigName, "MaxOnline");
+                        Int64 nCpus = mxElementInfoModule.QueryPropertyInt(strConfigName, "CpuCount");
+                        string strName = mxElementInfoModule.QueryPropertyString(strConfigName, "Name");
+                        string strIP = mxElementInfoModule.QueryPropertyString(strConfigName, "IP");
 
-                            //m_pUUIDModule = nServerID;
 
-                            //Initialization(NFIMsgHead::NF_Head::NF_HEAD_LENGTH, this, &NFCProxyServerNet_ServerModule::OnReciveClientPack, &NFCProxyServerNet_ServerModule::OnSocketClientEvent, nMaxConnect, nPort, nCpus);
-                        }
+                        Initialization(NFIMsgHead.NF_Head.NF_HEAD_LENGTH, OnSocketEvent, OnRecivePack, (UInt32)nMaxConnect, (UInt16)nPort);
                     }
                 }
-            
+            }
         }
-
-        //public override LogRecive(string str){}
-
-       // public override void LogSend(string str) {}
 
         public override int Transpond(NFIPacket msg)
         {
@@ -154,6 +133,15 @@ namespace NFrame
         protected int HB_OnConnectCheckTime(NFGUID self, string strHeartBeat, float fTime, int nCount, NFIDataList var)
         {
             return 0;
+        }
+
+        protected void OnSocketEvent(UInt32 nSockIndex, NFINet.NF_NET_EVENT eEvent, NFINet pNet)
+        {
+
+        }
+        protected void OnRecivePack(NFIPacket msg)
+        {
+
         }
     }
 }

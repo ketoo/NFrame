@@ -40,7 +40,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NFCProxyServerNet_ServerModule.cs" />
+    <Compile Include="NFCProxyToGameModule.cs" />
+    <Compile Include="NFCProxyToWorldModule.cs" />
     <Compile Include="NFIProxyServerNet_ServerModule.cs" />
+    <Compile Include="NFIProxyToGameModule.cs" />
+    <Compile Include="NFIProxyToWorldModule.cs" />
     <Compile Include="NFProxyServerPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
