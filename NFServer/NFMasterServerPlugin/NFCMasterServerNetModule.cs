@@ -47,8 +47,8 @@ namespace NFrame
                         string strName = mxElementInfoModule.QueryPropertyString(strConfigName, "Name");
                         string strIP = mxElementInfoModule.QueryPropertyString(strConfigName, "IP");
 
-                        GetNetHandler().RegisterEventCallback(OnSocketEvent);
-                        GetNetHandler().RegisterPackCallback(-1, OnRecivePack);
+                        GetNetHandler().RegisterEventCallback(OnNetSocketEvent);
+                        GetNetHandler().RegisterPackCallback(-1, OnNetRecivePack);
 
                         Initialization(NFIMsgHead.NF_Head.NF_HEAD_LENGTH, (UInt32)nMaxConnect, (UInt16)nPort);
                     }
@@ -66,6 +66,67 @@ namespace NFrame
 
         public override void Execute()
         {
+        }
+        //////////////////////////////////////////////////////////////////////////
+
+        protected void OnNetSocketEvent(UInt32 nSockIndex, NFINet.NF_NET_EVENT eEvent, NFINet pNet)
+        {
+            switch(eEvent)
+            {
+                case NFINet.NF_NET_EVENT.NF_NET_EVENT_CONNECTED:
+                    {
+                        //OnClientDisconnect(nSockIndex);
+                    }
+                    break;
+                default:
+                    {
+                        //OnClientConnected(nSockIndex);
+                    }
+                    break;
+            }
+        }
+        protected void OnNetRecivePack(NFIPacket msg, NFINet pNet)
+        {
+            int nMsgID = msg.GetMsgID();
+            switch ((NFMsg.EGameMsgID)nMsgID)
+            {
+                case NFMsg.EGameMsgID.EGMI_STS_HEART_BEAT:
+                    break;
+                case NFMsg.EGameMsgID.EGMI_MTL_WORLD_REGISTERED:
+                    OnWorldRegisteredProcess(msg);
+                    break;
+
+                case NFMsg.EGameMsgID.EGMI_MTL_WORLD_UNREGISTERED:
+                    OnWorldUnRegisteredProcess(msg);
+                    break;
+
+                case NFMsg.EGameMsgID.EGMI_MTL_WORLD_REFRESH:
+                    OnRefreshWorldInfoProcess(msg);
+                    break;
+
+                case NFMsg.EGameMsgID.EGMI_LTM_LOGIN_REGISTERED:
+                    OnLoginRegisteredProcess(msg);
+                    break;
+
+                case NFMsg.EGameMsgID.EGMI_LTM_LOGIN_UNREGISTERED:
+                    OnLoginUnRegisteredProcess(msg);
+                    break;
+
+                case NFMsg.EGameMsgID.EGMI_LTM_LOGIN_REFRESH:
+                    OnRefreshLoginInfoProcess(msg);
+                    break;
+
+                case NFMsg.EGameMsgID.EGMI_REQ_CONNECT_WORLD:
+                    OnSelectWorldProcess(msg);
+                    break;
+
+                case NFMsg.EGameMsgID.EGMI_ACK_CONNECT_WORLD:
+                    OnSelectServerResultProcess(msg);
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         //世界服务器注册，刷新信息

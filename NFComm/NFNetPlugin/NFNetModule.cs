@@ -19,18 +19,20 @@ namespace NFrame
         }
         public int Initialization(NFIMsgHead.NF_Head nHeadLength, string strIP, UInt16 nPort)
         {
+
             return 0;
         }
         public int Initialization(NFIMsgHead.NF_Head nHeadLength, UInt32 nMaxClient, UInt16 nPort)
         {
+
             return 0;
         }
 
-        protected void OnSocketEvent(UInt32 nSockIndex, NFINet.NF_NET_EVENT eEvent, NFINet pNet)
+        private void OnSocketEvent(UInt32 nSockIndex, NFINet.NF_NET_EVENT eEvent, NFINet pNet)
         {
             GetNetHandler().OnSocketEvent(nSockIndex, eEvent, pNet);
         }
-        protected void OnRecivePack(NFIPacket msg, NFINet pNet)
+        private void OnRecivePack(NFIPacket msg, NFINet pNet)
         {
             GetNetHandler().OnRecivePack(msg, pNet);
         }

@@ -47,6 +47,13 @@ namespace NFrame
                     handler(msg, pNet);
                 }
             }
+            else if(mxPackHandlerDic.TryGetValue(-1, out xList))
+            {
+                foreach (NFINet.OnRecivePack handler in xList)
+                {
+                    handler(msg, pNet);
+                }
+            }
         }
 
         private readonly Dictionary<int, List<NFINet.OnRecivePack>> mxPackHandlerDic = new Dictionary<int, List<NFINet.OnRecivePack>>();
