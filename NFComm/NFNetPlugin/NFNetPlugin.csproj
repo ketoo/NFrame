@@ -44,7 +44,7 @@
     <Compile Include="NFCNet.cs" />
     <Compile Include="NFCPacket.cs" />
     <Compile Include="NFIConsistentHash.cs" />
-    <Compile Include="NFIlusterClientModule.cs" />
+    <Compile Include="NFIClusterClientModule.cs" />
     <Compile Include="NFINet.cs" />
     <Compile Include="NFNetHandler.cs" />
     <Compile Include="NFNetModule.cs" />
