@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NFrame
 {
-    public class NFIlusterClientModule : NFILogicModule
+    public class NFIClusterClientModule : NFILogicModule
     {
         public class ConnectObjectData
         {

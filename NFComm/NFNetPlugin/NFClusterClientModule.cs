@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NFrame
 {
-    public class NFClusterClientModule : NFIlusterClientModule
+    public class NFClusterClientModule : NFIClusterClientModule
     {
         public enum ClusterClientState
         {
