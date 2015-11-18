@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8374E4D7-2A91-48F1-9360-09B09CF27C3F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>protobuf_net</RootNamespace>
+    <AssemblyName>protobuf-net</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\_Out\Lib\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\_Out\Lib\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BclHelpers.cs" />
+    <Compile Include="BufferExtension.cs" />
+    <Compile Include="BufferPool.cs" />
+    <Compile Include="CallbackAttributes.cs" />
+    <Compile Include="DataFormat.cs" />
+    <Compile Include="Extensible.cs" />
+    <Compile Include="ExtensibleUtil.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="IExtensible.cs" />
+    <Compile Include="IExtension.cs" />
+    <Compile Include="ImplicitFields.cs" />
+    <Compile Include="KeyValuePairProxy.cs" />
+    <Compile Include="Meta\AttributeMap.cs" />
+    <Compile Include="Meta\BasicList.cs" />
+    <Compile Include="Meta\CallbackSet.cs" />
+    <Compile Include="Meta\MetaType.cs" />
+    <Compile Include="Meta\RuntimeTypeModel.cs" />
+    <Compile Include="Meta\SubType.cs" />
+    <Compile Include="Meta\TypeFormatEventArgs.cs" />
+    <Compile Include="Meta\TypeModel.cs" />
+    <Compile Include="Meta\ValueMember.cs" />
+    <Compile Include="NetObjectCache.cs" />
+    <Compile Include="PrefixStyle.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProtoContractAttribute.cs" />
+    <Compile Include="ProtoConverterAttribute.cs" />
+    <Compile Include="ProtoEnumAttribute.cs" />
+    <Compile Include="ProtoException.cs" />
+    <Compile Include="ProtoIgnoreAttribute.cs" />
+    <Compile Include="ProtoIncludeAttribute.cs" />
+    <Compile Include="ProtoMemberAttribute.cs" />
+    <Compile Include="ProtoReader.cs" />
+    <Compile Include="ProtoWriter.cs" />
+    <Compile Include="SerializationContext.cs" />
+    <Compile Include="Serializer.cs" />
+    <Compile Include="Serializers\ArrayDecorator.cs" />
+    <Compile Include="Serializers\BlobSerializer.cs" />
+    <Compile Include="Serializers\BooleanSerializer.cs" />
+    <Compile Include="Serializers\ByteSerializer.cs" />
+    <Compile Include="Serializers\CharSerializer.cs" />
+    <Compile Include="Serializers\CompiledSerializer.cs" />
+    <Compile Include="Serializers\DateTimeSerializer.cs" />
+    <Compile Include="Serializers\DecimalSerializer.cs" />
+    <Compile Include="Serializers\DefaultValueDecorator.cs" />
+    <Compile Include="Serializers\DoubleSerializer.cs" />
+    <Compile Include="Serializers\EnumSerializer.cs" />
+    <Compile Include="Serializers\FieldDecorator.cs" />
+    <Compile Include="Serializers\GuidSerializer.cs" />
+    <Compile Include="Serializers\ImmutableCollectionDecorator.cs" />
+    <Compile Include="Serializers\Int16Serializer.cs" />
+    <Compile Include="Serializers\Int32Serializer.cs" />
+    <Compile Include="Serializers\Int64Serializer.cs" />
+    <Compile Include="Serializers\IProtoSerializer.cs" />
+    <Compile Include="Serializers\IProtoTypeSerializer.cs" />
+    <Compile Include="Serializers\ISerializerProxy.cs" />
+    <Compile Include="Serializers\KeyValuePairDecorator.cs" />
+    <Compile Include="Serializers\ListDecorator.cs" />
+    <Compile Include="Serializers\MemberSpecifiedDecorator.cs" />
+    <Compile Include="Serializers\NetObjectSerializer.cs" />
+    <Compile Include="Serializers\NullDecorator.cs" />
+    <Compile Include="Serializers\ParseableSerializer.cs" />
+    <Compile Include="Serializers\PropertyDecorator.cs" />
+    <Compile Include="Serializers\ProtoDecoratorBase.cs" />
+    <Compile Include="Serializers\SByteSerializer.cs" />
+    <Compile Include="Serializers\SingleSerializer.cs" />
+    <Compile Include="Serializers\StringSerializer.cs" />
+    <Compile Include="Serializers\SubItemSerializer.cs" />
+    <Compile Include="Serializers\SurrogateSerializer.cs" />
+    <Compile Include="Serializers\SystemTypeSerializer.cs" />
+    <Compile Include="Serializers\TagDecorator.cs" />
+    <Compile Include="Serializers\TimeSpanSerializer.cs" />
+    <Compile Include="Serializers\TupleSerializer.cs" />
+    <Compile Include="Serializers\TypeSerializer.cs" />
+    <Compile Include="Serializers\UInt16Serializer.cs" />
+    <Compile Include="Serializers\UInt32Serializer.cs" />
+    <Compile Include="Serializers\UInt64Serializer.cs" />
+    <Compile Include="Serializers\UriDecorator.cs" />
+    <Compile Include="ServiceModel\ProtoBehaviorAttribute.cs" />
+    <Compile Include="ServiceModel\ProtoBehaviorExtensionElement.cs" />
+    <Compile Include="ServiceModel\ProtoEndpointBehavior.cs" />
+    <Compile Include="ServiceModel\ProtoOperationBehavior.cs" />
+    <Compile Include="ServiceModel\XmlProtoSerializer.cs" />
+    <Compile Include="SubItemToken.cs" />
+    <Compile Include="WireType.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /y $(SolutionDir)\_Out\Lib\$(ProjectName).dll $(SolutionDir)\_Out\$(Configuration)\NFLoginServer\$(ProjectName).dll
+copy /y $(SolutionDir)\_Out\Lib\$(ProjectName).pdb $(SolutionDir)\_Out\$(Configuration)\NFLoginServer\$(ProjectName).pdb
+copy /y $(SolutionDir)\_Out\Lib\$(ProjectName).dll $(SolutionDir)\_Out\$(Configuration)\NFWorldServer\$(ProjectName).dll
+copy /y $(SolutionDir)\_Out\Lib\$(ProjectName).pdb $(SolutionDir)\_Out\$(Configuration)\NFWorldServer\$(ProjectName).pdb
+copy /y $(SolutionDir)\_Out\Lib\$(ProjectName).dll $(SolutionDir)\_Out\$(Configuration)\NFMasterServer\$(ProjectName).dll
+copy /y $(SolutionDir)\_Out\Lib\$(ProjectName).pdb $(SolutionDir)\_Out\$(Configuration)\NFMasterServer\$(ProjectName).pdb
+copy /y $(SolutionDir)\_Out\Lib\$(ProjectName).dll $(SolutionDir)\_Out\$(Configuration)\NFProxyServer\$(ProjectName).dll
+copy /y $(SolutionDir)\_Out\Lib\$(ProjectName).pdb $(SolutionDir)\_Out\$(Configuration)\NFProxyServer\$(ProjectName).pdb
+copy /y $(SolutionDir)\_Out\Lib\$(ProjectName).dll $(SolutionDir)\_Out\$(Configuration)\NFGameServer\$(ProjectName).dll
+copy /y $(SolutionDir)\_Out\Lib\$(ProjectName).pdb $(SolutionDir)\_Out\$(Configuration)\NFGameServer\$(ProjectName).pdb
+</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

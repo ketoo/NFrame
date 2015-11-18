@@ -1,0 +1,4 @@
+E:\NF\NFrame\_Out\Lib\protobuf-net.dll
+E:\NF\NFrame\_Out\Lib\protobuf-net.pdb
+E:\NF\NFrame\NFDep\protobuf-net\obj\Debug\protobuf-net.dll
+E:\NF\NFrame\NFDep\protobuf-net\obj\Debug\protobuf-net.pdb
