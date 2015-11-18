@@ -90,7 +90,7 @@ namespace NFrame
         {
             if (null == xID)
             {
-                return false; ;
+                return false;
             }
 
             NFIActor xActor = null;
@@ -181,6 +181,6 @@ namespace NFrame
         ///////////////////////////////////////////////////////
         private readonly NFIScheduler mxScheduler;
         private readonly ConcurrentDictionary<NFGUID, NFIActor> mxActorDic = new ConcurrentDictionary<NFGUID, NFIActor>();
-        private int mnActorIndex = 0;
+        private long mnActorIndex = 0;
     }
 }
