@@ -24,9 +24,4 @@ namespace NFrame
             CreateModule<NFCWorldServerNetModule>();
         }
     }
-
-    public class test
-    {
-        NFWorldServerPlugin xx;
-    }
 }
