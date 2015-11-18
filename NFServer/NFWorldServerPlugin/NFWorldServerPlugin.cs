@@ -15,8 +15,18 @@ namespace NFrame
     {
         public NFWorldServerPlugin()
         {
+
+        }
+
+        public override void Init()
+        {
             CreateModule<NFCWorldToMasterModule>();
             CreateModule<NFCWorldServerNetModule>();
         }
+    }
+
+    public class test
+    {
+        NFWorldServerPlugin xx;
     }
 }
