@@ -37,10 +37,11 @@ namespace NFrame
 
             byte[] data = Convert.FromBase64String(strContent);
 
-            MemoryStream stream = new MemoryStream(data);
-            XmlReader x = XmlReader.Create(stream);
-            x.MoveToContent();
-            string res = x.ReadOuterXml();
+//             MemoryStream stream = new MemoryStream(data);
+//             XmlReader x = XmlReader.Create(stream);
+//             x.MoveToContent();
+//             string res = x.ReadOuterXml();
+            string res = System.Text.ASCIIEncoding.Default.GetString(data);
 
             xmldoc.LoadXml(res);
             /////////////////////////////////////////////////////////////////
@@ -163,10 +164,12 @@ namespace NFrame
 
                 byte[] data = Convert.FromBase64String(strContent);
 
-                MemoryStream stream = new MemoryStream(data);
-                XmlReader x = XmlReader.Create(stream);
-                x.MoveToContent();
-                string res = x.ReadOuterXml();
+
+//                 MemoryStream stream = new MemoryStream(data);
+//                 XmlReader x = XmlReader.Create(stream);
+//                 x.MoveToContent();
+//                 string res = x.ReadOuterXml();
+                string res = System.Text.ASCIIEncoding.Default.GetString(data);
 
                 xmldoc.LoadXml(res);
                 /////////////////////////////////////////////////////////////////
@@ -230,7 +233,7 @@ namespace NFrame
             NFILogicClass xLogicClass = GetElement(strName);
             if (null != xLogicClass)
             {
-                string strLogicPath = xLogicClass.GetPath();
+                string strLogicPath = mstrPath + xLogicClass.GetPath();
 
                 XmlDocument xmldoc = new XmlDocument();
 
@@ -242,10 +245,11 @@ namespace NFrame
 
                 byte[] data = Convert.FromBase64String(strContent);
 
-                MemoryStream stream = new MemoryStream(data);
-                XmlReader x = XmlReader.Create(stream);
-                x.MoveToContent();
-                string res = x.ReadOuterXml();
+//                 MemoryStream stream = new MemoryStream(data);
+//                 XmlReader x = XmlReader.Create(stream);
+//                 x.MoveToContent();
+//                 string res = x.ReadOuterXml();
+                string res = System.Text.ASCIIEncoding.Default.GetString(data);
 
                 xmldoc.LoadXml(res);
 /////////////////////////////////////////////////////////////////

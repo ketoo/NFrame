@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NFrame
 {
-    public class NFClusterClientModule : NFILogicModule
+    public class NFClusterClientModule : NFIlusterClientModule
     {
         public enum ClusterClientState
         {
@@ -21,28 +21,6 @@ namespace NFrame
             DISCONNECT,
             RECONNECT,
         }
-
-        public class ConnectObjectData
-        {
-            public ConnectObjectData()
-            {
-            }
-
-            public float fMaxReconnectTime;//重连时间
-            public DateTime xNextTriggerTime = new DateTime();//下次重连时间
-
-            public long nServerID;
-            public NFServer_def.NF_SERVER_TYPES meServerType;
-            public string mstrIP;
-            public string mstrDns;
-            public string mstrAuth;
-
-            public long mnPort;
-            public long mnAreaID;
-            public NFNetModule xNetModule;
-            public NFClusterClientModule.ClusterClientState eState;
-        }
-
 
         public NFNetHandler GetNetHandler()
         {

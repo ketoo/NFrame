@@ -38,6 +38,11 @@ namespace NFrame
             mxLogicClassModule = GetMng().GetModule<NFILogicClassModule>();
             mxElementInfoModule = GetMng().GetModule<NFIElementModule>();
 
+            System.Diagnostics.Debug.Assert(null != mxEventProcessModule);
+            System.Diagnostics.Debug.Assert(null != mxKernelModule);
+            System.Diagnostics.Debug.Assert(null != mxLogicClassModule);
+            System.Diagnostics.Debug.Assert(null != mxElementInfoModule);
+
             NFILogicClass xLogicClass = mxLogicClassModule.GetElement("Server");
             if (xLogicClass != null)
             {

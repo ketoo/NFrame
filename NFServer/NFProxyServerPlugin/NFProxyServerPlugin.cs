@@ -15,6 +15,10 @@ namespace NFrame
     {
         public NFProxyServerPlugin()
         {
+        }
+
+        public override void Init()
+        {
             CreateModule<NFCProxyServerNet_ServerModule>();
             CreateModule<NFCProxyToGameModule>();
             CreateModule<NFCProxyToWorldModule>();
