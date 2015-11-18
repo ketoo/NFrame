@@ -18,6 +18,7 @@ namespace NFrame
             CreateModule<NFCLogicClassModule>();
             CreateModule<NFCElementModule>();
             CreateModule<NFCKernelModule>();
+            CreateModule<NFCEventModule>();
         }
 
         public override void AfterInit() { }

@@ -23,6 +23,7 @@ namespace NFrame
         public override void Init()
         {
             mxLogicClassModule = GetMng().GetModule<NFILogicClassModule>();
+            mstrRootPath = GetMng().GetClassPath();
         }
 
         public override void AfterInit()
@@ -46,7 +47,6 @@ namespace NFrame
 
         public override bool Load()
         {
-            mstrRootPath = "";
             ClearInstanceElement();
 
             Dictionary<string, NFILogicClass> xTable = mxLogicClassModule.GetElementList();
