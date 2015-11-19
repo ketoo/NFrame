@@ -18,6 +18,7 @@ namespace NFrame
         abstract public UInt32 DeCode(byte[] strData);
 
         abstract public UInt32 GetHeadLength();
+        abstract public UInt32 GetMaxMsgLength();
 
         abstract public UInt16 GetMsgID();
         abstract public void SetMsgID(UInt16 nMsgID);
@@ -32,7 +33,7 @@ namespace NFrame
         abstract public int DeCode(byte[] data, UInt32 unLen);
 
 	    abstract public void Construction(NFIPacket packet);
-        abstract public NFIMsgHead.NF_Head GetMsgHead();
+        abstract public NFIMsgHead GetMsgHead();
         abstract public byte[] GetPacketData();
         abstract public string GetPacketString();
         abstract public UInt32 GetPacketLen();

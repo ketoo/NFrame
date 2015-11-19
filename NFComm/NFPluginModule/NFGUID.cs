@@ -95,7 +95,7 @@ namespace NFrame
 
         public override int GetHashCode()
         {
-            string str =this.ToString();
+            string str = this.ToString();
             return str.GetHashCode();
         }
     }
