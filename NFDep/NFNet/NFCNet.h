@@ -10,7 +10,6 @@
 #define __NFC_NET_H__
 
 #include "NFINet.h"
-#include "NFIPacket.h"
 #include <chrono>
 #include <thread>
 
@@ -26,87 +25,60 @@
 class NFCNet : public NFINet
 {
 public:
-    template<typename BaseType>
-    NFCNet(NFIMsgHead::NF_Head nHeadLength, BaseType* pBaseType, int (BaseType::*handleRecieve)(const NFIPacket&), int (BaseType::*handleEvent)(const int, const NF_NET_EVENT, NFINet*), const int nResetCount = -1, const float nReseTime = 5.0f)
+    NFCNet()
     {
         base = NULL;
         listener = NULL;
 
-        mRecvCB = std::bind(handleRecieve, pBaseType, std::placeholders::_1);
-        mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
         mstrIP = "";
         mnPort = 0;
         mnCpuCount = 0;
-		mnResetCount = nResetCount;
-		mfReseTime = nReseTime;
-		mfRunTimeReseTime = 0.0f;
         mbServer = false;
         ev = NULL;
-        mnHeadLength = nHeadLength;
     }
 
 	virtual ~NFCNet(){};
 
 public:
-	virtual  bool Execute(const float fLasFrametime, const float fStartedTime);
+	virtual  void Execute();
 
-	virtual  void Initialization(const char* strIP, const unsigned short nPort);
+	virtual  int Initialization(const char* strIP, const unsigned short nPort);
 	virtual  int Initialization(const unsigned int nMaxClient, const unsigned short nPort, const int nCpuCount = 4);
 
 	virtual  bool Final();
-    virtual  bool Reset();
-
-	virtual bool SendMsg(const NFIPacket& msg, const int nSockIndex = 0);
-	virtual bool SendMsgToAllClient(const NFIPacket& msg);
 
 	virtual bool SendMsg(const char* msg, const uint32_t nLen, const int nSockIndex = 0);
 	virtual bool SendMsgToAllClient(const char* msg, const uint32_t nLen);
 
     virtual bool CloseNetObject(const int nSockIndex);
-    virtual NetObject* GetNetObject(const int nSockIndex);
-    virtual bool AddNetObject(const int nSockIndex, NetObject* pObject);
 
-	virtual bool AddBan(const int nSockIndex, const int32_t nTime = -1){return true;};
-	virtual bool RemoveBan(const int nSockIndex){return true;};
-    virtual NFIMsgHead::NF_Head GetHeadLen(){return mnHeadLength;};
-	virtual bool IsServer(){return mbServer;};
-	virtual bool Log(int severity, const char *msg);
+	virtual int OnRecivePacket(const int nSockIndex, const char* msg, const uint32_t nLen);
+	virtual int OnNetEvent(const int nSockIndex, const NF_NET_EVENT nEvent);
+	virtual int Log(int severity, const char *msg);
 
 private:
-	virtual void ExecuteClose();
-	virtual void ExeReset( const float fLastFrameTime );
-    virtual bool CloseSocketAll();
-	virtual bool ReqReset();
 
-	virtual bool Dismantle(NetObject* pObject);
+	virtual void ExecuteClose();
 
 	virtual int InitClientNet();
 	virtual int InitServerNet();
-	virtual void CloseObject(const int nSockIndex);
 
 	static void listener_cb(struct evconnlistener *listener, evutil_socket_t fd,struct sockaddr *sa, int socklen, void *user_data);
 	static void conn_readcb(struct bufferevent *bev, void *user_data);
 	static void conn_writecb(struct bufferevent *bev, void *user_data);
 	static void conn_eventcb(struct bufferevent *bev, short events, void *user_data);
-	static void time_cb(evutil_socket_t fd, short _event, void *argc);
 	static void log_cb(int severity, const char *msg);
-private:
-	//<fd,object>
-	std::map<int, NetObject*> mmObject;
-	std::vector<int> mvRemoveObject;
 
-    NFIMsgHead::NF_Head mnHeadLength;
+private:
 
 	int mnMaxConnect;
 	std::string mstrIP;
 	int mnPort;
 	int mnCpuCount;
 	bool mbServer;
-	int mnResetCount;
-	float mfReseTime;
-	float mfRunTimeReseTime;
 
-    bool mbUsePacket;//是否使用我们的包
+	std::vector<int> mvRemoveObject;
+
 	struct event_base *base;
 	struct evconnlistener *listener;
 	//////////////////////////////////////////////////////////////////////////
@@ -114,13 +86,6 @@ private:
 	struct event* ev;
 	//////////////////////////////////////////////////////////////////////////
 
-    NET_RECIEVE_FUNCTOR mRecvCB;
-    NET_EVENT_FUNCTOR mEventCB;
-
-	std::string mstrPwd;
-	char mstrMsgData[NFIMsgHead::NF_MSGBUFF_LENGTH];
-
-	//////////////////////////////////////////////////////////////////////////
 };
 
 #pragma pack(pop)

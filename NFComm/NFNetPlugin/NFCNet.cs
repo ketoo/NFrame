@@ -33,11 +33,6 @@ namespace NFrame
             return 0;
         }
 
-        public override int Reset()
-        {
-            return 0;
-        }
-
         public override int SendMsg(NFIPacket msg, UInt32 nSockIndex = 0)
         {
             return 0;

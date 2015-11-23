@@ -28,7 +28,6 @@ namespace NFrame
         public abstract int Initialization(UInt32 nMaxClient, UInt16 nPort);
 
         public abstract int Final();
-        public abstract int Reset();
 
         public abstract int SendMsg(NFIPacket msg, UInt32 nSockIndex = 0);
         public abstract int SendMsg(string msg, UInt32 nLen, UInt32 nSockIndex = 0);
