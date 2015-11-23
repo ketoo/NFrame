@@ -6,72 +6,78 @@ using System.Threading.Tasks;
 
 namespace NFrame
 {
-    
-//     class NFCMsgHead : public NFIMsgHead
-//     {
-//     public:
-//         NFCMsgHead()
-//         {
-//             munSize = 0;
-//             munMsgID = 0;
-//         }
-// 
-//         virtual uint32_t GetHeadLength() const { return NF_HEAD_LENGTH; }
-// 
-// 	    // 内存结构[ MsgID(2) | MsgSize(4) ]
-//         virtual int EnCode(char* strData)
-//         {
-//             uint32_t nOffset = 0;
-// 
-//             uint16_t nMsgID = NF_HTONS(munMsgID);
-//             memcpy(strData + nOffset, (void*)(&nMsgID), sizeof(munMsgID));
-//             nOffset += sizeof(munMsgID);
-// 
-//             uint32_t nSize = NF_HTONL(munSize);
-//             memcpy(strData + nOffset, (void*)(&nSize), sizeof(munSize));
-//             nOffset += sizeof(munSize);
-// 
-//             if (nOffset != GetHeadLength())
-//             {
-//                 assert(0);
-//             }
-// 
-//             return nOffset;
-//         }
-// 
-//         virtual int DeCode(const char* strData)
-//         {
-//             uint32_t nOffset = 0;
-// 
-//             uint16_t nMsgID = 0;
-//             memcpy(&nMsgID, strData + nOffset, sizeof(munMsgID));
-//             munMsgID = NF_NTOHS(nMsgID);
-//             nOffset += sizeof(munMsgID);
-// 
-//             uint32_t nSize = 0;
-//             memcpy(&nSize, strData + nOffset, sizeof(munSize));
-//             munSize = NF_NTOHL(nSize);
-//             nOffset += sizeof(munSize);
-// 
-//             if (nOffset != GetHeadLength())
-//             {
-//                 assert(0);
-//             }
-// 
-//             return nOffset;
-//         }
-// 
-//         virtual uint16_t GetMsgID() const { return munMsgID; }
-//         virtual void SetMsgID(uint16_t nMsgID) { munMsgID = nMsgID; }
-// 
-//         virtual uint32_t GetMsgLength() const { return munSize; }
-//         virtual void SetMsgLength(uint32_t nLength){ munSize = nLength; }
-// 
-//     protected:
-//         uint32_t munSize;
-//         uint16_t munMsgID;
-//     }
+    class NFCMsgHead : NFIMsgHead
+    {
+        enum NFHead
+        {
+            NF_HEAD_LENGTH = 6,
+            NF_MSG_BUFF_LENGTH = 1024 * 1024,
+        }
 
+        public NFCMsgHead()
+        {
+            mnMsgID = 0;
+            mnMsgLength = 0;
+        }
+
+        public override UInt32 GetHeadLength()
+        {
+            return (UInt32)NFHead.NF_HEAD_LENGTH;
+        }
+
+        public override UInt32 GetMaxMsgLength()
+        {
+            return (UInt32)NFHead.NF_MSG_BUFF_LENGTH;
+        }
+
+        public override UInt16 GetMsgID()
+        {
+            return mnMsgID;
+        }
+
+        public override void SetMsgID(UInt16 value)
+        {
+            mnMsgID = value;
+        }
+
+        public override UInt32 GetMsgLength()
+        {
+            return mnMsgLength;
+        }
+
+        public override void SetMsgLength(UInt32 value)
+        {
+            mnMsgLength = value;
+        }
+
+        public override UInt32 EnCode(byte[] strData)
+        {
+            UInt16 nNetMsgID = (UInt16)System.Net.IPAddress.HostToNetworkOrder(mnMsgID);
+            strData.Concat(BitConverter.GetBytes(mnMsgID));
+
+            UInt32 nNetMsgLength = (UInt32)System.Net.IPAddress.HostToNetworkOrder(mnMsgLength);
+            strData.Concat(BitConverter.GetBytes(nNetMsgLength));
+
+            return (UInt32)strData.Length;
+        }
+
+        public override UInt32 DeCode(byte[] strData)
+        {
+            UInt16 nOffset = 0;
+            UInt16 nNetMsgID = BitConverter.ToUInt16(strData, nOffset);
+            mnMsgID = (UInt16)System.Net.IPAddress.NetworkToHostOrder(nNetMsgID);
+            nOffset += sizeof(UInt16);
+
+            UInt32 nNetMsgLength = BitConverter.ToUInt32(strData, nOffset);
+            mnMsgLength = (UInt32)System.Net.IPAddress.NetworkToHostOrder(nNetMsgLength);
+            nOffset += sizeof(UInt32);
+
+            return nOffset;
+        }
+        ///////////////////////////
+        UInt16 mnMsgID;
+        UInt32 mnMsgLength;
+    }
 
     class NFCPacket
     {
