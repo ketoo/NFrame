@@ -25,51 +25,67 @@
 class NFCNet : public NFINet
 {
 public:
-    NFCNet()
+    template<typename BaseType>
+    NFCNet(NFIMsgHead::NF_Head nHeadLength, BaseType* pBaseType, int (BaseType::*handleRecieve)(const NFIPacket&), int (BaseType::*handleEvent)(const int, const NF_NET_EVENT, NFINet*))
     {
         base = NULL;
         listener = NULL;
 
+        mRecvCB = std::bind(handleRecieve, pBaseType, std::placeholders::_1);
+        mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
         mstrIP = "";
         mnPort = 0;
         mnCpuCount = 0;
         mbServer = false;
         ev = NULL;
+        mnHeadLength = nHeadLength;
     }
 
 	virtual ~NFCNet(){};
 
 public:
-	virtual  void Execute();
+	virtual bool Execute(const float fLasFrametime, const float fStartedTime);
 
-	virtual  int Initialization(const char* strIP, const unsigned short nPort);
-	virtual  int Initialization(const unsigned int nMaxClient, const unsigned short nPort, const int nCpuCount = 4);
+	virtual void Initialization(const char* strIP, const unsigned short nPort);
+	virtual int Initialization(const unsigned int nMaxClient, const unsigned short nPort, const int nCpuCount = 4);
 
-	virtual  bool Final();
+	virtual bool Final();
 
 	virtual bool SendMsg(const char* msg, const uint32_t nLen, const int nSockIndex = 0);
 	virtual bool SendMsgToAllClient(const char* msg, const uint32_t nLen);
 
     virtual bool CloseNetObject(const int nSockIndex);
 
-	virtual int OnRecivePacket(const int nSockIndex, const char* msg, const uint32_t nLen);
-	virtual int OnNetEvent(const int nSockIndex, const NF_NET_EVENT nEvent);
-	virtual int Log(int severity, const char *msg);
+	virtual bool AddBan(const int nSockIndex, const int32_t nTime = -1){return true;};
+	virtual bool RemoveBan(const int nSockIndex){return true;};
+    virtual NFIMsgHead::NF_Head GetHeadLen(){return mnHeadLength;};
+	virtual bool IsServer(){return mbServer;};
+	virtual bool Log(int severity, const char *msg);
 
 private:
-
 	virtual void ExecuteClose();
+    virtual bool CloseSocketAll();
+
+	virtual bool Dismantle(NetObject* pObject);
+	virtual bool AddNetObject(const int nSockIndex, NetObject* pObject);
+	virtual NetObject* GetNetObject(const int nSockIndex);
 
 	virtual int InitClientNet();
 	virtual int InitServerNet();
+	virtual void CloseObject(const int nSockIndex);
 
 	static void listener_cb(struct evconnlistener *listener, evutil_socket_t fd,struct sockaddr *sa, int socklen, void *user_data);
 	static void conn_readcb(struct bufferevent *bev, void *user_data);
 	static void conn_writecb(struct bufferevent *bev, void *user_data);
 	static void conn_eventcb(struct bufferevent *bev, short events, void *user_data);
+	static void time_cb(evutil_socket_t fd, short _event, void *argc);
 	static void log_cb(int severity, const char *msg);
-
 private:
+	//<fd,object>
+	std::map<int, NetObject*> mmObject;
+	std::vector<int> mvRemoveObject;
+
+    NFIMsgHead::NF_Head mnHeadLength;
 
 	int mnMaxConnect;
 	std::string mstrIP;
@@ -77,15 +93,19 @@ private:
 	int mnCpuCount;
 	bool mbServer;
 
-	std::vector<int> mvRemoveObject;
-
 	struct event_base *base;
 	struct evconnlistener *listener;
 	//////////////////////////////////////////////////////////////////////////
-	struct timeval tv;
 	struct event* ev;
 	//////////////////////////////////////////////////////////////////////////
 
+    NET_RECIEVE_FUNCTOR mRecvCB;
+    NET_EVENT_FUNCTOR mEventCB;
+
+	std::string mstrPwd;
+	char mstrMsgData[NFIMsgHead::NF_MSGBUFF_LENGTH];
+
+	//////////////////////////////////////////////////////////////////////////
 };
 
 #pragma pack(pop)
