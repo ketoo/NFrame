@@ -20,6 +20,35 @@
 
 #include "event2/bufferevent_struct.h"
 #include "event2/event.h"
+#include <atomic>
+
+class NFLock
+{
+public:
+	explicit NFLock()
+	{
+		flag.clear();
+	}
+
+	~NFLock()
+	{
+	}
+	void lock()
+	{
+		while (flag.test_and_set(std::memory_order_acquire));
+	}
+
+	void unlock()
+	{
+		flag.clear(std::memory_order_release);
+	}
+
+protected:
+	mutable std::atomic_flag flag;
+
+private:
+	NFLock& operator=(const NFLock& src);
+};
 
 void NFCNet::conn_writecb(struct bufferevent *bev, void *user_data)
 {
@@ -87,13 +116,6 @@ void NFCNet::listener_cb(struct evconnlistener *listener, evutil_socket_t fd, st
 
     //模拟客户端已连接事件
     conn_eventcb(bev, BEV_EVENT_CONNECTED, (void*)pObject);
-    //////////////////////////////////////////////////////////////////////////
-
-    struct timeval tv;
-    /* 设置读超时120秒, 可做为心跳机制, 120秒没收到消息就T */
-    tv.tv_sec = 120;
-    tv.tv_usec = 0;
-    bufferevent_set_timeouts(bev, &tv, NULL);
 }
 
 
@@ -152,7 +174,7 @@ void NFCNet::conn_readcb(struct bufferevent *bev, void *user_data)
 
 //////////////////////////////////////////////////////////////////////////
 
-bool NFCNet::Execute(const float fLasFrametime, const float fStartedTime)
+bool NFCNet::Execute()
 {
 	ExecuteClose();
 
@@ -258,6 +280,17 @@ bool NFCNet::SendMsg(const char* msg, const uint32_t nLen, const int nSockIndex)
     return false;
 }
 
+bool NFCNet::SendMsg( const char* msg, const uint32_t nLen, const std::list<int>& fdList )
+{
+	std::list<int>::const_iterator it = fdList.begin();
+	for (; it != fdList.end(); ++it)
+	{
+		SendMsg(msg, nLen, *it);
+	}
+
+	return true;
+}
+
 bool NFCNet::CloseNetObject( const int nSockIndex )
 {
 	std::map<int, NetObject*>::iterator it = mmObject.find(nSockIndex);
@@ -276,50 +309,45 @@ bool NFCNet::CloseNetObject( const int nSockIndex )
 
 bool NFCNet::Dismantle(NetObject* pObject )
 {
-    bool bRet = true;
+    bool bNeedDismantle = false;
 
     int len = pObject->GetBuffLen();
     if (len > NFIMsgHead::NF_Head::NF_HEAD_LENGTH)
     {
-        int nUsedLen = DeCode(pObject->GetBuff(), len);
-        if (nUsedLen > 0)
+		NFCMsgHead xHead;
+        int nMsgBodyLength = DeCode(pObject->GetBuff(), len, xHead);
+        if (nMsgBodyLength > 0 && xHead.GetMsgID() > 0)
         {
 			//成功解包
-
+			//得到真正
             int nRet = 0;
             if (mRecvCB)
             {
-                mRecvCB(pObject->GetRealFD(), pObject->GetBuff(), len);
+                mRecvCB(pObject->GetRealFD(), xHead.GetMsgID(), pObject->GetBuff() + NFIMsgHead::NF_Head::NF_HEAD_LENGTH, nMsgBodyLength);
             }
 
             //添加到队列
-            pObject->RemoveBuff(0, nUsedLen);
+            pObject->RemoveBuff(0, nMsgBodyLength + NFIMsgHead::NF_Head::NF_HEAD_LENGTH);
 
 			Dismantle(pObject);
         }
-        else if (0 == nUsedLen)
+        else if (0 == nMsgBodyLength)
         {
             //长度不够(等待下次解包)
 
-			bRet = false;
+			bNeedDismantle = false;
         }
         else
         {
             //累计错误太多了--可以适当清空给机会
             //pObject->IncreaseError();
 
-			bRet = false;
+			bNeedDismantle = false;
 
         }
-
-//         if (pObject->GetErrorCount() > 5)
-//         {
-//             //CloseNetObject(pObject->GetFd());
-// 			//向上层汇报
-//         }
     }
 
-    return bRet;
+    return bNeedDismantle;
 }
 
 bool NFCNet::AddNetObject( const int nSockIndex, NetObject* pObject )
@@ -582,6 +610,19 @@ bool NFCNet::SendMsgWithOutHead( const int16_t nMsgID, const char* msg, const ui
 	return false;
 }
 
+bool NFCNet::SendMsgWithOutHead( const int16_t nMsgID, const char* msg, const uint32_t nLen, const std::list<int>& fdList )
+{
+	std::string strOutData;
+	int nAllLen = EnCode(nMsgID, msg, nLen, strOutData);
+	if (nAllLen == nLen + NFIMsgHead::NF_Head::NF_HEAD_LENGTH)
+	{
+		//打包成功
+		return SendMsg(strOutData.c_str(), strOutData.length(), fdList);
+	}
+
+	return false;
+}
+
 bool NFCNet::SendMsgToAllClientWithOutHead( const int16_t nMsgID, const char* msg, const uint32_t nLen )
 {
 	std::string strOutData;
@@ -595,27 +636,26 @@ bool NFCNet::SendMsgToAllClientWithOutHead( const int16_t nMsgID, const char* ms
 	return false;
 }
 
-int NFCNet::EnCode( const uint16_t unMsgID, const char* strData, const uint32_t unLen, std::string& strOutData )
+int NFCNet::EnCode( const uint16_t unMsgID, const char* strData, const uint32_t unDataLen, std::string& strOutData )
 {
 	NFCMsgHead xHead;
 	xHead.SetMsgID(unMsgID);
-	xHead.SetMsgLength(unLen + NFIMsgHead::NF_Head::NF_HEAD_LENGTH);
+	xHead.SetBodyLength(unDataLen);
 
 	char szHead[NFIMsgHead::NF_Head::NF_HEAD_LENGTH] = { 0 };
 	xHead.EnCode(szHead);
 
 	strOutData.clear();
 	strOutData.append(szHead, NFIMsgHead::NF_Head::NF_HEAD_LENGTH);
-	strOutData.append(strData, unLen);
+	strOutData.append(strData, unDataLen);
 
-	return xHead.GetMsgLength();
+	return xHead.GetBodyLength() + NFIMsgHead::NF_Head::NF_HEAD_LENGTH;
 }
 
-int NFCNet::DeCode( const char* strData, const uint32_t unLen/*, std::string& strOutData */ )
+int NFCNet::DeCode( const char* strData, const uint32_t unAllLen, NFCMsgHead& xHead)
 {
-	NFCMsgHead xHead;
 	//解密--unLen为buff总长度,解包时能用多少是多少
-	if (unLen < NFIMsgHead::NF_Head::NF_HEAD_LENGTH)
+	if (unAllLen < NFIMsgHead::NF_Head::NF_HEAD_LENGTH)
 	{
 		//长度不够
 		return -1;
@@ -625,13 +665,13 @@ int NFCNet::DeCode( const char* strData, const uint32_t unLen/*, std::string& st
 	if(NFIMsgHead::NF_Head::NF_HEAD_LENGTH != xHead.DeCode(strData))
 	{
 		//取包头失败
-		return -1;
+		return -2;
 	}
 
-	if (xHead.GetMsgLength() > unLen)
+	if (xHead.GetBodyLength() > unAllLen)
 	{
 		//总长度不够
-		return 0;
+		return -3;
 	}
 
 	//copy包头+包体
@@ -639,5 +679,5 @@ int NFCNet::DeCode( const char* strData, const uint32_t unLen/*, std::string& st
 	// 		strOutData.append(strData, xHead.GetMsgLength());
 
 	//返回使用过的量
-	return xHead.GetMsgLength();
+	return xHead.GetBodyLength();
 }

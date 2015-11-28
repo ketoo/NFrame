@@ -17,7 +17,7 @@
 #include <iostream>
 #include <map>
 
-#if NF_PLATFORM != NF_PLATFORM_WIN
+#ifndef _MSC_VER
 #include <netinet/in.h>
 # ifdef _XOPEN_SOURCE_EXTENDED
 #  include <arpa/inet.h>
@@ -37,6 +37,12 @@
 #include <event2/thread.h>
 #include <event2/event_compat.h>
 #include <assert.h>
+
+#ifdef _MSC_VER
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
 
 #pragma pack(push, 1)
 
@@ -62,8 +68,8 @@ struct  NFIMsgHead
 	virtual uint16_t GetMsgID() const = 0;
 	virtual void SetMsgID(uint16_t nMsgID) = 0;
 
-	virtual uint32_t GetMsgLength() const = 0;
-	virtual void SetMsgLength(uint32_t nLength) = 0;
+	virtual uint32_t GetBodyLength() const = 0;
+	virtual void SetBodyLength(uint32_t nLength) = 0;
 
 	int64_t NF_HTONLL(int64_t nData)
 	{
@@ -176,8 +182,8 @@ public:
 	virtual uint16_t GetMsgID() const { return munMsgID; }
 	virtual void SetMsgID(uint16_t nMsgID) { munMsgID = nMsgID; }
 
-	virtual uint32_t GetMsgLength() const { return munSize; }
-	virtual void SetMsgLength(uint32_t nLength){ munSize = nLength; }
+	virtual uint32_t GetBodyLength() const { return munSize; }
+	virtual void SetBodyLength(uint32_t nLength){ munSize = nLength; }
 
 protected:
 	uint32_t munSize;
@@ -186,10 +192,10 @@ protected:
 
 class NFINet;
 
-typedef std::function<int(const int nSockIndex, const char* msg, const uint32_t nLen)> NET_RECIEVE_FUNCTOR;
+typedef std::function<void(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen)> NET_RECIEVE_FUNCTOR;
 typedef std::shared_ptr<NET_RECIEVE_FUNCTOR> NET_RECIEVE_FUNCTOR_PTR;
 
-typedef std::function<int(const int nSockIndex, const NF_NET_EVENT nEvent, NFINet* pNet)> NET_EVENT_FUNCTOR;
+typedef std::function<void(const int nSockIndex, const NF_NET_EVENT nEvent, NFINet* pNet)> NET_EVENT_FUNCTOR;
 typedef std::shared_ptr<NET_EVENT_FUNCTOR> NET_EVENT_FUNCTOR_PTR;
 
 typedef std::function<void(int severity, const char *msg)> NET_EVENT_LOG_FUNCTOR;
@@ -302,7 +308,7 @@ private:
 class NFINet
 {
 public:
-	virtual bool Execute(const float fLasFrametime, const float fStartedTime) = 0;
+	virtual bool Execute() = 0;
 
 	virtual void Initialization(const char* strIP, const unsigned short nPort) = 0;
 	virtual int Initialization(const unsigned int nMaxClient, const unsigned short nPort, const int nCpuCount = 4) = 0;
@@ -328,16 +334,6 @@ public:
 	virtual bool IsServer() = 0;
 
 	virtual bool Log(int severity, const char *msg) = 0;
-
-	template<typename BaseType>
-	void SetNetLogCB(BaseType* pBaseType, void (BaseType::*handleRecieve)(int severity, const char *msg))
-	{
-		mLogEventCB.push_back(std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2));
-	}
-
-protected:
-	static std::vector<NET_EVENT_LOG_FUNCTOR> mLogEventCB;
-
 };
 
 #pragma pack(pop)
