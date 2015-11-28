@@ -13,7 +13,7 @@
 #include <chrono>
 #include <thread>
 
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#ifdef _MSC_VER
 #include <windows.h>
 #else
 #include <unistd.h>
@@ -26,8 +26,9 @@ class NFCNet : public NFINet
 {
 public:
     template<typename BaseType>
-    NFCNet(NFIMsgHead::NF_Head nHeadLength, BaseType* pBaseType, int (BaseType::*handleRecieve)(const NFIPacket&), int (BaseType::*handleEvent)(const int, const NF_NET_EVENT, NFINet*))
+    NFCNet(BaseType* pBaseType, int (BaseType::*handleRecieve)(const int nSockIndex, const char* msg, const uint32_t nLen), int (BaseType::*handleEvent)(const int, const NF_NET_EVENT, NFINet*))
     {
+		mnIndex = 0;
         base = NULL;
         listener = NULL;
 
@@ -38,7 +39,6 @@ public:
         mnCpuCount = 0;
         mbServer = false;
         ev = NULL;
-        mnHeadLength = nHeadLength;
     }
 
 	virtual ~NFCNet(){};
@@ -51,15 +51,20 @@ public:
 
 	virtual bool Final();
 
+	//已带上包头
 	virtual bool SendMsg(const char* msg, const uint32_t nLen, const int nSockIndex = 0);
+
+	//无包头，内部组装
+	virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const int nSockIndex = 0);
+
+	//已带上包头
 	virtual bool SendMsgToAllClient(const char* msg, const uint32_t nLen);
+
+	//无包头，内部组装
+	virtual bool SendMsgToAllClientWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen);
 
     virtual bool CloseNetObject(const int nSockIndex);
 
-	virtual bool AddBan(const int nSockIndex, const int32_t nTime = -1){return true;};
-	virtual bool RemoveBan(const int nSockIndex){return true;};
-    virtual NFIMsgHead::NF_Head GetHeadLen(){return mnHeadLength;};
-	virtual bool IsServer(){return mbServer;};
 	virtual bool Log(int severity, const char *msg);
 
 private:
@@ -80,12 +85,15 @@ private:
 	static void conn_eventcb(struct bufferevent *bev, short events, void *user_data);
 	static void time_cb(evutil_socket_t fd, short _event, void *argc);
 	static void log_cb(int severity, const char *msg);
+
+protected:
+	int DeCode( const char* strData, const uint32_t unLen/*, std::string& strOutData */);
+	int EnCode( const uint16_t unMsgID, const char* strData, const uint32_t unLen, std::string& strOutData );
+
 private:
 	//<fd,object>
 	std::map<int, NetObject*> mmObject;
 	std::vector<int> mvRemoveObject;
-
-    NFIMsgHead::NF_Head mnHeadLength;
 
 	int mnMaxConnect;
 	std::string mstrIP;
@@ -101,9 +109,6 @@ private:
 
     NET_RECIEVE_FUNCTOR mRecvCB;
     NET_EVENT_FUNCTOR mEventCB;
-
-	std::string mstrPwd;
-	char mstrMsgData[NFIMsgHead::NF_MSGBUFF_LENGTH];
 
 	//////////////////////////////////////////////////////////////////////////
 };

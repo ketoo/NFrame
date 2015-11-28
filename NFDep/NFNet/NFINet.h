@@ -30,14 +30,13 @@
 #include <memory>
 #include <list>
 #include <vector>
-#include "NFIPacket.h"
 #include <event2/bufferevent.h>
 #include <event2/buffer.h>
 #include <event2/listener.h>
 #include <event2/util.h>
 #include <event2/thread.h>
 #include <event2/event_compat.h>
-#include "NFIdentID.h"
+#include <assert.h>
 
 #pragma pack(push, 1)
 
@@ -47,6 +46,142 @@ enum NF_NET_EVENT
     NF_NET_EVENT_ERROR = 0x20,      //未知错误
     NF_NET_EVENT_TIMEOUT = 0x40,    //连接超时
     NF_NET_EVENT_CONNECTED = 0x80,  //连接成功(作为客户端)
+};
+
+
+struct  NFIMsgHead
+{
+	enum NF_Head
+	{
+		NF_HEAD_LENGTH = 6,
+	};
+
+	virtual int EnCode(char* strData) = 0;
+	virtual int DeCode(const char* strData) = 0;
+
+	virtual uint16_t GetMsgID() const = 0;
+	virtual void SetMsgID(uint16_t nMsgID) = 0;
+
+	virtual uint32_t GetMsgLength() const = 0;
+	virtual void SetMsgLength(uint32_t nLength) = 0;
+
+	int64_t NF_HTONLL(int64_t nData)
+	{
+#ifdef _MSC_VER
+		return htonll(nData);
+#else
+		return htobe64(nData);
+#endif
+	}
+
+	int64_t NF_NTOHLL(int64_t nData)
+	{
+#ifdef _MSC_VER
+		return ntohll(nData);
+#else
+		return be64toh(nData);
+#endif
+	}
+
+	int32_t NF_HTONL(int32_t nData)
+	{
+#ifdef _MSC_VER
+		return htonl(nData);
+#else
+		return htobe32(nData);
+#endif
+	}
+
+	int32_t NF_NTOHL(int32_t nData)
+	{
+#ifdef _MSC_VER
+		return ntohl(nData);
+#else
+		return be32toh(nData);
+#endif
+	}
+
+	int16_t NF_HTONS(int16_t nData)
+	{
+#ifdef _MSC_VER
+		return htons(nData);
+#else
+		return htobe16(nData);
+#endif
+	}
+
+	int16_t NF_NTOHS(int16_t nData)
+	{
+#ifdef _MSC_VER
+		return ntohs(nData);
+#else
+		return be16toh(nData);
+#endif
+	}
+
+};
+
+class NFCMsgHead : public NFIMsgHead
+{
+public:
+	NFCMsgHead()
+	{
+		munSize = 0;
+		munMsgID = 0;
+	}
+
+	// 内存结构[ MsgID(2) | MsgSize(4) ]
+	virtual int EnCode(char* strData)
+	{
+		uint32_t nOffset = 0;
+
+		uint16_t nMsgID = NF_HTONS(munMsgID);
+		memcpy(strData + nOffset, (void*)(&nMsgID), sizeof(munMsgID));
+		nOffset += sizeof(munMsgID);
+
+		uint32_t nSize = NF_HTONL(munSize);
+		memcpy(strData + nOffset, (void*)(&nSize), sizeof(munSize));
+		nOffset += sizeof(munSize);
+
+		if (nOffset != NF_HEAD_LENGTH)
+		{
+			assert(0);
+		}
+
+		return nOffset;
+	}
+
+	virtual int DeCode(const char* strData)
+	{
+		uint32_t nOffset = 0;
+
+		uint16_t nMsgID = 0;
+		memcpy(&nMsgID, strData + nOffset, sizeof(munMsgID));
+		munMsgID = NF_NTOHS(nMsgID);
+		nOffset += sizeof(munMsgID);
+
+		uint32_t nSize = 0;
+		memcpy(&nSize, strData + nOffset, sizeof(munSize));
+		munSize = NF_NTOHL(nSize);
+		nOffset += sizeof(munSize);
+
+		if (nOffset != NF_HEAD_LENGTH)
+		{
+			assert(0);
+		}
+
+		return nOffset;
+	}
+
+	virtual uint16_t GetMsgID() const { return munMsgID; }
+	virtual void SetMsgID(uint16_t nMsgID) { munMsgID = nMsgID; }
+
+	virtual uint32_t GetMsgLength() const { return munSize; }
+	virtual void SetMsgLength(uint32_t nLength){ munSize = nLength; }
+
+protected:
+	uint32_t munSize;
+	uint16_t munMsgID;
 };
 
 class NFINet;
@@ -60,25 +195,19 @@ typedef std::shared_ptr<NET_EVENT_FUNCTOR> NET_EVENT_FUNCTOR_PTR;
 typedef std::function<void(int severity, const char *msg)> NET_EVENT_LOG_FUNCTOR;
 typedef std::shared_ptr<NET_EVENT_LOG_FUNCTOR> NET_EVENT_LOG_FUNCTOR_PTR;
 
-
-
 class NetObject
 {
 public:
-    NetObject(NFINet* pNet, int32_t nFd, sockaddr_in& addr, bufferevent* pBev)
+    NetObject(NFINet* pNet, int32_t fd, sockaddr_in& addr, bufferevent* pBev)
     {
+		nFD = fd;
+		bNeedRemove = false;
+
         m_pNet = pNet;
 
-        nIndex = nFd;
         bev = pBev;
         memset(&sin, 0, sizeof(sin));
         sin = addr;
-
-        mnErrorCount = 0;
-        mnLogicState = 0;
-        mnUserData = 0;
-        mnUserID = NFIDENTID();
-		mbRemoveState = false;
     }
 
     virtual ~NetObject()
@@ -133,104 +262,41 @@ public:
         return mstrBuff.length();
     }
 
-    int GetFd() const
-    {
-        return nIndex;
-    }
-
-    int GetErrorCount() const
-    {
-        return mnErrorCount;
-    }
-
-    int GetConnectKeyState() const
-    {
-        return mnLogicState;
-    }
-
-    void SetConnectKeyState(const int nState)
-    {
-        mnLogicState = nState;
-    }
-
-    int GetGameID() const
-    {
-        return mnUserData;
-    }
-
-    void SetGameID(const int nData)
-    {
-        mnUserData = nData;
-    }
-
-    const std::string& GetAccount() const
-    {
-        return mstrUserData;
-    }
-
-    void SetAccount(const std::string& strData)
-    {
-        mstrUserData = strData;
-    }
-
-	const bool GetRemoveState() const
+	bufferevent * GetBuffEvent()
 	{
-		return mbRemoveState;
+		return bev;
 	}
 
-	void SetRemoveState(const bool bState)
+	NFINet* GetNet()
 	{
-		mbRemoveState = bState;
+		return m_pNet;
 	}
-
-    const NFIDENTID& GetUserID()
-    {
-        return mnUserID;
-    }
-
-    void SetUserID(const NFIDENTID& nUserID)
-    {
-        mnUserID = nUserID;
-    }
-
-    const NFIDENTID& GetClientID()
+	//////////////////////////////////////////////////////////////////////////
+    int32_t GetRealFD()
 	{
-		return mnClientID;
+		return nFD;
 	}
-
-	void SetClientID(const NFIDENTID& xClientID)  
+	void SetRealFD(int32_t fd)
 	{
-		mnClientID = xClientID;
+		nFD = fd;
 	}
-
-    int IncreaseError(const int nError = 1)
-    {
-        return mnErrorCount += nError;
-    }
-
-    bufferevent * GetBuffEvent()
-    {
-        return bev;
-    }
-
-    NFINet* GetNet()
-    {
-        return m_pNet;
-    }
+	bool NeedRemove()
+	{
+		return bNeedRemove;
+	}
+	void SetNeedRemove(bool b)
+	{
+		bNeedRemove = b;
+	}
 private:
-    uint32_t nIndex;
     sockaddr_in sin;
     bufferevent *bev;
     std::string mstrBuff;
 
-    uint16_t mnErrorCount;
-    int32_t mnLogicState;
-    int32_t mnUserData;
-    std::string mstrUserData;
-	bool mbRemoveState;
-	NFIDENTID mnUserID;
-	NFIDENTID mnClientID;
     NFINet* m_pNet;
+	//
+	int nFD;
+	bool bNeedRemove;
 };
 
 class NFINet
@@ -242,20 +308,23 @@ public:
 	virtual int Initialization(const unsigned int nMaxClient, const unsigned short nPort, const int nCpuCount = 4) = 0;
 
 	virtual bool Final() = 0;
-    virtual bool Reset() = 0;
 
-	//数据裸发
+	//已带上包头
 	virtual bool SendMsg(const char* msg, const uint32_t nLen, const int nSockIndex = 0) = 0;
+
+	//无包头，内部组装
+	virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const int nSockIndex = 0) = 0;
+
+	//已带上包头
 	virtual bool SendMsgToAllClient(const char* msg, const uint32_t nLen) = 0;
+
+	//无包头，内部组装
+	virtual bool SendMsgToAllClientWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen) = 0;
 
 	virtual bool CloseNetObject(const int nSockIndex) = 0;
     virtual NetObject* GetNetObject(const int nSockIndex) = 0;
     virtual bool AddNetObject(const int nSockIndex, NetObject* pObject) = 0;
 
-	virtual bool AddBan(const int nSockIndex, const int32_t nTime = -1) = 0;
-	virtual bool RemoveBan(const int nSockIndex) = 0;
-
-	virtual NFIMsgHead::NF_Head GetHeadLen() = 0;
 	virtual bool IsServer() = 0;
 
 	virtual bool Log(int severity, const char *msg) = 0;
@@ -263,7 +332,6 @@ public:
 	template<typename BaseType>
 	void SetNetLogCB(BaseType* pBaseType, void (BaseType::*handleRecieve)(int severity, const char *msg))
 	{
-		//static??
 		mLogEventCB.push_back(std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2));
 	}
 

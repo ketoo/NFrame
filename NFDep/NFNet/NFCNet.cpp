@@ -10,7 +10,6 @@
 #pragma  comment(lib,"libevent_extras.lib")
 
 #include "NFCNet.h"
-#include "NFCPacket.h"
 #include <string.h>
 
 #ifdef _MSC_VER
@@ -34,7 +33,7 @@ void NFCNet::conn_eventcb(struct bufferevent *bev, short events, void *user_data
     NFCNet* pNet = (NFCNet*)pObject->GetNet();
     if(pNet->mEventCB)
     {
-        pNet->mEventCB(pObject->GetFd(), NF_NET_EVENT(events), pNet);
+        pNet->mEventCB(pObject->GetRealFD(), NF_NET_EVENT(events), pNet);
     }
 
     if (events & BEV_EVENT_CONNECTED)
@@ -43,7 +42,7 @@ void NFCNet::conn_eventcb(struct bufferevent *bev, short events, void *user_data
     }
 	else
 	{
-		pNet->CloseNetObject(pObject->GetFd());
+		pNet->CloseNetObject(pObject->GetRealFD());
 	}
 }
 
@@ -113,7 +112,7 @@ void NFCNet::conn_readcb(struct bufferevent *bev, void *user_data)
         return;
     }
 
-	if (pObject->GetRemoveState())
+	if (pObject->NeedRemove())
 	{
 		return;
 	}
@@ -131,39 +130,20 @@ void NFCNet::conn_readcb(struct bufferevent *bev, void *user_data)
     //  	evbuffer_add_buffer(output, input);
     //      SendMsg(1, strData,len, pObject->GetFd());
     //////////////////////////////////////////////////////////////////////////
-	if (len > NFIMsgHead::NF_MSGBUFF_LENGTH)
+
+	//不能用成员静态等
+	char* strMsg = new char[len];
+
+	if(evbuffer_remove(input, strMsg, len) > 0)
 	{
-		char* strMsg = new char[len];
-
-		if(evbuffer_remove(input, strMsg, len) > 0)
-		{
-			pObject->AddBuff(strMsg, len);
-		}
-
-		delete[] strMsg;
+		pObject->AddBuff(strMsg, len);
 	}
-	else
-	{
 
-		memset(pNet->mstrMsgData, 0, NFIMsgHead::NF_MSGBUFF_LENGTH);
-
-		if(evbuffer_remove(input, pNet->mstrMsgData, len) > 0)
-		{
-			pObject->AddBuff(pNet->mstrMsgData, len);
-		}
-	}
+	delete[] strMsg;
 
 	while (1)
 	{
-		int nDataLen = pObject->GetBuffLen();
-		if (nDataLen > pNet->mnHeadLength)
-		{
-			if (!pNet->Dismantle(pObject))
-			{
-				break;
-			}
-		}
-		else
+		if (!pNet->Dismantle(pObject))
 		{
 			break;
 		}
@@ -238,7 +218,7 @@ bool NFCNet::SendMsgToAllClient( const char* msg, const uint32_t nLen )
 	for (; it != mmObject.end(); ++it)
 	{
 		NetObject* pNetObject = (NetObject*)it->second;
-		if (pNetObject && !pNetObject->GetRemoveState())
+		if (pNetObject && !pNetObject->NeedRemove())
 		{
 			bufferevent* bev = pNetObject->GetBuffEvent();
 			if (NULL != bev)
@@ -285,7 +265,7 @@ bool NFCNet::CloseNetObject( const int nSockIndex )
 	{
 		NetObject* pObject = it->second;
 
-		pObject->SetRemoveState(true);
+		pObject->SetNeedRemove(true);
         mvRemoveObject.push_back(nSockIndex);
 
         return true;
@@ -297,20 +277,19 @@ bool NFCNet::CloseNetObject( const int nSockIndex )
 bool NFCNet::Dismantle(NetObject* pObject )
 {
     bool bRet = true;
-    NFCPacket packet(mnHeadLength);
 
     int len = pObject->GetBuffLen();
-    if (len > mnHeadLength)
+    if (len > NFIMsgHead::NF_Head::NF_HEAD_LENGTH)
     {
-        int nUsedLen = packet.DeCode(pObject->GetBuff(), len);
+        int nUsedLen = DeCode(pObject->GetBuff(), len);
         if (nUsedLen > 0)
         {
-            packet.SetFd(pObject->GetFd());
+			//成功解包
 
             int nRet = 0;
             if (mRecvCB)
             {
-                mRecvCB(pObject->GetFd(), pObject->GetBuff(), len);
+                mRecvCB(pObject->GetRealFD(), pObject->GetBuff(), len);
             }
 
             //添加到队列
@@ -327,17 +306,17 @@ bool NFCNet::Dismantle(NetObject* pObject )
         else
         {
             //累计错误太多了--可以适当清空给机会
-            pObject->IncreaseError();
+            //pObject->IncreaseError();
 
 			bRet = false;
 
         }
 
-        if (pObject->GetErrorCount() > 5)
-        {
-            //CloseNetObject(pObject->GetFd());
-			//向上层汇报
-        }
+//         if (pObject->GetErrorCount() > 5)
+//         {
+//             //CloseNetObject(pObject->GetFd());
+// 			//向上层汇报
+//         }
     }
 
     return bRet;
@@ -345,6 +324,7 @@ bool NFCNet::Dismantle(NetObject* pObject )
 
 bool NFCNet::AddNetObject( const int nSockIndex, NetObject* pObject )
 {
+	//lock
     return mmObject.insert(std::map<int, NetObject*>::value_type(nSockIndex, pObject)).second;
 }
 
@@ -394,7 +374,7 @@ int NFCNet::InitClientNet()
     }
 
 	int sockfd = bufferevent_getfd(bev);
-    NetObject* pObject = new NetObject(this, 0, addr, bev);
+    NetObject* pObject = new NetObject(this, sockfd, addr, bev);
     if (!AddNetObject(0, pObject))
     {
         assert(0);
@@ -587,4 +567,77 @@ bool NFCNet::Log( int severity, const char *msg )
 {
 	log_cb(severity, msg);
 	return true;
+}
+
+bool NFCNet::SendMsgWithOutHead( const int16_t nMsgID, const char* msg, const uint32_t nLen, const int nSockIndex /*= 0*/ )
+{
+	std::string strOutData;
+	int nAllLen = EnCode(nMsgID, msg, nLen, strOutData);
+	if (nAllLen == nLen + NFIMsgHead::NF_Head::NF_HEAD_LENGTH)
+	{
+		//打包成功
+		return SendMsg(strOutData.c_str(), strOutData.length(), nSockIndex);
+	}
+
+	return false;
+}
+
+bool NFCNet::SendMsgToAllClientWithOutHead( const int16_t nMsgID, const char* msg, const uint32_t nLen )
+{
+	std::string strOutData;
+	int nAllLen = EnCode(nMsgID, msg, nLen, strOutData);
+	if (nAllLen == nLen + NFIMsgHead::NF_Head::NF_HEAD_LENGTH)
+	{
+		//打包成功
+		return SendMsgToAllClient(strOutData.c_str(), strOutData.length());
+	}
+
+	return false;
+}
+
+int NFCNet::EnCode( const uint16_t unMsgID, const char* strData, const uint32_t unLen, std::string& strOutData )
+{
+	NFCMsgHead xHead;
+	xHead.SetMsgID(unMsgID);
+	xHead.SetMsgLength(unLen + NFIMsgHead::NF_Head::NF_HEAD_LENGTH);
+
+	char szHead[NFIMsgHead::NF_Head::NF_HEAD_LENGTH] = { 0 };
+	xHead.EnCode(szHead);
+
+	strOutData.clear();
+	strOutData.append(szHead, NFIMsgHead::NF_Head::NF_HEAD_LENGTH);
+	strOutData.append(strData, unLen);
+
+	return xHead.GetMsgLength();
+}
+
+int NFCNet::DeCode( const char* strData, const uint32_t unLen/*, std::string& strOutData */ )
+{
+	NFCMsgHead xHead;
+	//解密--unLen为buff总长度,解包时能用多少是多少
+	if (unLen < NFIMsgHead::NF_Head::NF_HEAD_LENGTH)
+	{
+		//长度不够
+		return -1;
+	}
+
+
+	if(NFIMsgHead::NF_Head::NF_HEAD_LENGTH != xHead.DeCode(strData))
+	{
+		//取包头失败
+		return -1;
+	}
+
+	if (xHead.GetMsgLength() > unLen)
+	{
+		//总长度不够
+		return 0;
+	}
+
+	//copy包头+包体
+	// 		strOutData.clear();
+	// 		strOutData.append(strData, xHead.GetMsgLength());
+
+	//返回使用过的量
+	return xHead.GetMsgLength();
 }
