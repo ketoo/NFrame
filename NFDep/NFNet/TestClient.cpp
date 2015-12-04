@@ -2,8 +2,15 @@
 #include "NFCNet.h"
 #include <thread>
 #include <string>
+
 #pragma comment(lib,"ws2_32.lib")
+
+#ifdef _MSC_VER
+#pragma  comment(lib,"NFNet_d.lib")
+#else
 #pragma  comment(lib,"NFNet_d.a")
+#endif
+
 
 class TestClientClass
 {
@@ -30,6 +37,7 @@ public:
 
 	void Execute()
 	{
+		Sleep(1000);
 		pNet->SendMsgWithOutHead(1, "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890", 100, 0);
 
 		pNet->Execute();
@@ -44,7 +52,7 @@ int main(int argc, char** argv)
 {
 	std::list<TestClientClass*> list;
 
-	for (int i = 0; i < 10000; ++i)
+	for (int i = 0; i < 1; ++i)
 	{
 		TestClientClass* x = new TestClientClass();;
 		list.push_back(x);

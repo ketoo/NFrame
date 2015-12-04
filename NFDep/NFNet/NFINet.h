@@ -1,8 +1,8 @@
 // -------------------------------------------------------------------------
-//    @FileName         ：    NFINet.h
-//    @Author           ：    LvSheng.Huang
-//    @Date             ：    2013-12-15
-//    @Module           ：    NFINet
+//    @FileName         锟斤拷    NFINet.h
+//    @Author           锟斤拷    LvSheng.Huang
+//    @Date             锟斤拷    2013-12-15
+//    @Module           锟斤拷    NFINet
 //    @Desc             :     INet
 // -------------------------------------------------------------------------
 
@@ -48,10 +48,10 @@
 
 enum NF_NET_EVENT
 {
-    NF_NET_EVENT_EOF = 0x10,        //掉线
-    NF_NET_EVENT_ERROR = 0x20,      //未知错误
-    NF_NET_EVENT_TIMEOUT = 0x40,    //连接超时
-    NF_NET_EVENT_CONNECTED = 0x80,  //连接成功(作为客户端)
+    NF_NET_EVENT_EOF = 0x10,        //锟斤拷锟斤拷
+    NF_NET_EVENT_ERROR = 0x20,      //未知锟斤拷锟斤拷
+    NF_NET_EVENT_TIMEOUT = 0x40,    //锟斤拷锟接筹拷时
+    NF_NET_EVENT_CONNECTED = 0x80,  //锟斤拷锟接成癸拷(锟斤拷为锟酵伙拷锟斤拷)
 };
 
 
@@ -136,7 +136,7 @@ public:
 		munMsgID = 0;
 	}
 
-	// 内存结构[ MsgID(2) | MsgSize(4) ]
+	// 锟节达拷锟结构[ MsgID(2) | MsgSize(4) ]
 	virtual int EnCode(char* strData)
 	{
 		uint32_t nOffset = 0;
@@ -145,7 +145,8 @@ public:
 		memcpy(strData + nOffset, (void*)(&nMsgID), sizeof(munMsgID));
 		nOffset += sizeof(munMsgID);
 
-		uint32_t nSize = NF_HTONL(munSize);
+		uint32_t nPackSize = munSize + NF_HEAD_LENGTH;
+		uint32_t nSize = NF_HTONL(nPackSize);
 		memcpy(strData + nOffset, (void*)(&nSize), sizeof(munSize));
 		nOffset += sizeof(munSize);
 
@@ -166,9 +167,9 @@ public:
 		munMsgID = NF_NTOHS(nMsgID);
 		nOffset += sizeof(munMsgID);
 
-		uint32_t nSize = 0;
-		memcpy(&nSize, strData + nOffset, sizeof(munSize));
-		munSize = NF_NTOHL(nSize);
+		uint32_t nPackSize = 0;
+		memcpy(&nPackSize, strData + nOffset, sizeof(munSize));
+		munSize = NF_NTOHL(nPackSize) - NF_HEAD_LENGTH;
 		nOffset += sizeof(munSize);
 
 		if (nOffset != NF_HEAD_LENGTH)
@@ -246,13 +247,13 @@ public:
             return 0;
         }
 
-        //移除前面，则后面跟上
+        //锟狡筹拷前锟芥，锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
         if (nStart + nLen > mstrBuff.length())
         {
             return 0;
         }
 
-        //把后面的挪到前面来
+        //锟窖猴拷锟斤拷锟斤拷挪锟斤拷前锟斤拷锟斤拷
         mstrBuff.erase(nStart, nLen);
 
         return mstrBuff.length();
@@ -315,16 +316,16 @@ public:
 
 	virtual bool Final() = 0;
 
-	//已带上包头
+	//锟窖达拷锟较帮拷头
 	virtual bool SendMsg(const char* msg, const uint32_t nLen, const int nSockIndex = 0) = 0;
 
-	//无包头，内部组装
+	//锟睫帮拷头锟斤拷锟节诧拷锟斤拷装
 	virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const int nSockIndex = 0) = 0;
 
-	//已带上包头
+	//锟窖达拷锟较帮拷头
 	virtual bool SendMsgToAllClient(const char* msg, const uint32_t nLen) = 0;
 
-	//无包头，内部组装
+	//锟睫帮拷头锟斤拷锟节诧拷锟斤拷装
 	virtual bool SendMsgToAllClientWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen) = 0;
 
 	virtual bool CloseNetObject(const int nSockIndex) = 0;

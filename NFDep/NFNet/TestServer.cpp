@@ -3,7 +3,13 @@
 #include <thread>
 #include <string>
 #pragma comment(lib,"ws2_32.lib")
+
+#ifdef _MSC_VER
 #pragma  comment(lib,"NFNet_d.lib")
+#else
+#pragma  comment(lib,"NFNet_d.a")
+#endif
+
 
 class TestServerClass
 {
@@ -42,8 +48,7 @@ private:
 int main(int argc, char** argv)
 {
 	TestServerClass x;
-
-	while (1)	{		//Sleep(1);		x.Execute();
+	while (1)	{		x.Execute();
 	}
 
 

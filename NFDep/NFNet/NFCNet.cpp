@@ -557,10 +557,8 @@ void NFCNet::CloseObject( const int nSockIndex )
 		NetObject* pObject = it->second;
 
 		struct bufferevent* bev = pObject->GetBuffEvent();
-		//bev->cbarg = NULL;
 
 		bufferevent_free(bev);
-		//evutil_closesocket(nSockIndex);
 
 		mmObject.erase(it);
 
@@ -582,13 +580,7 @@ void NFCNet::ExecuteClose()
 
 void NFCNet::log_cb( int severity, const char *msg )
 {
-// 	if (mLogEventCB.size() > 0)
-// 	{
-// 		for (int i = 0; i < mLogEventCB.size(); ++i)
-// 		{
-// 			mLogEventCB[i](severity, msg);
-// 		}
-//	}
+
 }
 
 bool NFCNet::Log( int severity, const char *msg )
