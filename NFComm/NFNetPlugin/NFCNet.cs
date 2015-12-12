@@ -13,14 +13,14 @@ namespace NFrame
 {
     public class NFCNet : NFINet
     {
-        public NFCNet(NFIMsgHead.NF_Head nHeadLength, OnSocketEvent xEventHandler, OnRecivePack xPackHandler)
+        public NFCNet(OnSocketEvent xEventHandler, OnRecivePack xPackHandler)
         {
 
         }
 
-        public override int Initialization(string strIP, UInt16 nPort)
+        public override void Initialization(string strIP, UInt16 nPort)
         {
-            return 0;
+
         }
 
         public override int Initialization(UInt32 nMaxClient, UInt16 nPort)
@@ -28,47 +28,30 @@ namespace NFrame
             return 0;
         }
 
-        public override int Final()
+        public override bool Final()
         {
-            return 0;
+            return true;
         }
 
-        public override int SendMsg(NFIPacket msg, UInt32 nSockIndex = 0)
+        //无包头，内部组装
+        public override bool SendMsgWithOutHead(UInt16 nMsgID, string msg, UInt32 nSockIndex)
         {
-            return 0;
+            return true;
         }
 
-        public override int SendMsg(string msg, UInt32 nLen, UInt32 nSockIndex = 0)
+        //无包头，内部组装
+        public override bool SendMsgWithOutHead(UInt16 nMsgID, string msg, List<UInt32> fdList)
         {
-            return 0;
+            return true;
         }
 
-        public override int SendMsgToAllClient(NFIPacket msg)
+        //无包头，内部组装
+        public override bool SendMsgToAllClientWithOutHead(UInt16 nMsgID, string msg)
         {
-            return 0;
-        }
-
-        public override int SendMsgToAllClient(string msg, UInt32 nLen)
-        {
-            return 0;
-        }
-
-        public override int AddBan(UInt32 nSockIndex, UInt32 nTime = 0)
-        {
-            return 0;
-        }
-
-        public override int RemoveBan(UInt32 nSockIndex)
-        {
-            return 0;
+            return true;
         }
 
         public override int CloseNetObject(UInt32 nSockIndex)
-        {
-            return 0;
-        }
-
-        public override NFIMsgHead.NF_Head GetHeadLen()
         {
             return 0;
         }

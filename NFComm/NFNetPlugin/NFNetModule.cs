@@ -38,12 +38,12 @@ namespace NFrame
         {
             return mxNetHandler;
         }
-        public int Initialization(NFIMsgHead.NF_Head nHeadLength, string strIP, UInt16 nPort)
+        public int Initialization(string strIP, UInt16 nPort)
         {
 
             return 0;
         }
-        public int Initialization(NFIMsgHead.NF_Head nHeadLength, UInt32 nMaxClient, UInt16 nPort)
+        public int Initialization(UInt32 nMaxClient, UInt16 nPort)
         {
 
             return 0;
@@ -75,9 +75,9 @@ namespace NFrame
         {
             GetNetHandler().OnSocketEvent(nSockIndex, eEvent, pNet);
         }
-        private void OnRecivePack(NFIPacket msg, NFINet pNet)
+        private void OnRecivePack(UInt32 nSockIndex, UInt16 nMsgID, string msg, NFINet pNet)
         {
-            GetNetHandler().OnRecivePack(msg, pNet);
+            GetNetHandler().OnRecivePack(nSockIndex, nMsgID, msg, pNet);
         }
 
         private readonly NFNetHandler mxNetHandler = new NFNetHandler();
