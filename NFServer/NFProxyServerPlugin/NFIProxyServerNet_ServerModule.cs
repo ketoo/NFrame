@@ -9,7 +9,7 @@ namespace NFrame
     public abstract class NFIProxyServerNet_ServerModule : NFNetModule
     {
 
-        public abstract int Transpond(NFIPacket msg);
+        public abstract int Transpond(UInt32 nSockIndex, UInt16 nMsgID, string msg);
 
         public abstract int EnterGameSuccessEvent(NFGUID xClientID, NFGUID xPlayerID);
     }

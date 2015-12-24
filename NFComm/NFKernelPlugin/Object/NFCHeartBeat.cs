@@ -14,12 +14,13 @@ namespace NFrame
 	public class NFCHeartBeat : NFIHeartBeat
 	{
 
-		public NFCHeartBeat(NFGUID self, string strHeartBeatName, float fTime)
+        public NFCHeartBeat(NFGUID self, string strHeartBeatName, float fTime, int nCount)
 		{
 			mSelf = self;
 			mstrHeartBeatName = strHeartBeatName;
 			mfTime = fTime;
 			mfOldTime = fTime;
+            mnCount = nCount;
 		}
 
 		public override void RegisterCallback(NFIHeartBeat.HeartBeatEventHandler handler)
@@ -32,10 +33,13 @@ namespace NFrame
 			mfTime -= fPassTime;
 			if (mfTime < 0.0f)
 			{
+                mnCount--;
+
 				if (null != doHandlerDel)
 				{
-					doHandlerDel(mSelf, mstrHeartBeatName, mfOldTime);
+                    doHandlerDel(mSelf, mstrHeartBeatName, mfOldTime, mnCount);
 				}
+
 				return true;
 			}
 
@@ -46,6 +50,7 @@ namespace NFrame
 		string mstrHeartBeatName;
 		float mfTime;
 		float mfOldTime;
+        int mnCount;
 
 		HeartBeatEventHandler doHandlerDel;
     }

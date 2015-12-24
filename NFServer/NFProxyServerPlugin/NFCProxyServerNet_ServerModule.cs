@@ -68,13 +68,13 @@ namespace NFrame
                         //GetNetHandler().RegisterEventCallback(OnSocketEvent);
                         //GetNetHandler().RegisterPackCallback(-1, OnRecivePack);
 
-                        Initialization(NFIMsgHead.NF_Head.NF_HEAD_LENGTH, (UInt32)nMaxConnect, (UInt16)nPort);
+                        Initialization((UInt32)nMaxConnect, (UInt16)nPort);
                     }
                 }
             }
         }
 
-        public override int Transpond(NFIPacket msg)
+        public override int Transpond(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
             return 0;
         }
@@ -84,7 +84,7 @@ namespace NFrame
             return 0;
         }
 
-        protected int OnReciveClientPack(NFIPacket msg)
+        protected int OnReciveClientPack(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
             return 0;
         }
@@ -100,37 +100,37 @@ namespace NFrame
         protected void OnClientConnected(int nAddress) 
         { }
 
-        protected int OnConnectKeyProcess(NFIPacket msg)
+        protected int OnConnectKeyProcess(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
             return 0;
         }
 
-        protected int OnReqServerListProcess(NFIPacket msg)
+        protected int OnReqServerListProcess(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
             return 0;
         }
 
-        protected int OnSelectServerProcess(NFIPacket msg)
+        protected int OnSelectServerProcess(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
             return 0;
         }
 
-        protected int OnReqRoleListProcess(NFIPacket msg)
+        protected int OnReqRoleListProcess(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
             return 0;
         }
 
-        protected int OnReqCreateRoleProcess(NFIPacket msg)
+        protected int OnReqCreateRoleProcess(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
             return 0;
         }
 
-        protected int OnReqDelRoleProcess(NFIPacket msg)
+        protected int OnReqDelRoleProcess(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
             return 0;
         }
 
-        protected int OnReqEnterGameServer(NFIPacket msg)
+        protected int OnReqEnterGameServer(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
             return 0;
         }

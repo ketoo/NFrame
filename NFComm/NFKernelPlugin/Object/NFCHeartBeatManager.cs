@@ -23,7 +23,7 @@ namespace NFrame
 		{
 			if (!mhtHeartBeat.ContainsKey(strHeartBeatName))
 			{
-                NFIHeartBeat xHeartBeat = new NFCHeartBeat(mSelf, strHeartBeatName, fTime);
+                NFIHeartBeat xHeartBeat = new NFCHeartBeat(mSelf, strHeartBeatName, fTime, nCount);
                 mhtHeartBeat.Add(strHeartBeatName, xHeartBeat);
                 xHeartBeat.RegisterCallback(handler);
 			}

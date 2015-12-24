@@ -56,7 +56,7 @@ namespace NFrame
                         GetNetHandler().RegisterEventCallback(OnNetSocketEvent);
                         GetNetHandler().RegisterPackCallback(-1, OnNetRecivePack);
 
-                        Initialization(NFIMsgHead.NF_Head.NF_HEAD_LENGTH, (UInt32)nMaxConnect, (UInt16)nPort);
+                        Initialization((UInt32)nMaxConnect, (UInt16)nPort);
                     }
                 }
             }
@@ -91,43 +91,42 @@ namespace NFrame
                     break;
             }
         }
-        protected void OnNetRecivePack(NFIPacket msg, NFINet pNet)
+        protected void OnNetRecivePack(UInt32 nSockIndex, UInt16 nMsgID, string msg, NFINet pNet)
         {
-            int nMsgID = msg.GetMsgID();
             switch ((NFMsg.EGameMsgID)nMsgID)
             {
                 case NFMsg.EGameMsgID.EGMI_STS_HEART_BEAT:
                     break;
                 case NFMsg.EGameMsgID.EGMI_MTL_WORLD_REGISTERED:
-                    OnWorldRegisteredProcess(msg);
+                    OnWorldRegisteredProcess(nSockIndex, nMsgID, msg);
                     break;
 
                 case NFMsg.EGameMsgID.EGMI_MTL_WORLD_UNREGISTERED:
-                    OnWorldUnRegisteredProcess(msg);
+                    OnWorldUnRegisteredProcess(nSockIndex, nMsgID, msg);
                     break;
 
                 case NFMsg.EGameMsgID.EGMI_MTL_WORLD_REFRESH:
-                    OnRefreshWorldInfoProcess(msg);
+                    OnRefreshWorldInfoProcess(nSockIndex, nMsgID, msg);
                     break;
 
                 case NFMsg.EGameMsgID.EGMI_LTM_LOGIN_REGISTERED:
-                    OnLoginRegisteredProcess(msg);
+                    OnLoginRegisteredProcess(nSockIndex, nMsgID, msg);
                     break;
 
                 case NFMsg.EGameMsgID.EGMI_LTM_LOGIN_UNREGISTERED:
-                    OnLoginUnRegisteredProcess(msg);
+                    OnLoginUnRegisteredProcess(nSockIndex, nMsgID, msg);
                     break;
 
                 case NFMsg.EGameMsgID.EGMI_LTM_LOGIN_REFRESH:
-                    OnRefreshLoginInfoProcess(msg);
+                    OnRefreshLoginInfoProcess(nSockIndex, nMsgID, msg);
                     break;
 
                 case NFMsg.EGameMsgID.EGMI_REQ_CONNECT_WORLD:
-                    OnSelectWorldProcess(msg);
+                    OnSelectWorldProcess(nSockIndex, nMsgID, msg);
                     break;
 
                 case NFMsg.EGameMsgID.EGMI_ACK_CONNECT_WORLD:
-                    OnSelectServerResultProcess(msg);
+                    OnSelectServerResultProcess(nSockIndex, nMsgID, msg);
                     break;
 
                 default:
@@ -136,7 +135,7 @@ namespace NFrame
         }
 
         //世界服务器注册，刷新信息
-        protected void OnWorldRegisteredProcess(NFIPacket msg)
+        protected void OnWorldRegisteredProcess(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
             //NFMsg.MsgBase xMsg = new NFMsg.MsgBase();
             //xMsg = Serializer.Deserialize<NFMsg.MsgBase>(stream);
@@ -145,36 +144,36 @@ namespace NFrame
             //msg.GetData
 
         }
-	    protected void OnWorldUnRegisteredProcess(NFIPacket msg)
+	    protected void OnWorldUnRegisteredProcess(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
 
         }
-        protected void OnRefreshWorldInfoProcess(NFIPacket msg)
+        protected void OnRefreshWorldInfoProcess(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
 
         }
 
         //////////////////////////////////////////////////////////////////////////
         //登录服务器注册，刷新信息
-        protected void OnLoginRegisteredProcess(NFIPacket msg)
+        protected void OnLoginRegisteredProcess(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
 
         }
-        protected void OnLoginUnRegisteredProcess(NFIPacket msg)
+        protected void OnLoginUnRegisteredProcess(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
 
         }
-        protected void OnRefreshLoginInfoProcess(NFIPacket msg)
+        protected void OnRefreshLoginInfoProcess(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
 
         }
 
         //选择世界服务器消息
-        protected void OnSelectWorldProcess(NFIPacket msg)
+        protected void OnSelectWorldProcess(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
 
         }
-        protected void OnSelectServerResultProcess(NFIPacket msg)
+        protected void OnSelectServerResultProcess(UInt32 nSockIndex, UInt16 nMsgID, string msg)
         {
 
         }
