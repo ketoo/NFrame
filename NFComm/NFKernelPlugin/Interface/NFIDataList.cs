@@ -38,7 +38,7 @@ namespace NFrame
                 nType = eType;
             }
 
-            public NFIDataList.VARIANT_TYPE GetType()
+            public VARIANT_TYPE GetType()
             {
                 return nType;
             }
