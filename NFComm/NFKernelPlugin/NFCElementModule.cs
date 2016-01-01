@@ -1,3 +1,14 @@
+#if UNITY_EDITOR
+#define NF_CLIENT_FRAME
+#elif UNITY_IPHONE
+#define NF_CLIENT_FRAME
+#elif UNITY_ANDROID
+#define NF_CLIENT_FRAME
+#elif UNITY_STANDALONE_OSX
+#define NF_CLIENT_FRAME
+#elif UNITY_STANDALONE_WIN
+#define NF_CLIENT_FRAME
+#endif
 //-----------------------------------------------------------------------
 // <copyright file="NFCElementModule.cs">
 //     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFrame>
@@ -22,8 +33,12 @@ namespace NFrame
 
         public override void Init()
         {
+#if NF_CLIENT_FRAME
+            mxLogicClassModule = NFCKernelModule.Instance.GetLogicClassModule();
+#else
             mxLogicClassModule = GetMng().GetModule<NFILogicClassModule>();
             mstrRootPath = GetMng().GetClassPath();
+#endif
         }
 
         public override void AfterInit()

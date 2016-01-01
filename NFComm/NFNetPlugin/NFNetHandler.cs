@@ -36,22 +36,21 @@ namespace NFrame
             }
         }
 
-        public void OnRecivePack(NFIPacket msg, NFINet pNet)
+        public void OnRecivePack(UInt32 nSockIndex, UInt16 nMsgID, string msg, NFINet pNet)
         {
-            int nMsgID = msg.GetMsgID();
             List<NFINet.OnRecivePack> xList;
             if(mxPackHandlerDic.TryGetValue(nMsgID, out xList))
             {
                 foreach (NFINet.OnRecivePack handler in xList)
                 {
-                    handler(msg, pNet);
+                    handler(nSockIndex, nMsgID, msg, pNet);
                 }
             }
             else if(mxPackHandlerDic.TryGetValue(-1, out xList))
             {
                 foreach (NFINet.OnRecivePack handler in xList)
                 {
-                    handler(msg, pNet);
+                    handler(nSockIndex, nMsgID, msg, pNet);
                 }
             }
         }

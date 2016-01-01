@@ -63,7 +63,7 @@ namespace NFrame
                         //GetNetHandler().RegisterEventCallback(OnSocketEvent);
                         //GetNetHandler().RegisterPackCallback(-1, OnRecivePack);
 
-                        Initialization(NFIMsgHead.NF_Head.NF_HEAD_LENGTH, (UInt32)nMaxConnect, (UInt16)nPort);
+                        Initialization((UInt32)nMaxConnect, (UInt16)nPort);
                     }
                 }
             }

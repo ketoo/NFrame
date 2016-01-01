@@ -1,7 +1,20 @@
+#if UNITY_EDITOR
+#define NF_CLIENT_FRAME
+#elif UNITY_IPHONE
+#define NF_CLIENT_FRAME
+#elif UNITY_ANDROID
+#define NF_CLIENT_FRAME
+#elif UNITY_STANDALONE_OSX
+#define NF_CLIENT_FRAME
+#elif UNITY_STANDALONE_WIN
+#define NF_CLIENT_FRAME
+#endif
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 
 namespace NFrame
 {

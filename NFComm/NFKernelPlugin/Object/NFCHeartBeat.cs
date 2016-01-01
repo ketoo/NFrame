@@ -14,7 +14,7 @@ namespace NFrame
 	public class NFCHeartBeat : NFIHeartBeat
 	{
 
-		public NFCHeartBeat(NFGUID self, string strHeartBeatName, float fTime, int nCount)
+        public NFCHeartBeat(NFGUID self, string strHeartBeatName, float fTime, int nCount)
 		{
 			mSelf = self;
 			mstrHeartBeatName = strHeartBeatName;
@@ -61,6 +61,7 @@ namespace NFrame
 		string mstrHeartBeatName;
 		float mfTime;
 		float mfOldTime;
+        int mnCount;
 
 		HeartBeatEventHandler doHandlerDel;
     }

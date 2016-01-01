@@ -1,3 +1,14 @@
+#if UNITY_EDITOR
+#define NF_CLIENT_FRAME
+#elif UNITY_IPHONE
+#define NF_CLIENT_FRAME
+#elif UNITY_ANDROID
+#define NF_CLIENT_FRAME
+#elif UNITY_STANDALONE_OSX
+#define NF_CLIENT_FRAME
+#elif UNITY_STANDALONE_WIN
+#define NF_CLIENT_FRAME
+#endif
 //-----------------------------------------------------------------------
 // <copyright file="NFCLogicClassModule.cs">
 //     Copyright (C) 2015-2015 lvsheng.huang <https://github.com/ketoo/NFrame>
@@ -17,8 +28,10 @@ namespace NFrame
     {
         public override void Init()
         {
+#if NF_CLIENT_FRAME
+#else
             mstrPath = GetMng().GetClassPath();
-
+#endif
             Load();
         }
 
