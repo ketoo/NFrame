@@ -61,7 +61,6 @@ namespace NFrame
 		string mstrHeartBeatName;
 		float mfTime;
 		float mfOldTime;
-        int mnCount;
 
 		HeartBeatEventHandler doHandlerDel;
     }
