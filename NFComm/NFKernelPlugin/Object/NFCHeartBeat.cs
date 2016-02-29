@@ -46,11 +46,21 @@ namespace NFrame
 			return false;
 		}
 
+        public override bool NeedRemove()
+        {
+            if(mnCount > 0)
+            {
+                return false;
+            }
+            
+            return true;
+        }
+
 		NFGUID mSelf;
+        int mnCount;
 		string mstrHeartBeatName;
 		float mfTime;
 		float mfOldTime;
-        int mnCount;
 
 		HeartBeatEventHandler doHandlerDel;
     }

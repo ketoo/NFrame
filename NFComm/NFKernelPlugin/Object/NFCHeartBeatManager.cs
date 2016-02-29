@@ -50,28 +50,24 @@ namespace NFrame
 		public override void Update(float fPassTime)
 		{
 
-            NFIDataList keyList = null;
+            NFIDataList xRemoveKeyList = new NFCDataList(); ;
 
             foreach (KeyValuePair<string, NFIHeartBeat> kv in mhtHeartBeat)
             {
-                NFIHeartBeat heartBeat = (NFIHeartBeat)kv.Value;
-                if (heartBeat.Update(fPassTime))
+                NFIHeartBeat xHeartBeat = (NFIHeartBeat)kv.Value;
+                if (xHeartBeat.NeedRemove())
                 {
-                    if (null == keyList)
-                    {
-                        keyList = new NFCDataList();
-                    }
-
-                    keyList.AddString((string)kv.Key);
+                    xRemoveKeyList.AddString((string)kv.Key);
+                }
+                else
+                {
+                    xHeartBeat.Update(fPassTime);
                 }
             }
 
-            if (null != keyList)
+            for (int i = 0; i < xRemoveKeyList.Count(); i++)
             {
-                for (int i = 0; i < keyList.Count(); i++)
-                {
-                    mhtHeartBeat.Remove(keyList.StringVal(i));
-                }
+                mhtHeartBeat.Remove(xRemoveKeyList.StringVal(i));
             }
 		}
 
