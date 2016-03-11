@@ -53,18 +53,10 @@ svn checkout https://github.com/ketoo/NoahGameFrame
 
 ## Dependencies
 
-- libevent 2.0.22
-- easylogging++ 9.80
-- mysql++ 3.2.2
-- google protobuf 2.5.0
-- pybind11 1.2
-- redis-cpp-client 
-- Theron 6.00.01
-- curl 7.37.1
+
 
 ## Supported Compilers
 
-* GCC >= 4.8 (**Tested in Ubuntu 15.04**)
 * MSVC >= VS2013 (**Tested in Win7/10**)
 
 ## Build and Install
@@ -76,15 +68,6 @@ svn checkout https://github.com/ketoo/NoahGameFrame
 4. Build the solution
 5. Run **_Out/Server/NFDataCfg/Tool/FileProcess.exe** to generate configuration files
 6. Run the binary file by **_Out/Server/Debug/Run.bat**
-
-### Linux[CodeBlocks >= 13.1]
-
-1. Git pull all source
-2. Run **install.sh**
-3. Open the solution with CodeBlocks: **NF.workspace**
-4. Check **C++11** option in CodeBlocks compiler setting
-5. Build **NF.workspace**
-6. Run the binary file by **_Out/Server/Debug/rund.sh**
 
 
 ### JAVA Project
