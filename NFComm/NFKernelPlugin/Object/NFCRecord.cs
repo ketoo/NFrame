@@ -296,7 +296,7 @@ namespace NFrame
 	            }
 	            if (mhtRecordVec.ContainsKey(nTargetRow))
 	            {
-	                valueTargetList = (NFIDataList)mhtRecordVec[nOriginRow];
+	                valueTargetList = (NFIDataList)mhtRecordVec[nTargetRow];
 	            }
 	
 	            if (null == valueTargetList)
